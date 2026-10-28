@@ -100,10 +100,12 @@
                         </div>
 
                         <div class="project-card__body">
-                            <a href="{{ route('projects.show', ['project' => $project->slug]) }}
-                            " class="project-detail-link" aria-label="Ver proyecto: {{ $project->title }}"
-                            > Ver proyecto <span aria-hidden="true">→</span>
-</a>
+                            <a href="{{ route('projects.show', ['project' => $project->slug]) }}"
+                                class="project-detail-link"
+                                aria-label="Ver proyecto: {{ $project->title }}"
+                            > 
+                                Ver proyecto <span aria-hidden="true">→</span>
+                            </a>
                             <p class="project-category">
                                 {{ $project->category }}
                             </p>
