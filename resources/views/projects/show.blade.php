@@ -1,0 +1,41 @@
+@extends('layouts.app')
+
+@section('title', $project->title . ' | ARAT STUDIO')
+
+@section('content')
+    <section class="project-detail" aria-labelledby="project-title">
+        <div class="container">
+            <a
+                href="{{ route('home') }}#proyectos"
+                class="project-back-link"
+            >
+                <span aria-hidden="true">←</span> Volver a proyectos
+            </a>
+
+            <header class="project-detail__header">
+                <p class="project-category">
+                    {{ $project->category }}
+                </p>
+
+                <h1 id="project-title" class="project-detail__title">
+                    {{ $project->title }}
+                </h1>
+
+                <p class="project-detail__description">
+                    {{ $project->description }}
+                </p>
+            </header>
+
+            <figure class="project-detail__figure">
+                <img
+                    src="{{ asset($project->cover_image) }}"
+                    alt="{{ $project->title }}"
+                    class="project-detail__image"
+                >
+                <figcaption>
+                    {{ $project->title }} · {{ $project->category }}
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+@endsection
