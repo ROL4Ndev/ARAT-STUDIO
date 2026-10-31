@@ -18,6 +18,60 @@
                 </p>
             </header>
 
+            <form
+                action="{{ route('projects.index') }}"
+                method="GET"
+                class="portfolio-filters"
+            >
+                <div class="portfolio-filters__field">
+                    <label for="category" class="form-label">
+                        Categoría
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        class="form-select"
+                        @error('category')
+                            aria-invalid="true"
+                            aria-describedby="category-error"
+                        @enderror
+                    >
+                        <option value="">Todas las categorías</option>
+
+                        @foreach ($categories as $category)
+                            <option
+                                value="{{ $category->slug }}"
+                                @selected($selectedCategory === $category->slug)
+                            >
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('category')
+                        <p id="category-error" class="text-danger mt-2 mb-0">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-dark">
+                    Filtrar
+                </button>
+
+                @if ($selectedCategory !== '')
+                    <a href="{{ route('projects.index') }}" class="portfolio-clear">
+                        Quitar filtro
+                    </a>
+                @endif
+            </form>
+
+            <p class="portfolio-results">
+                {{ $projects->total() }}
+                {{ $projects->total() === 1 ? 'proyecto encontrado' : 'proyectos encontrados' }}
+            </p>
+
             <div class="row g-4">
                 @forelse ($projects as $project)
                     <div class="col-md-6 col-lg-4">
@@ -28,7 +82,13 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <p>Todavía no hay proyectos publicados.</p>
+                        <p>No hay proyectos disponibles para esta selección.</p>
+
+                        @if ($selectedCategory !== '')
+                            <a href="{{ route('projects.index') }}" class="project-back-link">
+                                Ver todos los proyectos
+                            </a>
+                        @endif
                     </div>
                 @endforelse
             </div>

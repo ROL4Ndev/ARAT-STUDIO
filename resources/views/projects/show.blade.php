@@ -14,7 +14,7 @@
 
             <header class="project-detail__header">
                 <p class="project-category">
-                    {{ $project->category }}
+                    {{ $project->projectCategory?->name ?? 'Sin categoría' }}
                 </p>
 
                 <h1 id="project-title" class="project-detail__title">
@@ -33,7 +33,7 @@
                     class="project-detail__image"
                 >
                 <figcaption>
-                    {{ $project->title }} · {{ $project->category }}
+                    {{ $project->title }} · {{ $project->projectCategory?->name ?? 'Sin categoría' }}
                 </figcaption>
             </figure>
         </div>

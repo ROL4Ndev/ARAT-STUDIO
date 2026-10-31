@@ -658,6 +658,66 @@ button:focus-visible {
   text-underline-offset: 4px;
 }
 
+.portfolio-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-filters__field {
+  flex: 1 1 240px;
+  max-width: 360px;
+}
+
+.portfolio-filters .form-label {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.portfolio-filters .form-select {
+  min-height: 48px;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.portfolio-filters .btn,
+.portfolio-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.portfolio-filters .btn {
+  padding-inline: 1.5rem;
+  border-radius: 0;
+}
+
+.portfolio-clear {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.portfolio-results {
+  margin-bottom: 1.5rem;
+  color: #555;
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 575.98px) {
+  .portfolio-filters__field {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .portfolio-filters .btn {
+    flex: 1;
+  }
+}
+
 .portfolio-pagination [aria-disabled="true"] {
   color: #777;
 }
@@ -669,5 +729,19 @@ button:focus-visible {
 
   .site-navigation {
     gap: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .site-navigation {
+    gap: 0.65rem;
+  }
+
+  .site-navigation a {
+    font-size: 0.8125rem;
+  }
+
+  #navbar .navbar-brand {
+    margin-right: 0.5rem;
   }
 }

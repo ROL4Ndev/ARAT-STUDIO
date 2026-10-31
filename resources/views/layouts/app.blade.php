@@ -57,6 +57,13 @@
                     >
                         Portafolio
                     </a>
+
+                    <a
+                        href="{{ route('quotation.show') }}"
+                        @if (request()->routeIs('quotation.show')) aria-current="page" @endif
+                    >
+                        Cotizador
+                    </a>
                 </div>
         </div>
     </nav>
@@ -72,5 +79,6 @@
             </p>
         </div>
     </footer>
+    @stack('scripts')
 </body>
 </html>

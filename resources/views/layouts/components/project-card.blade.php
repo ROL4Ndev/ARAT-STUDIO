@@ -11,7 +11,7 @@
 
     <div class="project-card__body">
         <p class="project-category">
-            {{ $project->category }}
+            {{ $project->projectCategory?->name ?? 'Sin categoría' }}
         </p>
 
         @if (($headingLevel ?? 3) === 2)
