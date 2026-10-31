@@ -88,37 +88,10 @@
         <div class="row g-4">
             @forelse ($projects as $project)
                 <div class="col-md-6 col-lg-4">
-                    <article class="project-card project-card--preview">
-                        <div class="project-card__media">
-                            <img
-                                src="{{ asset($project->cover_image) }}"
-                                alt="{{ $project->title }}"
-                                loading="lazy"
-                                width="800"
-                                height="600"
-                            >
-                        </div>
-
-                        <div class="project-card__body">
-                            <a href="{{ route('projects.show', ['project' => $project->slug]) }}"
-                                class="project-detail-link"
-                                aria-label="Ver proyecto: {{ $project->title }}"
-                            > 
-                                Ver proyecto <span aria-hidden="true">→</span>
-                            </a>
-                            <p class="project-category">
-                                {{ $project->category }}
-                            </p>
-
-                            <h3 class="project-card__title">
-                                {{ $project->title }}
-                            </h3>
-
-                            <p class="project-card__desc">
-                                {{ $project->description }}
-                            </p>
-                        </div>
-                    </article>
+                    @include('layouts.components.project-card', [
+                        'project' => $project,
+                        'headingLevel' => 3,
+                    ])
                 </div>
             @empty
                 <div class="col-12">
@@ -127,6 +100,12 @@
                     </p>
                 </div>
             @endforelse
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ route('projects.index') }}" class="btn btn-outline-dark">
+                Ver todo el portafolio
+            </a>
         </div>
     </div>
 </section>

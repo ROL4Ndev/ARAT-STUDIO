@@ -611,3 +611,63 @@ button:focus-visible {
   color: #555;
   font-size: 0.875rem;
 }
+
+.site-navigation {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.site-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #ccc;
+  font-size: 0.9375rem;
+  border-bottom: 2px solid transparent;
+}
+
+.site-navigation a:hover,
+.site-navigation a[aria-current="page"] {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.portfolio-page {
+  padding: calc(var(--navbar-h) + 3rem) 0 4rem;
+}
+
+.portfolio-page__header {
+  margin-bottom: 2.5rem;
+}
+
+.portfolio-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.portfolio-pagination a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.portfolio-pagination [aria-disabled="true"] {
+  color: #777;
+}
+
+@media (max-width: 575.98px) {
+  #navbar .navbar-brand__text {
+    display: none;
+  }
+
+  .site-navigation {
+    gap: 1rem;
+  }
+}

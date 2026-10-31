@@ -43,6 +43,21 @@
                 >
                 <span class="navbar-brand__text">ARAT STUDIO</span>
             </a>
+                <div class="site-navigation">
+                     <a
+                        href="{{ route('home') }}"
+                        @if (request()->routeIs('home')) aria-current="page" @endif
+                     >
+                        Inicio
+                    </a>
+
+                    <a
+                        href="{{ route('projects.index') }}"
+                        @if (request()->routeIs('projects.*')) aria-current="page" @endif
+                    >
+                        Portafolio
+                    </a>
+                </div>
         </div>
     </nav>
 
