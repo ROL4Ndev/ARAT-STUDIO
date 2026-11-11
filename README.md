@@ -122,6 +122,12 @@ ejecutar Vite para visualizar estos cambios.
 - Cotizador referencial sin recargar la página.
 - Validaciones mediante Form Requests.
 - Cálculo en un servicio con tarifas consultadas desde MariaDB.
+- Inicio y cierre de sesión, perfiles editables y acceso por roles
+  (`admin` y `gestor`).
+- CRUD administrativo de categorías y proyectos, protegido para `admin`.
+- Portadas cargadas en el disco público de Laravel; se conservan las
+  imágenes anteriores de `public/img`.
+- Interfaz y validaciones en español de Perú; zona horaria de Lima.
 
 ### Rutas principales
 
@@ -131,7 +137,60 @@ ejecutar Vite para visualizar estos cambios.
 | GET | `/proyectos` | Portafolio y filtros |
 | GET | `/proyectos/{slug}` | Detalle de proyecto |
 | GET | `/cotizador` | Calculadora |
+| GET, POST | `/ingresar` | Formulario e inicio de sesión |
+| POST | `/salir` | Cierre de sesión |
+| GET, PUT | `/perfil` | Editar perfil |
+| PUT | `/perfil/contrasena` | Cambiar contraseña |
+| GET | `/panel` | Redirección según el rol |
+| GET | `/admin` | Panel exclusivo de administración |
+| GET | `/gestion` | Panel de administración y gestión |
+| GET, POST, PUT, DELETE | `/admin/categorias` | CRUD de categorías |
+| GET, POST, PUT | `/admin/proyectos` | CRUD de proyectos y búsqueda |
 | POST | `/api/calcular-presupuesto` | Cálculo en JSON |
+
+### Cuentas internas
+
+Después de configurar la base de datos, aplicar las migraciones existentes
+sin borrar datos:
+
+```powershell
+php artisan migrate
+```
+
+Crear las cuentas internas de forma interactiva; el comando solicita
+nombre, correo, rol y contraseña confirmada (la contraseña no se muestra):
+
+```powershell
+php artisan usuarios:crear-interno
+```
+
+Elige `admin` o `gestor`. No existe registro público. El administrador
+accede a `/admin` y `/gestion`; el gestor solo puede acceder a `/gestion`.
+Las cuentas existentes reciben rol nulo al migrar, sin privilegios nuevos.
+
+Iniciar sesión en `/ingresar`. Desde la barra de navegación se puede abrir
+Mi perfil o cerrar sesión. El perfil permite actualizar nombre, correo y
+contraseña; el rol no es editable.
+
+### Catálogo administrativo
+
+Aplicar migraciones sin reiniciar la base y crear el enlace para las portadas
+cargadas por administradores:
+
+```powershell
+php artisan migrate
+php artisan storage:link
+```
+
+Inicia sesión con una cuenta `admin` y abre `/admin`. Desde allí se gestionan
+categorías y proyectos; los gestores reciben 403 en todas las rutas del CRUD.
+Las categorías asociadas a proyectos no se pueden eliminar. Los proyectos se
+desactivan desde su formulario y dejan de aparecer en el sitio público.
+
+La migración de transición crea categorías a partir del campo heredado de cada
+proyecto y luego retira dicho campo. Los archivos existentes en `public/img`
+siguen siendo válidos; las nuevas portadas se guardan en `storage/app/public`
+mediante el disco `public`.
 
 ## Cotizador de demostración
 
@@ -157,12 +216,10 @@ comercial aprobada.
 
 - Solicitudes de proyectos con archivos o enlace externo.
 - Notificaciones por correo.
-- Autenticación y roles de administrador y gestor.
 - Gestión comercial y cotizaciones oficiales en PDF.
-- Administración del portafolio y las tarifas.
+- Administración de tarifas.
 - Galerías de imágenes por proyecto.
-- Completar pruebas automatizadas y retirar el campo antiguo
-  de categoría.
+- Completar pruebas automatizadas.
 
 ## Nota
 

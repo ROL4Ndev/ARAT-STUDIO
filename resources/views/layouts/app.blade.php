@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,6 +64,22 @@
                     >
                         Cotizador
                     </a>
+
+                    @guest
+                        <a href="{{ route('login') }}">Ingresar</a>
+                    @else
+                        <a href="{{ route('profile.edit') }}">Mi perfil</a>
+                        @if (auth()->user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}">Administración</a>
+                            <a href="{{ route('management.dashboard') }}">Gestión</a>
+                        @elseif (auth()->user()->role === 'gestor')
+                            <a href="{{ route('management.dashboard') }}">Gestión</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}" class="site-navigation__logout">
+                            @csrf
+                            <button type="submit" class="site-navigation__button">Cerrar sesión</button>
+                        </form>
+                    @endguest
                 </div>
         </div>
     </nav>

@@ -28,7 +28,7 @@
 
             <figure class="project-detail__figure">
                 <img
-                    src="{{ asset($project->cover_image) }}"
+                    src="{{ $project->cover_image_url }}"
                     alt="{{ $project->title }}"
                     class="project-detail__image"
                 >

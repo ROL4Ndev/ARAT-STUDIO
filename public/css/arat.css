@@ -745,3 +745,349 @@ button:focus-visible {
     margin-right: 0.5rem;
   }
 }
+
+.site-navigation {
+  min-width: 0;
+}
+
+.site-navigation__logout {
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.site-navigation__button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #ccc;
+  font: inherit;
+  cursor: pointer;
+}
+
+.site-navigation__button:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.account-page {
+  min-height: 70vh;
+  padding: calc(var(--navbar-h) + 3rem) 0 4rem;
+  background: #f7f7f7;
+}
+
+.account-page__container {
+  max-width: 860px;
+}
+
+.account-card {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.account-card__title {
+  margin-bottom: 1rem;
+}
+
+.account-card__subtitle {
+  margin: 1.5rem 0 1rem;
+  font-size: 1.25rem;
+}
+
+.account-card__divider {
+  margin: 2rem 0;
+}
+
+.account-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.account-form__field {
+  min-width: 0;
+}
+
+.account-form .form-control {
+  min-height: 48px;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.account-form__submit {
+  min-height: 48px;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.account-form .form-control:focus-visible,
+.account-form__submit:focus-visible,
+.site-navigation__button:focus-visible {
+  outline: 3px solid #555;
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.dashboard-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.dashboard-navigation .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.dashboard-pending {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-gray-light);
+}
+
+.dashboard-pending ul {
+  margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+  .site-navigation {
+    overflow-x: auto;
+    gap: 0.65rem;
+  }
+
+  .site-navigation a,
+  .site-navigation__button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+
+  .account-page {
+    padding-top: calc(var(--navbar-h) + 2rem);
+  }
+
+  .account-form__submit {
+    width: 100%;
+  }
+}
+
+.admin-page {
+  min-height: 70vh;
+  padding: calc(var(--navbar-h) + 3rem) 0 4rem;
+  background: #f7f7f7;
+}
+
+.admin-page__header {
+  margin-bottom: 2rem;
+}
+
+.admin-page__header h1 {
+  margin: 0.75rem 0 1.25rem;
+}
+
+.admin-navigation,
+.admin-toolbar,
+.admin-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-navigation {
+  gap: 1.25rem;
+}
+
+.admin-navigation a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+}
+
+.admin-navigation a:hover,
+.admin-navigation a:focus-visible {
+  border-bottom-color: var(--color-dark);
+}
+
+.admin-toolbar {
+  justify-content: space-between;
+  margin: 1rem 0 1.5rem;
+}
+
+.admin-toolbar p {
+  margin: 0;
+}
+
+.admin-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.admin-table {
+  margin: 0;
+  background: #fff;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.9rem;
+  vertical-align: middle;
+}
+
+.admin-table__actions {
+  min-width: 190px;
+  text-align: right;
+}
+
+.admin-table__hint {
+  display: block;
+  margin-top: 0.35rem;
+  color: #555;
+  font-size: 0.8125rem;
+}
+
+.admin-form {
+  max-width: 760px;
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.admin-form__field {
+  min-width: 0;
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+  min-height: 48px;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.admin-form textarea.form-control {
+  min-height: 140px;
+}
+
+.admin-form .form-control:focus-visible,
+.admin-form .form-select:focus-visible,
+.admin-form .form-check-input:focus-visible,
+.admin-button:focus-visible,
+.admin-table a:focus-visible,
+.admin-table button:focus-visible,
+.admin-search a:focus-visible,
+.admin-search button:focus-visible {
+  outline: 3px solid #555;
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.admin-form__hint {
+  margin: -0.75rem 0 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.admin-form__checkbox {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.admin-form__checkbox .form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.admin-form__checkbox .form-check-label {
+  margin-left: 0.35rem;
+}
+
+.admin-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-search .form-label {
+  margin: 0;
+}
+
+.admin-search .form-control {
+  flex: 1 1 240px;
+  max-width: 460px;
+  min-height: 44px;
+  border-radius: 0;
+  font-family: var(--font-body);
+}
+
+.admin-project-cover {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 240px;
+  margin-top: 0.75rem;
+  object-fit: cover;
+}
+
+.admin-project-cover--large {
+  width: min(100%, 720px);
+  max-height: 480px;
+}
+
+.admin-project-detail {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: #fff;
+}
+
+.admin-project-detail__data {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+  gap: 0.75rem 1rem;
+  margin: 1.5rem 0;
+}
+
+.admin-project-detail__data dt {
+  font-weight: 700;
+}
+
+.admin-project-detail__data dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 575.98px) {
+  .admin-page {
+    padding-top: calc(var(--navbar-h) + 2rem);
+  }
+
+  .admin-toolbar {
+    align-items: stretch;
+  }
+
+  .admin-toolbar .admin-button,
+  .admin-form__actions .admin-button {
+    flex: 1 1 100%;
+  }
+
+  .admin-project-detail__data {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .admin-project-detail__data dd {
+    margin-bottom: 0.75rem;
+  }
+}
