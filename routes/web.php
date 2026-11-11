@@ -3,12 +3,18 @@
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Commercial\QuotationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicSite\HomeController;
 use App\Http\Controllers\PublicSite\ProjectController;
 use App\Http\Controllers\PublicSite\QuotationCalculatorController;
+use App\Http\Controllers\PublicSite\ServiceRequestController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/solicitar-proyecto', [ServiceRequestController::class, 'create'])->name('service-requests.create');
+Route::post('/solicitar-proyecto', [ServiceRequestController::class, 'store'])->middleware('throttle:5,1')->name('service-requests.store');
+Route::get('/solicitar-proyecto/confirmacion', [ServiceRequestController::class, 'confirmation'])->name('service-requests.confirmation');
 
 Route::middleware('guest')->group(function () {
     Route::get('/ingresar', [AuthenticatedSessionController::class, 'create'])
@@ -36,9 +42,18 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:admin')
         ->name('admin.dashboard');
 
-    Route::get('/gestion', [DashboardController::class, 'management'])
+    Route::get('/gestion', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'index'])
         ->middleware('role:admin,gestor')
         ->name('management.dashboard');
+});
+
+Route::prefix('gestion')->name('commercial.')->middleware(['auth', 'role:admin,gestor'])->group(function () {
+    Route::post('/solicitudes/{serviceRequest}/cotizacion', [QuotationController::class, 'store'])->name('quotations.store');
+    Route::get('/cotizaciones/{quotation}', [QuotationController::class, 'show'])->name('quotations.show');
+    Route::get('/cotizaciones/{quotation}/pdf', [QuotationController::class, 'download'])->name('quotations.download');
+    Route::get('/solicitudes/{serviceRequest}', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'show'])->name('requests.show');
+    Route::patch('/solicitudes/{serviceRequest}/estado', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'transition'])->name('requests.transition');
+    Route::get('/solicitudes/{serviceRequest}/archivo', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'attachment'])->name('requests.attachment');
 });
 
 Route::prefix('admin')

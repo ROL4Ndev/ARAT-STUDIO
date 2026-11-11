@@ -214,12 +214,103 @@ comercial aprobada.
 
 ## Pendiente
 
-- Solicitudes de proyectos con archivos o enlace externo.
-- Notificaciones por correo.
-- Gestión comercial y cotizaciones oficiales en PDF.
 - Administración de tarifas.
 - Galerías de imágenes por proyecto.
-- Completar pruebas automatizadas.
+
+## Solicitudes y cotizaciones oficiales
+
+Flujo: visitante en `/cotizador` → **Solicitar proyecto** → registro sin
+sesión → gestor o admin en `/gestion` → evaluación → aprobación → emisión
+de cotización PDF. También se puede abrir `/solicitar-proyecto` directamente.
+El cotizador conserva área, LOD y tipo de proyecto al abrir el formulario.
+
+La estimación usa Brick Math 1.0.0, redondeo decimal a dos posiciones y
+tarifas demostrativas. El servidor recalcula al registrar y guarda una copia
+de la tarifa; sobre el límite guarda estimación nula y evaluación personalizada.
+El importe oficial se define tras evaluar el alcance y puede ser diferente.
+
+Se añadieron modelos `ServiceRequest`, `ServiceRequestHistory` y `Quotation`;
+controladores en `PublicSite` y `Commercial`; Form Requests, regla de adjuntos,
+servicios de registro, estados y emisión; Mailable; vistas, JavaScript y pruebas.
+Las rutas y navegación existentes se conservan. Los CRUD continúan solo para admin.
+
+Aplicar la migración aditiva (ya aplicada en este entorno), sin seeders:
+
+```powershell
+composer install
+php artisan migrate --path=database/migrations/2026_11_11_180000_create_commercial_tables.php
+```
+
+Dependencias directas: `barryvdh/laravel-dompdf` 3.1.2 (compatible con
+Illuminate 13), `dompdf/dompdf` 3.1.6 como dependencia transitiva y `brick/math`
+1.0.0, que ya estaba instalado y ahora se declara directamente.
+
+### Archivos y correo locales
+
+El disco `commercial` usa `storage/app/commercial`, sin publicación ni URL
+firmada pública. Laravel necesita permisos de escritura allí y en `storage`.
+No crear un enlace público a esa carpeta. El `storage:link` descrito arriba
+es únicamente para las portadas públicas del catálogo.
+PDF, JPG, JPEG, PNG, DWG y ZIP admiten hasta 50 MiB (52 428 800 bytes).
+Se validan extensión y contenido; no se descomprimen ZIP. La descarga pasa
+por controladores autorizados. Solo PDF e imágenes admiten vista previa.
+
+Configurar manualmente el `php.ini` del servidor que atiende Laravel:
+
+```ini
+upload_max_filesize = 50M
+post_max_size = 64M
+```
+
+Reiniciar el servidor tras cambiarlos. `php --ini` muestra el archivo usado
+por CLI; Apache puede utilizar otro. Revisar también los límites del proxy
+o servidor web si existen. No se modificó automáticamente PHP.
+JavaScript retira archivos mayores y exige enlace; Laravel vuelve a validar.
+Una petición que excede `post_max_size` recibe una página controlada 413.
+
+En desarrollo usar `MAIL_MAILER=log` (valor de ejemplo y predeterminado):
+la confirmación se registra en `storage/logs/laravel.log`, sin entrega real.
+La interfaz confirma únicamente el registro de la solicitud. Un fallo de
+correo se registra para diagnóstico y no revierte ni duplica la solicitud.
+Los datos del estudio usados como snapshot se editan en `config/commercial.php`.
+
+Las solicitudes e historial se guardan juntos. Los reintentos del formulario
+usan un token único ligado a la sesión y restricción única en BD. Los estados
+se cambian con bloqueo de fila y verificación del estado anterior; los finales
+no retroceden. Cada solicitud admite una cotización, protegida también por
+índice único. El PDF se guarda antes de confirmar la transacción y se limpia
+ante fallos; el generador no admite recursos remotos, PHP ni JavaScript.
+La vigencia termina al finalizar la fecha de vencimiento, 15 días tras emitir.
+
+### Verificación
+
+```powershell
+php artisan test
+node --check public/js/calculator.js
+node --check public/js/service-request.js
+git diff --check
+```
+
+Resultado de esta entrega: 46 pruebas, 345 aserciones, todas correctas.
+Las pruebas usan exclusivamente SQLite en memoria, almacenamiento falso y
+correo falso; la base de pruebas rechaza ejecutar la suite sobre otra conexión.
+Incluyen regresión de autenticación, perfil y CRUD, archivos, permisos,
+estados, snapshots, duplicados, errores de disco/BD/correo y PDF real.
+La migración se aplicó correctamente en MariaDB sin reiniciar datos.
+Se verificó el recorrido completo en Chrome con datos ficticios sobre MariaDB:
+registro con PDF, reenvío sin duplicado, evaluación, aprobación, descarga,
+fuera de escala, rechazo y permisos. Se revisaron capturas del sitio y PDF
+de una y tres páginas. La cuenta ficticia quedó sin rol y con clave rotada;
+los dos registros ficticios se conservaron para trazabilidad. No se probó
+carga simultánea contra MariaDB. Ver [informe de cierre](VERIFICACION_ENTREGA.md).
+
+Se actualizaron únicamente `symfony/http-foundation`, `symfony/http-kernel`
+y `symfony/routing` de 8.1.10 a 8.1.11. `composer audit` ya no reporta avisos.
+El PHP 8.5 activo de Herd Lite quedó configurado con límites 50M/64M.
+La carga real de 49 MiB se confirmó y la de 51 MiB se rechazó. El servidor
+integrado de PHP 8.5.12 presenta una limitación al superar 64 MiB: devuelve
+una advertencia de arranque con HTTP 200 antes de Laravel, sin guardar datos.
+Ver el informe de cierre para esta limitación y los resultados detallados.
 
 ## Nota
 

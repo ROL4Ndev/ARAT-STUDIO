@@ -65,6 +65,7 @@
                         Cotizador
                     </a>
 
+                    <a href="{{ route('service-requests.create') }}">Solicitar proyecto</a>
                     @guest
                         <a href="{{ route('login') }}">Ingresar</a>
                     @else

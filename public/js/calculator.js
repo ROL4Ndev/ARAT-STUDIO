@@ -16,6 +16,12 @@ if (form) {
     let controller;
     let version = 0;
 
+    document.getElementById('request-project-link').addEventListener('click', (event) => {
+        const url = new URL(event.currentTarget.href);
+        ['area_m2', 'lod_selected', 'project_type'].forEach(key => url.searchParams.set(key, form.elements.namedItem(key).value));
+        event.currentTarget.href = url.toString();
+    });
+
     const resetRequest = () => {
         clearTimeout(timer);
         controller?.abort();
@@ -27,6 +33,10 @@ if (form) {
 
     const calculate = async () => {
         resetRequest();
+        const projectLink = document.getElementById('request-project-link');
+        const url = new URL(projectLink.href);
+        ['area_m2', 'lod_selected', 'project_type'].forEach(key => url.searchParams.set(key, form.elements.namedItem(key).value));
+        projectLink.href = url.toString();
 
         if (!form.checkValidity()) {
             message.textContent = 'Ingresa un área válida y selecciona un nivel.';

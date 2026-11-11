@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Models\TariffParam;
+use Brick\Math\BigDecimal;
+use Brick\Math\RoundingMode;
 
 class QuotationCalculatorService
 {
-    public function calculate(float $area, string $lod): array
+    public function calculate(string|int|float $area, string $lod): array
     {
         $tariff = TariffParam::query()
             ->where('lod_level', $lod)
@@ -18,24 +20,22 @@ class QuotationCalculatorService
             'No hay una tarifa disponible para este nivel.'
         );
 
-        $outOfScale = $area > (float) $tariff->max_area_m2;
+        $decimalArea = BigDecimal::of((string) $area);
+        $outOfScale = $decimalArea->isGreaterThan($tariff->max_area_m2);
 
         $amount = $outOfScale
             ? null
-            : round(
-                $area
-                * (float) $tariff->base_price_m2
-                * (float) $tariff->lod_factor,
-                2
-            );
+            : (string) $decimalArea->multipliedBy($tariff->base_price_m2)
+                ->multipliedBy($tariff->lod_factor)->toScale(2, RoundingMode::HalfUp);
 
         return [
-            'area_m2' => $area,
+            'area_m2' => (float) $area,
             'lod_selected' => $tariff->lod_level,
             'base_price_m2' => $tariff->base_price_m2,
             'lod_factor' => $tariff->lod_factor,
             'max_area_m2' => $tariff->max_area_m2,
-            'estimated_cost' => $amount,
+            'estimated_cost' => $amount === null ? null : (float) $amount,
+            'estimated_cost_decimal' => $amount,
             'currency' => 'PEN',
             'out_of_scale' => $outOfScale,
             'is_demo' => true,

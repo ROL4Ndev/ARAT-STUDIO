@@ -28,7 +28,7 @@ class QuotationCalculatorController extends Controller
 
         return response()->json(
             $calculator->calculate(
-                (float) $data['area_m2'],
+                (string) $data['area_m2'],
                 $data['lod_selected']
             )
         );

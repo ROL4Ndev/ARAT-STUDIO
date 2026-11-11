@@ -84,6 +84,7 @@
                                 </select>
                             </div>
 
+                            <div class="mb-4"><label class="workspace-label" for="project_type">Tipo de proyecto</label><select class="form-select" name="project_type" id="project_type">@foreach(\App\Http\Requests\PublicSite\StoreServiceRequest::PROJECT_TYPES as $type)<option>{{ $type }}</option>@endforeach</select></div>
                             <div class="calculator-disclaimer mb-4">
                                 <p>
                                     Tarifas de demostración. El resultado no
@@ -127,6 +128,7 @@
                                 Completa los datos para calcular.
                             </p>
 
+                            <a id="request-project-link" class="btn btn-dark" href="{{ route('service-requests.create') }}">Solicitar proyecto</a>
                             <div class="estimate-card__rule"></div>
 
                             <p class="estimate-card__footnote">
