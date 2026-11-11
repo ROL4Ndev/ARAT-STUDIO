@@ -1,5 +1,65 @@
 # Verificación de cierre — 11/11/2026
 
+## Home completado para presentación — verificación más reciente
+
+Se revisó primero el Home y se usó como referencia local:
+`C:\Users\rolan\OneDrive\Desktop\ARAT\ARAT-STUDIO-main\ARAT-STUDIO-main\index.html`.
+No se encontró una carpeta con el nombre exacto `ARAT-STUDIO-v` en las
+ubicaciones locales revisadas. Los nombres, formación, roles y especialidades
+de Angelo Trinidad y Luz Nicole Arana Peláez, los ocho servicios, el correo
+y los números de WhatsApp se transcribieron del original. No se inventaron
+fotografías, testimonios, clientes, cifras ni reconocimientos.
+La verificación de esos datos es contra la fuente local, no una acreditación
+profesional ni confirmación externa de titularidad de las cuentas de contacto.
+
+Cambios: portada con enlaces a portafolio y solicitud, presentación del estudio,
+servicios generales y para estudiantes, equipo, proyectos destacados activos
+de MariaDB y contacto. Se conservó la consulta original de los tres proyectos
+activos con carga anticipada de categoría. La portada usa una imagen de esos
+proyectos; sin proyectos, conserva la marca y el estado vacío existente.
+
+`config/studio.php` centraliza únicamente los datos de presentación.
+No altera los servicios admitidos por el formulario, tarifas ni reglas de negocio.
+Se reutilizaron tarjetas y clases existentes, Blade, Bootstrap, Kodchasan y Arial.
+El footer y la navegación según sesión son compartidos por los módulos.
+El menú móvil nativo funciona sin JavaScript; el script añade cierre al elegir
+un enlace y con Escape. Se añadió un enlace para saltar al contenido.
+
+Verificación real en Chrome headless, sobre el entorno MariaDB local:
+
+- Home a 320, 390, 768 y 1440 px: sin desbordamiento horizontal final.
+- Imágenes cargadas, anclas válidas y ningún `href="#"` o enlace vacío.
+- Clic real en Explorar portafolio y Solicitar proyecto: destinos correctos.
+- Teclado: salto al contenido, apertura del menú, tabulación y Escape.
+- Menú móvil funcional con JavaScript desactivado.
+- Sesiones ficticias gestor/admin: menú adecuado; perfil, gestión y ambos
+  listados CRUD responden correctamente para el rol correspondiente.
+- Portafolio, cotizador, solicitud, ingreso, perfil, gestión y CRUD en móvil.
+- Axe WCAG A/AA: sin infracciones detectadas en las 14 combinaciones de
+  pantalla/sesión auditadas. Quedan comprobaciones de contraste indeterminadas
+  por la imagen de portada y glifos decorativos; se revisaron visualmente.
+  Esto no constituye una certificación completa de accesibilidad.
+- Se corrigieron un desbordamiento móvil en Contacto y dos textos de bajo
+  contraste en el cotizador. Fuentes calculadas: cuerpo Arial, títulos Kodchasan.
+- `php artisan test`: **48 pruebas y 370 aserciones correctas**, incluyendo
+  autenticación, perfil, CRUD, cotizador y proceso comercial. Base aislada
+  SQLite en memoria y archivos/correo falsos. Las dos pruebas nuevas cubren
+  contenido, proyectos activos, carga anticipada, estado vacío y navegación.
+- `node --check public/js/navigation.js` y `git diff --check`: correctos.
+
+No se enviaron correos, mensajes ni llamadas a los contactos. Las cuentas
+ficticias de navegador quedaron sin rol y con clave rotada. Las capturas y
+scripts de revisión están ignorados en `storage/framework/testing`.
+No se modificaron dependencias, rutas, controladores ni reglas de negocio.
+No se repitió aquí una emisión comercial real: su regresión completa pasó
+en la suite. No se probó Safari, Firefox, dispositivos físicos ni producción.
+La limitación previa del servidor PHP con peticiones mayores a 64 MiB sigue
+documentada más abajo y queda fuera de esta entrega visual.
+No se ejecutó git add, commit ni push. El servidor de revisión se detuvo al
+finalizar; iniciar `php artisan serve` para presentar la página.
+
+---
+
 Sin funcionalidades nuevas, commits ni push. Se aplicó la actualización mínima
 de tres dependencias Symfony autorizada para el cierre.
 

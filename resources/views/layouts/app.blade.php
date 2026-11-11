@@ -23,8 +23,10 @@
     >
 
     <link rel="stylesheet" href="{{ asset('css/arat.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/presentation.css') }}">
 </head>
 <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
     <nav
         id="navbar"
         class="navbar fixed-top"
@@ -43,59 +45,24 @@
                 >
                 <span class="navbar-brand__text">ARAT STUDIO</span>
             </a>
+            <div class="site-navigation site-navigation--desktop">
+                @include('layouts.components.navigation-links')
+            </div>
+            <details id="mobile-navigation" class="site-menu">
+                <summary>Menú <span aria-hidden="true">☰</span></summary>
                 <div class="site-navigation">
-                     <a
-                        href="{{ route('home') }}"
-                        @if (request()->routeIs('home')) aria-current="page" @endif
-                     >
-                        Inicio
-                    </a>
-
-                    <a
-                        href="{{ route('projects.index') }}"
-                        @if (request()->routeIs('projects.*')) aria-current="page" @endif
-                    >
-                        Portafolio
-                    </a>
-
-                    <a
-                        href="{{ route('quotation.show') }}"
-                        @if (request()->routeIs('quotation.show')) aria-current="page" @endif
-                    >
-                        Cotizador
-                    </a>
-
-                    <a href="{{ route('service-requests.create') }}">Solicitar proyecto</a>
-                    @guest
-                        <a href="{{ route('login') }}">Ingresar</a>
-                    @else
-                        <a href="{{ route('profile.edit') }}">Mi perfil</a>
-                        @if (auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.dashboard') }}">Administración</a>
-                            <a href="{{ route('management.dashboard') }}">Gestión</a>
-                        @elseif (auth()->user()->role === 'gestor')
-                            <a href="{{ route('management.dashboard') }}">Gestión</a>
-                        @endif
-                        <form method="POST" action="{{ route('logout') }}" class="site-navigation__logout">
-                            @csrf
-                            <button type="submit" class="site-navigation__button">Cerrar sesión</button>
-                        </form>
-                    @endguest
+                    @include('layouts.components.navigation-links')
                 </div>
+            </details>
         </div>
     </nav>
 
-    <main id="contenido-principal">
+    <main id="contenido-principal" tabindex="-1">
         @yield('content')
     </main>
 
-    <footer class="site-footer">
-        <div class="container text-center">
-            <p class="site-footer__copy mb-0">
-                &copy; {{ date('Y') }} ARAT STUDIO
-            </p>
-        </div>
-    </footer>
+    @include('layouts.components.footer')
+    <script src="{{ asset('js/navigation.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>
