@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\ProcessWorkIntent;
 use App\Models\User;
 use App\Services\ClientResponseService;
 use App\Services\IssueQuotationService;
@@ -38,6 +39,9 @@ class CommercialOperationsTest extends TestCase
         $this->assertDatabaseCount('quotations', 1);
         $this->artisan('commercial:recover', ['--inline' => true])->assertSuccessful();
         $this->assertSame('simulated', $q->fresh()->notification_status);
+        $this->assertSame(1, $intent->fresh()->attempts);
+        ProcessWorkIntent::dispatchSync($intent->id);
+        $this->assertSame(1, $intent->fresh()->attempts);
     }
 
     public function test_acceptance_indicator_counts_requests_once_with_multiple_emissions(): void

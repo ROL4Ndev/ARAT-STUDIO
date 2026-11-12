@@ -20,7 +20,7 @@ php artisan storage:link
 ```
 
 Conservar el `.env` existente, APP_KEY y credenciales. En una instalación nueva,
-preparar `.env` desde `.env.example` con la conexión propia a `arat_studios`,
+preparar `.env` desde `.env.example`, revisar la conexión MySQL a `arat_studios`,
 `APP_URL`, `APP_TIMEZONE=America/Lima`, `APP_LOCALE=es_PE`,
 `QUEUE_CONNECTION=database` y `MAIL_MAILER=log`. Generar APP_KEY solo si la
 instalación nueva todavía no tiene clave. Apache solo se necesita para phpMyAdmin.
@@ -58,11 +58,17 @@ php artisan queue:restart
 ```
 
 Sustituir `123` por el ID real fallido mostrado en la cotización o en
-`work_intents`. Los leases abandonados se recuperan después de cinco minutos;
-los fallos permanecen para revisión, sin reintento infinito. Con el worker
+`work_intents`. Los trabajos tienen timeout de 180 segundos y la conexión
+database los hace visibles para otro worker tras `retry_after=240` segundos
+(`DB_QUEUE_RETRY_AFTER`). Los leases abandonados se recuperan después de cinco
+minutos (300 segundos), por encima de ambos límites. Los fallos permanecen para
+revisión, sin reintento infinito. Con el worker
 detenido, la alternativa local `php artisan commercial:recover --inline`
 procesa pendientes en primer plano. El PDF fallido tiene reintento en su pantalla,
 con la misma versión; la notificación tiene reintento separado.
+
+Las pruebas usan SQLite en memoria, configurado por `phpunit.xml`, y no la base
+MySQL local.
 
 ## Cuentas y permisos
 
