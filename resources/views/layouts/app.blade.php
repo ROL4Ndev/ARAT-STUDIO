@@ -63,6 +63,7 @@
 
     @include('layouts.components.footer')
     <script src="{{ asset('js/navigation.js') }}" defer></script>
+    <script src="{{ asset('js/interface.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

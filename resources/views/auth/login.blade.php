@@ -23,7 +23,7 @@
                             autocomplete="username"
                             required
                             autofocus
-                            aria-describedby="@error('email') email-error @enderror"
+                            @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
                         >
                         @error('email')
                             <p id="email-error" class="invalid-feedback d-block" role="alert">{{ $message }}</p>
@@ -32,21 +32,24 @@
 
                     <div class="account-form__field">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            autocomplete="current-password"
-                            required
-                            aria-describedby="@error('password') password-error @enderror"
-                        >
+                        <div data-password-field>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                autocomplete="current-password"
+                                required
+                                @error('password') aria-describedby="password-error" @enderror
+                            >
+                            <button type="button" class="btn btn-outline-dark" data-password-toggle data-password-label="la contraseña" aria-controls="password" aria-label="Mostrar la contraseña" aria-pressed="false">Mostrar</button>
+                        </div>
                         @error('password')
                             <p id="password-error" class="invalid-feedback d-block" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-dark account-form__submit">Ingresar</button>
+                    <button type="submit" class="btn btn-dark account-form__submit" data-loading-label="Ingresando…">Ingresar</button>
                 </form>
             </div>
         </div>

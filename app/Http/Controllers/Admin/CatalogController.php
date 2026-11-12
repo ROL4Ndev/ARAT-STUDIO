@@ -100,7 +100,7 @@ class CatalogController extends Controller
             return $item;
         }
 
-        return redirect()->route('admin.'.$kind.'.show', $item->id)->with('success', 'Cambio registrado con auditoría. Si la tarifa ya estaba publicada, se creó una versión borrador.');
+        return redirect()->route('admin.'.$kind.'.show', $item->id)->with('success', 'Cambio registrado con auditoría.');
     }
 
     public function status(CatalogRequest $request, $record, CatalogWorkflowService $service)

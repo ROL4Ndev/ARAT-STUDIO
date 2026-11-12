@@ -29,8 +29,11 @@
             <figure class="project-detail__figure">
                 <img
                     src="{{ $project->cover_image_url }}"
-                    alt="{{ $project->title }}"
+                    alt="Vista de {{ $project->title }}"
                     class="project-detail__image"
+                    width="1600"
+                    height="1200"
+                    fetchpriority="high"
                 >
                 <figcaption>
                     {{ $project->title }} · {{ $project->projectCategory?->name ?? 'Sin categoría' }}

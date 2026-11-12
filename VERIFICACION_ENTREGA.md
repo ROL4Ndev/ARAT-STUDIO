@@ -90,7 +90,7 @@ wipe, rollback destructivo, cambios de APP_KEY ni modificaciones de XAMPP.
 php artisan test --compact
 ```
 
-**82 pruebas, 672 aserciones, todas correctas.**
+**82 pruebas, 674 aserciones, todas correctas.**
 SQLite exclusivamente en memoria, discos/correo de prueba y salvaguarda en
 `tests/TestCase.php`. Las pruebas nuevas de `FinalReviewTest` cubren las cinco
 operaciones reales por catálogo, con activación inicial separada de la baja y
@@ -226,3 +226,101 @@ El índice permanece vacío. No se hizo git add, commit, push ni cambio de rama.
 
 Los datos originales se conservan. Los registros y archivos ficticios nuevos
 quedaron en el entorno aislado para trazabilidad.
+
+## Cierre de interfaz: comprobaciones de este corte
+
+Se revisaron las pantallas públicas Inicio, Portafolio (estado vacío), Cotizador
+y Solicitar proyecto, más el menú móvil y el foco de teclado. El navegador usó
+un servidor local con SQLite temporal aislado, migrado sin seeders ni registros
+de negocio; no se modificó `.env` ni la base local.
+
+- Inicio → Portafolio → Cotizador → Solicitar proyecto: navegación correcta,
+  todas las páginas respondieron HTTP 200.
+- A 320, 390, 768 y 1440 px, las cuatro pantallas no presentaron desbordamiento
+  horizontal del documento.
+- El salto al contenido recibió foco visible. El menú móvil se abrió con
+  teclado, recibió foco interno y Escape lo cerró devolviendo el foco al
+  resumen. A 200 % de zoom CSS no apareció desbordamiento horizontal; esto no
+  sustituye una comprobación de zoom nativo en otros navegadores.
+- El cotizador respondió HTTP 200 en PEN y mostró el caso real del entorno
+  aislado sin tarifa vigente: evaluación manual, sin importe inventado.
+- La solicitud expuso etiquetas y nombres accesibles para sus campos; no se
+  envió ni creó ninguna solicitud durante esta revisión. Se probó seleccionar
+  un archivo temporal, mostrar nombre y tamaño, retirarlo y devolver foco al
+  campo; el control quedó oculto y el archivo se limpió.
+- Se corrigieron tres peticiones 404 a fuentes locales Kodchasan inexistentes;
+  la hoja de estilos ya usa la fuente Kodchasan declarada en el layout.
+- `php artisan view:cache`: correcto. `npm.cmd run build`: correcto.
+  `node --check` sobre todos los JS de `public/js`: correcto.
+  `php artisan test`: 82 pruebas y 674 aserciones correctas.
+  `git diff --check`: correcto; Git solo informó normalizaciones CRLF/LF.
+
+La nota anterior corresponde al corte público previo. Se actualiza a
+continuación con los recorridos autenticados realizados en una MariaDB aislada.
+
+## Validación autenticada en MariaDB aislada
+
+Se usó `arat_ui_review_20261111_2331`, con cuentas y expedientes ficticios,
+servidor temporal en `127.0.0.1:8127`, almacenamiento privado/público y sesiones
+separados. Las operaciones de prueba y los PDFs se limitaron a esa base. No se
+modificó `.env`, no se conectó para escritura a `arat_studios` y no se cambiaron
+credenciales reales.
+
+- **Admin:** páginas de categorías, proyectos, servicios, tarifas y perfil;
+  altas/edición, activación/desactivación, auditoría y consulta de dependencias.
+  La desactivación de categoría con proyecto asociado fue bloqueada como se
+  esperaba. Editar tarifa publicada generó una v2 en borrador sin desplazar a
+  la v1 vigente. Se guardó el perfil ficticio y se comprobó el control accesible
+  de mostrar contraseña.
+- **Gestor:** tomó una solicitud sin asignar, inició evaluación, registró
+  observación pública y motivo interno, y la bandeja ocultó los contactos de
+  solicitudes no asignadas. El cliente corrigió el expediente; el gestor lo
+  aprobó con evaluación técnica.
+- **Cotizaciones:** se creó y emitió v1 por PEN 12 800.00; la v2 por PEN
+  13 500.00 se mantuvo borrador mientras v1 seguía vigente. Tras preparar y
+  procesar el trabajo durable, v2 quedó emitida/vigente y v1 sustituida, ambas
+  con PDF listo. La descarga de v2 respondió HTTP 200, `application/pdf` y
+  firma `%PDF-`. En otra cotización ficticia se vio el estado PDF fallido y la
+  acción autorizada “Reintentar PDF de la misma versión”; el reintento produjo
+  PDF listo. Las notificaciones se procesaron solo con transporte `array` y se
+  mostraron como simuladas, no como correos entregados.
+- **Cliente:** enlace temporal verificado, consulta de expediente observado,
+  corrección registrada y retorno a evaluación. Después de la aprobación,
+  consultó v1 anterior y v2 vigente, descargó el PDF y aceptó la propuesta.
+  El expediente terminó cerrado con resultado claro; se comprobó que la
+  respuesta no se describe como firma certificada ni se muestran notas internas,
+  tokens o rutas privadas.
+- Se corrigió un mensaje de éxito de catálogo que mencionaba una versión de
+  tarifa al editar otros registros y se eliminó el render duplicado del mensaje
+  flash en el expediente del cliente.
+- **Responsive:** en las cuatro pantallas CRUD y el perfil, además de bandeja,
+  detalle comercial y páginas de v1/v2, se midieron viewports CSS reportados
+  de 320, 390, 768 y 1440 px; no hubo desbordamiento del documento después de
+  contener el layout de las tablas administrativas. En tablas estrechas el
+  desplazamiento quedó localizado en su contenedor. El expediente de cliente
+  se revisó a 320, 390 y 1440 px sin overflow horizontal. El menú móvil se
+  abrió con teclado y cerró con Escape. En la tabla de categorías, Tab hacia la
+  acción desplazó el contenedor local hasta el enlace enfocado.
+- **Tipografía:** Kodchasan se cargó realmente: la hoja de Google Fonts y tres
+  recursos WOFF2 respondieron 200; `document.fonts.check('700 24px Kodchasan')`
+  fue `true` y el encabezado computó Kodchasan.
+
+**Pendiente de comprobación:** la automatización del navegador informó
+`devicePixelRatio=2` durante una parte de las mediciones, pero no permitió
+atribuirlo con certeza al zoom nativo del navegador frente a emulación/
+escalamiento del dispositivo. No se declara comprobado el zoom nativo al 200 %.
+Tampoco se probó entrega SMTP real ni se provocó un fallo de notificación para
+recorrer su reintento; los mensajes revisados usaron transporte simulado.
+
+## Correcciones visuales de esta validación
+
+Las tablas administrativas contenían filas más anchas que el viewport. Aunque
+cada tabla tenía su propio contenedor desplazable, su ancho intrínseco hacía
+crecer el ancho medido del documento a 320/390 px. Se añadió contención de
+layout a `.admin-page .table-responsive`; las cuatro pantallas mantienen ahora
+el scroll dentro de la tabla y el documento no desborda.
+
+Se ejecutaron `php artisan test --compact` (82 pruebas, 674 aserciones),
+`php artisan view:cache`, `vendor\\bin\\pint --test
+app\\Http\\Controllers\\Admin\\CatalogController.php` y `git diff --check`;
+todos terminaron correctamente. Git solo advirtió normalizaciones CRLF/LF.

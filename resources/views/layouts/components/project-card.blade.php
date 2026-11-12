@@ -2,7 +2,7 @@
     <div class="project-card__media">
         <img
             src="{{ $project->cover_image_url }}"
-            alt="{{ $project->title }}"
+            alt="Vista de {{ $project->title }}"
             loading="lazy"
             width="800"
             height="600"
