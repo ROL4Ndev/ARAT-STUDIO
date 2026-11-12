@@ -2,14 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ServiceRequestHistory extends Model
+class ServiceRequestHistory extends BusinessModel
 {
     public const UPDATED_AT = null;
 
     protected $guarded = ['id'];
+
+    protected function casts(): array
+    {
+        return ['is_public' => 'boolean', 'metadata' => 'array'];
+    }
+
+    protected static function booted(): void
+    {
+        parent::booted();
+        static::updating(fn () => throw new \LogicException('El historial comercial es inmutable.'));
+    }
 
     public function user(): BelongsTo
     {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PublicSite;
 
+use App\Models\OfferedService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,33 +13,22 @@ class CalculateQuotationRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
+    protected function prepareForValidation(): void
     {
-        return [
-            'area_m2' => [
-                'required',
-                'numeric',
-                'min:0.01',
-                'max:1000000',
-                'decimal:0,2',
-            ],
-            'lod_selected' => [
-                'required',
-                Rule::in(['LOD_200', 'LOD_300', 'LOD_400']),
-            ],
-        ];
+        if (! $this->filled('service_id') && $this->filled('service')) {
+            $this->merge(['service_id' => OfferedService::where('name', $this->input('service'))->value('id')]);
+        }
     }
 
-    public function messages(): array
+    public function rules(): array
     {
-        return [
-            'area_m2.required' => 'Ingresa el área del proyecto.',
-            'area_m2.numeric' => 'El área debe ser un número.',
-            'area_m2.min' => 'El área debe ser mayor que cero.',
-            'area_m2.max' => 'El área supera el límite de entrada permitido.',
-            'area_m2.decimal' => 'El área admite hasta dos decimales.',
-            'lod_selected.required' => 'Selecciona un nivel de desarrollo.',
-            'lod_selected.in' => 'El nivel seleccionado no es válido.',
-        ];
+        $manual = OfferedService::find($this->input('service_id'))?->estimation_mode === 'manual';
+
+        return ['service_id' => ['nullable', 'integer', 'exists:services,id'], 'area_m2' => [$manual ? 'nullable' : 'required', 'numeric', 'min:0.01', 'max:1000000', 'decimal:0,2'], 'lod_selected' => [$manual ? 'nullable' : 'required', Rule::in(['LOD_200', 'LOD_300', 'LOD_400'])]];
+    }
+
+    public function attributes(): array
+    {
+        return ['area_m2' => 'área', 'lod_selected' => 'nivel LOD', 'service_id' => 'servicio'];
     }
 }

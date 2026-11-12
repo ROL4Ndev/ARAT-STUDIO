@@ -27,18 +27,7 @@
                         <td>{{ $category->projects_count }}</td>
                         <td class="admin-table__actions">
                             <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.categories.edit', $category) }}">Editar</a>
-                            <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button
-                                    class="btn btn-outline-danger btn-sm"
-                                    type="submit"
-                                    @disabled($category->projects_count > 0)
-                                    aria-label="Eliminar categoría {{ $category->name }}"
-                                >
-                                    Eliminar
-                                </button>
-                            </form>
+                            <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.categories.show', $category->id) }}">Consultar estado e historial</a>
                             @if ($category->projects_count > 0)
                                 <span class="admin-table__hint">Tiene proyectos asociados</span>
                             @endif

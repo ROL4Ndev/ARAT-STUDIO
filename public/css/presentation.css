@@ -78,3 +78,9 @@
     .site-footer__brand { grid-column: auto; }
     .site-footer__copy { text-align: left; }
 }
+.workspace-card,
+.workspace-card :is(h1, h2, h3, p, a, dd),
+.workspace-hero h1 {
+    overflow-wrap: anywhere;
+    min-width: 0;
+}

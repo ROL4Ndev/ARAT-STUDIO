@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class Project extends Model
+class Project extends BusinessModel
 {
     protected $fillable = [
         'title',
@@ -16,18 +15,34 @@ class Project extends Model
         'description',
         'cover_image',
         'is_active',
+        'lock_version', 'status_reason', 'deactivated_at', 'deactivated_by',
     ];
 
     protected function casts(): array
     {
-        return [
+        return [...parent::casts(),
             'is_active' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        parent::booted();
+        static::updating(function (self $project) {
+            if ($project->isDirty('slug')) {
+                throw new \LogicException('El slug publicado se conserva.');
+            }
+        });
     }
 
     public function projectCategory(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function coverHistories()
+    {
+        return $this->hasMany(ProjectCoverHistory::class);
     }
 
     public function getCoverImageUrlAttribute(): string

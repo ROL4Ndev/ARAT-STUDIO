@@ -1,0 +1,4 @@
+@foreach(['scope'=>'Alcance','deliverables'=>'Entregables','exclusions'=>'Exclusiones','execution_term'=>'Plazo de ejecución','adjustment_reason'=>'Justificación del importe (visible al cliente si se incluye en PDF)','reason'=>'Motivo de la versión o edición'] as $field=>$label)
+<label for="quote-{{ $field }}" class="form-label">{{ $label }}</label><textarea id="quote-{{ $field }}" name="{{ $field }}" class="form-control mb-3" rows="{{ $field==='scope'?5:2 }}" @required($field!=='adjustment_reason') maxlength="{{ $field==='scope'?20000:5000 }}">{{ old($field,$draft?->$field) }}</textarea>
+@endforeach
+<label for="official_amount" class="form-label">Importe oficial positivo (PEN; puede diferir de la estimación)</label><input id="official_amount" name="official_amount" type="number" class="form-control mb-3" min="0.01" step="0.01" required value="{{ old('official_amount',$draft?->official_amount) }}">

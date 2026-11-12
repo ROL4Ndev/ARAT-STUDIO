@@ -1,167 +1,140 @@
-# ARAT STUDIO — guía de exposición (12 minutos)
+# Guía de exposición — ARAT STUDIO
 
-Guion basado en el código actual. Solo preparación documental: no se crearon
-cuentas ni registros. Sustituir `MARCA` por una marca nueva, por ejemplo
-`20261111-1200`; no reutilizarla en otro ensayo ni editar datos ajenos.
+## Preparación previa
 
-## Antes de comenzar
+- MySQL activo en XAMPP; `php -v` debe mostrar PHP 8.5 y `php --ini` el INI
+  correcto. Límites documentales: 50M/64M; no cambiar PHP de XAMPP.
+- Aplicar `php artisan migrate` sin reiniciar datos y comprobar
+  `php artisan migrate:status`. Conservar respaldo y credenciales existentes.
+- Abrir `php artisan serve`, `php artisan queue:work --tries=1 --timeout=180`
+  y `php artisan schedule:work` en terminales separadas.
+- Disponer de admin y gestor. Si faltan, ejecutar `php artisan usuarios:crear-interno`
+  de forma interactiva; cada persona introduce su contraseña, sin claves fijas.
+- Revisar `/`, `/proyectos`, portadas, enlaces y descarga de un PDF autorizado.
+  Para nuevas portadas, comprobar `php artisan storage:link`.
+- Tener un PDF pequeño sin datos reales. En este equipo se usó
+  `storage/framework/testing/verification-input.pdf` (artefacto local ignorado);
+  en otro equipo puede imprimirse una hoja ficticia como PDF.
+- Usar dos perfiles/ventanas independientes: sesión interna y cliente verificado.
+  `MAIL_MAILER=log` simula mensajes; el operador consulta el enlace localmente
+  sin proyectar logs, tokens ni credenciales. Configurar APP_URL con el servidor
+  que realmente se utilizará también para worker y scheduler.
 
-- MySQL/MariaDB de XAMPP activo y conexión del proyecto disponible; comprobar
-  `php artisan migrate:status`. No reiniciar tablas ni ejecutar seeders.
-- Ejecutar `php -v` y `php --ini`: usar PHP 8.5 de Herd Lite, cuyo INI es
-  `C:\Users\rolan\.config\herd-lite\bin\php.ini`, no el PHP de XAMPP.
-  Verificar `upload_max_filesize=50M` y `post_max_size=64M`.
-- Desde la raíz: `php artisan serve`; abrir `http://127.0.0.1:8000`.
-- Disponer de cuentas de demostración propias `admin` y `gestor`, con claves
-  introducidas manualmente, nunca en la guía o capturas. Si faltan, una persona
-  autorizada puede ejecutar `php artisan usuarios:crear-interno`, que pregunta
-  rol y contraseña; no hay registro público. No usar las cuentas QA deshabilitadas.
-- Usar navegador normal para admin y ventana privada para visitante/gestor;
-  así se evita mezclar sesiones. No proyectar `.env` ni contraseñas.
-- Abrir `/proyectos`: comprobar portadas antiguas `public/img` y las nuevas
-  del disco público (`public/storage`). El enlace público es solo para portadas,
-  nunca para `storage/app/commercial`.
-- PDF pequeño existente en este entorno: `storage/framework/testing/verification-input.pdf`
-  (1,339 bytes). Es local e ignorado por Git; si falta en otra máquina, crear
-  manualmente una página «Plano ficticio de exposición, sin datos reales» y
-  exportarla a PDF menor a 1 MB. No usar planos reales.
-- Antes de exponer, ensayar la descarga de una cotización de prueba autorizada
-  desde `/gestion` y abrirla en un lector PDF. Confirmar permisos de escritura
-  del almacenamiento privado. No inventar códigos: copiar los generados.
+## Recorrido de 12 minutos
 
-## Recorrido cronometrado
-
-| Tiempo | Qué mostrar y decir |
+| Minutos | Demostración |
 |---|---|
-| 00:00–02:00 | Home `/`: estudio, servicios, equipo, proyectos activos y contacto. Entrar por `/ingresar` como admin de demostración; en `/perfil`, editar únicamente el nombre de esa cuenta, por ejemplo «Expositor MARCA», conservando correo y rol. Mostrar confirmación y navegación según sesión. |
-| 02:00–05:00 | `/admin/categorias`: crear «Demo MARCA»; mostrar validación y edición de esa categoría nueva. `/admin/proyectos`: crear «Proyecto ficticio MARCA», asociarlo a la categoría, descripción «Prueba de exposición; no corresponde a una obra del estudio», portada `public/img/Proyecto Sala T/1.webp` y estado activo. Mostrar listado, edición del registro propio y su enlace en `/proyectos`. |
-| 05:00–10:00 | En ventana privada, ejecutar escenario A: `/cotizador` → solicitud → confirmación; entrar allí como gestor y localizar el código en `/gestion`. Descargar adjunto, evaluar, aprobar, emitir y abrir PDF; contrastar estimación e importe oficial. Mostrar escenario B con 501 m² y su historial, reservando aproximadamente el último minuto del bloque. |
-| 10:00–12:00 | Escenario C: 403 como gestor; probar la URL privada del adjunto tras cerrar sesión (redirige a `/ingresar`). Explicar los archivos siguientes y las limitaciones, sin presentar funciones pendientes como terminadas. |
+| 0–2 | Home, acceso y perfil breves. Como admin recorrer categorías, proyectos, servicios y tarifas; mostrar consulta/edición, estado con motivo y auditoría, sin borrar. |
+| 2–4 | Cotizador 80 m² / LOD 300, solicitud con PDF pequeño y confirmación. Admin localiza y asigna al gestor con motivo. |
+| 4–6 | Gestor inicia evaluación y observa con texto público. Cliente solicita acceso, verifica el enlace y corrige con otro PDF; la corrección devuelve automáticamente a evaluación y avisa al gestor, que aprueba con evaluación técnica. |
+| 6–8 | Crear v1 con alcance, entregables, exclusiones, plazo e importe; preparar, procesar tarea y descargar PDF. Mostrar historial y fechas en Lima. |
+| 8–10 | Crear borrador v2: v1 sigue emitida. Preparar y procesar v2: v1 sustituida, archivos conservados; cliente verifica, acepta y el expediente queda cerrado. |
+| 10–12 | Gestor entra a CRUD por URL y recibe 403; explicar Policies, decimal, snapshots, transacciones y trabajo durable con los archivos siguientes. |
 
-Para enseñar eliminación de categorías, usar solo una categoría vacía nueva
-del ensayo y explicar el bloqueo si tiene proyectos. Los proyectos se desactivan:
-no existe ruta de eliminación. No borrar ni modificar contenido previo.
+Si se necesita evitar la espera del scheduler, ejecutar `php artisan commercial:recover`
+con worker activo. Con worker detenido, usar `php artisan commercial:recover --inline`.
+No anunciar PDF listo mientras la pantalla siga preparando o failed.
 
-## Tres escenarios manuales reproducibles
+## Tres escenarios reproducibles
 
-### A. 80 m² / LOD 300 → cotización
+1. **80 m² → propuesta aceptada.** Introducir manualmente nombre “Cliente ficticio
+   de exposición”, correo que el operador pueda verificar (o `cliente@example.test`
+   con transporte log local), teléfono `999000123`, Lima, servicio Modelado BIM,
+   Vivienda, 80, LOD_300, descripción ficticia y consentimiento. Confirmar la
+   estimación y adjuntar PDF; con tarifa vigente 100 y factor 1.350 debe dar
+   PEN 10800.00. Asignar, observar, corregir y aprobar; v1: importe 10800.00,
+   v2: 11800.00 con justificación de alcance, entregables, exclusiones y plazo
+   “20 días hábiles”. Dar motivo de versión, emitir y aceptar como cliente.
+   Los 11800.00 son un importe oficial ficticio, distinto del ejemplo tarifario
+   110 × 80 × 1.35 = 11880.00.
+2. **501 m² → evaluación personalizada.** Abrir otro formulario y usar los mismos
+   datos ficticios con área 501. La estimación debe ser nula con motivo, nunca
+   cero; registrar, asignar e iniciar evaluación. Mostrar rechazo con motivo
+   “El alcance requiere información técnica adicional”, o evaluar/aprobar y
+   justificar un importe manual; no saltar la evaluación técnica.
+3. **Gestor → CRUD = 403.** Con sesión de gestor, escribir `/admin/categorias`,
+   `/admin/proyectos`, `/admin/servicios` y `/admin/tarifas`. Deben responder 403;
+   `/gestion` funciona y solo muestra sus expedientes y la bandeja mínima.
+   Un visitante recibe redirección al ingreso; ese caso no demuestra el 403
+   de gestor. Otro gestor tampoco descarga el adjunto del expediente ajeno.
 
-1. Como visitante, abrir `/cotizador`, área `80`, nivel `LOD_300`, tipo `Vivienda`.
-   Con las tarifas consultadas en esta preparación: `80 × 100.00 × 1.350 = S/ 10,800.00`.
-   Son tarifas demostrativas, no un precio oficial; si cambian, ensayar de nuevo.
-2. Pulsar **Solicitar proyecto** (`/solicitar-proyecto`) e introducir manualmente:
+Introducir nombres de categoría/proyecto con un sufijo nuevo y una portada propia;
+no editar datos históricos para montar el ensayo. Desactivar/reactivar con motivo.
+Una categoría con proyecto activo debe bloquearse mostrando su dependencia.
+Para una tarifa nueva, crear borrador y activarlo conscientemente: no alterar
+la vigente de trabajo solo para obtener una captura. No hay borrados de negocio.
 
-   | Campo | Valor ficticio |
-   |---|---|
-   | Nombre | Cliente ficticio A MARCA |
-   | Correo | exposicion.a.MARCA@example.test |
-   | Teléfono / ciudad | 999000123 / Lima |
-   | Servicio / tipo | Modelado BIM / Vivienda |
-   | Área / LOD | 80 / LOD 300 |
-   | Descripción | Modelado de vivienda ficticia para la exposición académica. |
-   | Archivo / enlace | PDF pequeño anterior / dejar enlace vacío |
-   | Consentimiento | Marcar la casilla |
+## Código que debemos explicar
 
-3. Registrar una sola vez y copiar el código `SOL-…` de
-   `/solicitar-proyecto/confirmacion`. Esa confirmación depende de la sesión;
-   no es un buscador público de solicitudes.
-4. Entrar como gestor; buscar el código en `/gestion`, abrir el detalle y descargar
-   el archivo. Guardar **En evaluación**, observación «Revisión ficticia del alcance»;
-   luego **Aprobar**, observación «Alcance viable para la demostración».
-5. Introducir alcance «Modelado BIM de vivienda ficticia y entrega de planos para
-   demostración académica», importe oficial `12000.50`; emitir y descargar PDF.
-   Comprobar código `COT-…`, cliente, PEN, alcance, fecha del día y vencimiento
-   a 15 días. No prometer envío automático de ese PDF al cliente.
+- **Rutas y roles:** `routes/web.php` declara las cuatro rutas administrativas,
+  gestión y acceso del cliente; `routes/api.php` declara el cálculo. El alias
+  de `EnsureUserHasRole` y `EnsureActiveUser` se registra en `bootstrap/app.php`;
+  `app/Policies/CatalogPolicy.php` y `ServiceRequestPolicy.php` autorizan cada recurso.
+- **Validación CRUD:** `app/Http/Requests/Admin/CatalogRequest.php` valida según
+  módulo, estado, motivo y lock_version; `app/Rules/ProjectImage.php` verifica
+  el contenido de la portada. `app/Http/Controllers/Admin/CatalogController.php`
+  entrega los datos validados a `app/Services/CatalogWorkflowService.php`.
+- **Proyecto y categoría:** `app/Models/Project.php::projectCategory()` usa
+  belongsTo y `app/Models/Category.php::projects()` usa hasMany por category_id.
+  `app/Http/Controllers/PublicSite/HomeController.php` consulta proyectos activos
+  con su categoría y servicios activos de BD; no construye proyectos ficticios.
+- **Decimal e historia:** `app/Services/QuotationCalculatorService.php` calcula
+  con BigDecimal/HalfUp y devuelve nulo con motivo cuando no corresponde estimar.
+  `ServiceRequestService.php`, en esa carpeta, recalcula y guarda snapshots;
+  `CatalogWorkflowService.php` publica versiones sin reescribir precios históricos.
+- **Estados y duplicados:** `app/Services/CommercialWorkflowService.php` centraliza
+  transiciones y asignaciones bajo bloqueo; `ClientRevisionService.php` conserva
+  correcciones y archivos. `ServiceRequestService.php` compara token ligado a
+  sesión y hash del contenido; `DomainLock.php` detecta cambios simultáneos.
+- **Versiones y PDF privado:** `app/Services/IssueQuotationService.php` congela
+  snapshots y persiste la intención durable; `WorkProcessor.php` genera fuera
+  de transacción y comprueba otra vez estados. `QuotationPdfService.php` renderiza
+  `resources/views/commercial/quotation-pdf.blade.php`; las descargas pasan por
+  `app/Http/Controllers/Commercial/QuotationController.php` y `app/Policies/QuotationPolicy.php`.
+- **Cliente y cierre:** `app/Services/ClientAccessService.php` gestiona hash,
+  uso único, caducidad y grant revocable; `ClientResponseService.php` bloquea
+  solicitud/cotización y comprueba versión, autorización y fecha. El controlador
+  `app/Http/Controllers/Client/DossierController.php` solo muestra su expediente.
+- **Durabilidad y auditoría:** `app/Jobs/ProcessWorkIntent.php` procesa intenciones;
+  `app/Console/Commands/RecoverCommercialWork.php` recupera pendientes y leases.
+  `app/Services/AuditService.php` sanea eventos, y la migración
+  `database/migrations/2026_11_12_010000_extend_catalog_and_commercial_workflow.php`
+  crea triggers append-only y migra cotizaciones v1 conservando sus identificadores.
 
-### B. 501 m² → evaluación personalizada
-
-Abrir un formulario nuevo, usar «Cliente ficticio B MARCA», correo
-`exposicion.b.MARCA@example.test`, área `501` y LOD 300; conservar los demás
-datos ficticios y aceptar consentimiento. Con límite actual de 500 m² debe
-registrarse pendiente, con evaluación personalizada y estimación **null**, no cero.
-Buscar su código en `/gestion`, pasar a evaluación y mostrar el historial;
-opcionalmente rechazar con motivo «Alcance ficticio fuera de disponibilidad».
-Sin motivo no se guarda el rechazo; una solicitud pendiente no admite cotización.
-
-### C. Gestor → CRUD administrativo: 403
-
-Con sesión **gestor** confirmada, escribir `/admin/categorias` y después
-`/admin/proyectos` en la barra: ambos deben devolver **403**. No basta con mostrar
-que el enlace está oculto; como visitante, la misma URL redirige al ingreso,
-por lo que no demuestra el mismo caso. `/gestion` sí debe abrir para el gestor.
-
-## Código que debemos explicar (dos frases por punto)
-
-- **Rutas y roles:** `routes/web.php` separa las rutas públicas, las protegidas
-  por `auth`, el CRUD `role:admin` y gestión `role:admin,gestor`; `routes/api.php`
-  define `POST /api/calcular-presupuesto`. `bootstrap/app.php` registra el alias
-  `role` y `app/Http/Middleware/EnsureUserHasRole.php` devuelve 403 si no coincide.
-- **Validación CRUD:** `app/Http/Requests/Admin/StoreProjectRequest.php` autoriza
-  solo admin y exige título, categoría existente, descripción y una portada
-  JPG/JPEG/PNG/WebP de hasta 5 MB. `app/Http/Controllers/Admin/ProjectController.php`
-  recibe los datos validados y guarda la portada en el disco público.
-- **Relaciones:** `app/Models/Project.php::projectCategory()` usa `belongsTo`
-  mediante `category_id`, y `app/Models/Category.php::projects()` usa `hasMany`.
-  `app/Http/Controllers/PublicSite/HomeController.php` carga la categoría con
-  `with()` y consulta hasta tres proyectos activos, sin listas ficticias en Blade.
-- **Decimal e historia:** `app/Services/QuotationCalculatorService.php` multiplica
-  con `BigDecimal` y redondea con `RoundingMode::HalfUp` a dos decimales; fuera
-  de escala devuelve null. `app/Services/ServiceRequestService.php` recalcula y
-  guarda importe decimal, tarifa, factor y límite como copia histórica;
-  `app/Models/ServiceRequest.php` los expone con casts decimales.
-- **Transacciones, estados y duplicados:** `ServiceRequestService.php` guarda
-  solicitud e historial juntos; `CommercialWorkflowService.php`, ambos en
-  `app/Services/`, bloquea la fila, verifica estado anterior y permite solo
-  pendiente → evaluación → aprobado/rechazado. La migración
-  `database/migrations/2026_11_11_180000_create_commercial_tables.php` impone
-  códigos y token únicos, y una cotización por solicitud; `IssueQuotationService.php`
-  en la misma carpeta usa otra transacción y limpia el PDF ante fallos.
-- **PDF privado:** `app/Services/QuotationPdfService.php` renderiza
-  `resources/views/commercial/quotation-pdf.blade.php` con Dompdf, sin recursos
-  remotos, PHP ni JavaScript, y `IssueQuotationService` guarda en el disco
-  `commercial` definido en `config/filesystems.php`. `app/Http/Controllers/Commercial/QuotationController.php::download()`
-  entrega el PDF por código bajo middleware autorizado; el cliente nunca elige
-  una ruta de archivo y los snapshots conservan los datos emitidos.
-
-## Preguntas probables del profesor
+## Preguntas probables
 
 | Pregunta | Respuesta basada en el código |
 |---|---|
-| ¿Ocultar botones protege los datos? | No: el middleware y los Form Requests validan el acceso también al escribir la URL o enviar una petición. |
-| ¿Se puede alterar el presupuesto desde el navegador? | Al registrar se recalcula con tarifas de BD; no se aceptan importes, factores ni estado inicial del navegador. La conversión a número del JSON mantiene compatibilidad; el cálculo y lo persistido usan decimal. |
-| ¿Cambiar tarifas modifica solicitudes anteriores? | No: cada solicitud guarda los valores usados; la cotización conserva también cliente y estudio como snapshots. |
-| ¿Qué pasa con un doble clic? | El token del mismo envío tiene índice único y el servicio recupera el registro existente; dos formularios nuevos pueden crear solicitudes distintas para el mismo correo. |
-| ¿Dos gestores pueden emitir dos cotizaciones? | Se bloquea la solicitud y hay índice único sobre su relación con cotizaciones; se devuelve la existente si ya fue emitida. No afirmar que se hizo una prueba de carga simultánea en MariaDB: se verificaron reintentos y restricciones, además de las regresiones aisladas. |
-| ¿Y si falla correo o PDF? | El fallo de correo no revierte la solicitud; si falla la emisión, la transacción revierte y se intenta limpiar el archivo para reintentar sin duplicar. |
-| ¿Está completo el CRUD de proyectos? | Incluye alta, listado, detalle y edición; se desactiva en vez de eliminar. Una categoría con proyectos asociados no puede borrarse. |
-| ¿Cómo se comprobó? | El informe previo registra Chrome móvil/escritorio y 48 pruebas con 370 aserciones; las pruebas usan SQLite en memoria, archivos y correo falsos. Esta guía no vuelve a ejecutar esos escenarios ni modifica la BD. |
+| ¿Ocultar enlaces protege? | No: middleware, Form Requests y Policies deniegan URL directa y registros ajenos. |
+| ¿Se manipula el importe desde el navegador? | El servidor recalcula; si cambió la estimación exige confirmación con 409. El importe oficial se establece tras evaluación y justifica diferencias. |
+| ¿Cambiar tarifa cambia una solicitud anterior? | No: conserva snapshots y cada cotización sus datos congelados. La publicada se revisa creando versión. |
+| ¿Qué hace un doble clic? | Igual token/contenido recupera la solicitud; contenido diferente devuelve 409. El borrador pendiente es único por expediente bajo bloqueo. |
+| ¿Dos gestores toman la misma solicitud? | Solo uno; se probó con procesos independientes en MariaDB aislada, no solo SQLite. |
+| ¿Qué ocurre si falla el PDF? | La misma versión queda preparando/failed; una intención durable permite reintentar. La v1 sigue vigente hasta completar v2. |
+| ¿Y si aceptan v1 mientras se genera v2? | Se vuelve a comprobar bajo bloqueo: o se acepta v1 y v2 se anula, o v2 sustituye y responder v1 devuelve 409. Ambos órdenes se probaron. |
+| ¿Si no corre scheduler se acepta una vencida? | No: la respuesta exige now < expires_at. Los nuevos plazos son 15 días exactos UTC presentados en Lima. |
+| ¿El código SOL abre el expediente? | No: se necesita enlace de un uso al correo y grant temporal; solo muestra historial público del expediente propio. |
+| ¿Es firma digital o correo entregado? | No es firma certificada. log significa simulación; sent tampoco garantiza entrega en bandeja ni SMTP exactamente una vez. |
+| ¿Se borran proyectos o portadas? | Se desactivan registros; archivos históricos y versiones emitidas se conservan. |
+| ¿La tasa cuenta versiones como clientes? | No: el denominador son solicitudes distintas cuya primera emisión pertenece al período elegido. |
 
-## Capturas que debe entregar cada integrante
+## Capturas de cada integrante
 
-Cada integrante entrega su propio juego, con datos ficticios y barra de URL
-visible; nunca incluir contraseñas, `.env` ni logs con datos de clientes.
+Con URL visible y datos ficticios: Home; los cuatro catálogos y sus estados;
+solicitud registrada; asignación/evaluación e historial; corrección y archivos
+conservados; cotización v1/v2 y PDF; expediente aceptado/cerrado; 403 del gestor;
+repositorio https://github.com/ROL4Ndev/arat-studios. No capturar enlaces con
+tokens, contraseñas, .env ni logs. El repositorio remoto puede diferir del trabajo
+local: esta entrega no hace git add, commit ni push.
 
-1. Home completo o portada y secciones principales, `/`.
-2. Categorías: listado y formulario del ensayo, `/admin/categorias`.
-3. Proyectos: listado y edición del ensayo, `/admin/proyectos`.
-4. Solicitud registrada con código, `/solicitar-proyecto/confirmacion`.
-5. Evaluación e historial, `/gestion/solicitudes/{codigo_SOL}`.
-6. Cotización y PDF abierto, `/gestion/cotizaciones/{codigo_COT}`;
-   descarga: `/gestion/cotizaciones/{codigo_COT}/pdf`.
-7. Repositorio con URL visible: https://github.com/ROL4Ndev/arat-studios
-   (requiere acceso si sigue privado). La captura muestra el estado publicado,
-   que puede diferir del trabajo local; esta preparación no hace push.
+## Límites que deben decirse
 
-## Limitaciones que debemos mencionar
-
-- En desarrollo el correo usa `log`: se registra localmente, no se entrega
-  realmente. `app/Mail/ServiceRequestReceived.php` implementa recepción de
-  solicitud; no anunciar «correo enviado» ni envío del PDF.
-- El límite de adjuntos es 50 MiB. El informe documenta que, con este servidor
-  integrado PHP 8.5.12 y `post_max_size=64M`, un envío de 65 MiB devolvió una
-  advertencia de arranque y HTTP 200 antes de Laravel, sin guardar solicitud;
-  no presentarlo como un error 413 real resuelto. El manejador 413 sí tiene
-  prueba aislada; usar el PDF pequeño y explicar el pendiente del runtime.
-- Tarifas demostrativas, una cotización por solicitud y estados finales sin
-  retroceso. No presentar como terminados administración de tarifas, galerías
-  ampliadas, entrega real de correos ni pruebas de producción/concurrencia.
+Correo local en log: no se entregó correo real ni se contactó al estudio.
+Adjuntos hasta 50 MiB; se verificaron 49 MiB admitidos y 51 MiB rechazados.
+En PHP integrado 8.5.12, 65 MiB produce advertencia de arranque con HTTP 200
+antes de Laravel, sin registro; no presentarlo como 413 solucionado.
+No se probó producción, SMTP real, Safari/Firefox ni dispositivos físicos.
+El PDF usa marca textual ARAT STUDIO y fuente DejaVu para Unicode, sin logo
+gráfico; la web mantiene Kodchasan/Arial. La matriz contra el Informe Integral está en [REVISION_INFORME_INTEGRAL.md](REVISION_INFORME_INTEGRAL.md).
+Resultados exactos y alcance de las
+pruebas constan en [VERIFICACION_ENTREGA.md](VERIFICACION_ENTREGA.md).

@@ -1,19 +1,21 @@
-const requestForm = document.getElementById('project-request');
-if (requestForm) {
-    const file = requestForm.elements.attachment;
-    const link = requestForm.elements.external_url;
+document.querySelectorAll('[data-document-upload]').forEach((form) => {
+    const file = form.elements.attachment;
+    const link = form.elements.external_url;
+    const error = form.querySelector('[data-file-error]');
     let needsLink = false;
     file.addEventListener('change', () => {
         needsLink = Boolean(file.files[0] && file.files[0].size > 50 * 1024 * 1024);
-        document.getElementById('file-error').textContent = needsLink ? 'El archivo supera 50 MB. Se retiró del envío: ingresa un enlace externo.' : '';
+        error.textContent = needsLink ? 'El archivo supera 50 MiB y se retiró del envío. Usa un enlace externo para compartirlo.' : '';
         if (needsLink) file.value = '';
         link.required = needsLink;
     });
-    requestForm.addEventListener('submit', (event) => {
+    form.addEventListener('submit', (event) => {
         if (file.files[0]?.size > 50 * 1024 * 1024 || (needsLink && !link.value)) {
             event.preventDefault();
+            error.focus();
             return;
         }
-        requestForm.querySelector('button[type="submit"]').disabled = true;
+        const button = form.querySelector('button[type="submit"], button:not([type])');
+        if (button) button.disabled = true;
     });
-}
+});

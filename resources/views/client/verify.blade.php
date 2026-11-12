@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<section class="account-page"><div class="container account-page__container"><div class="account-card"><h1>Verificar acceso temporal</h1><p>Confirma para consumir este enlace de un solo uso. Si cambias tu correo, debes conservar abierta la sesión verificada original.</p><form method="POST" action="{{ route('client.access.consume',$token) }}">@csrf<button class="btn btn-dark">Verificar y abrir expediente</button></form></div></div></section>@endsection

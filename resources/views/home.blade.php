@@ -92,10 +92,10 @@
                 <span class="section-label">Qué ofrecemos</span>
                 <h2 id="services-title" class="section-title mt-2">Del diseño a la visualización.</h2>
             </header>
-            @foreach (config('studio.services') as $group => $services)
+            @foreach ($services as $group => $serviceItems)
                 <h3 class="services-group-label home-services-group">{{ $group }}</h3>
                 <div class="row g-4 mb-5">
-                    @foreach ($services as $service)
+                    @foreach ($serviceItems as $service)
                         <div class="col-md-6 col-xl-3">
                             <article class="service-card {{ $loop->parent->last ? 'service-card--student' : '' }}">
                                 <span class="service-card__number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>

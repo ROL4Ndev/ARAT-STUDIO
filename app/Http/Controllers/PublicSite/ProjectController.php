@@ -16,6 +16,7 @@ class ProjectController extends Controller
         $selectedCategory = $filters['category'] ?? '';
 
         $categories = Category::query()
+            ->where('is_active', true)
             ->whereHas('projects', function ($query) {
                 $query->where('is_active', true);
             })
@@ -25,6 +26,7 @@ class ProjectController extends Controller
         $projects = Project::query()
             ->with('projectCategory')
             ->where('is_active', true)
+            ->whereHas('projectCategory', fn ($q) => $q->where('is_active', true))
             ->when($selectedCategory !== '', function ($query) use ($selectedCategory) {
                 $query->whereHas('projectCategory', function ($categoryQuery) use ($selectedCategory) {
                     $categoryQuery->where('slug', $selectedCategory);
@@ -43,7 +45,7 @@ class ProjectController extends Controller
 
     public function show(Project $project): View
     {
-        abort_unless($project->is_active, 404);
+        abort_unless($project->is_active && $project->projectCategory?->is_active, 404);
 
         $project->load('projectCategory');
 

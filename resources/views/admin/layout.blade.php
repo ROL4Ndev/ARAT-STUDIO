@@ -9,6 +9,8 @@
                 <nav class="admin-navigation" aria-label="Administración del sitio">
                     <a href="{{ route('admin.categories.index') }}">Categorías</a>
                     <a href="{{ route('admin.projects.index') }}">Proyectos</a>
+                    <a href="{{ route('admin.services.index') }}">Servicios</a>
+                    <a href="{{ route('admin.tariffs.index') }}">Tarifas</a>
                     <a href="{{ route('admin.dashboard') }}">Panel</a>
                 </nav>
             </header>

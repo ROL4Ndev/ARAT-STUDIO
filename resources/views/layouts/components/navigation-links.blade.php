@@ -3,6 +3,7 @@
 <a href="{{ route('quotation.show') }}" @if(request()->routeIs('quotation.show')) aria-current="page" @endif>Cotizador</a>
 <a href="{{ route('service-requests.create') }}" @if(request()->routeIs('service-requests.*')) aria-current="page" @endif>Solicitar proyecto</a>
 @guest
+    <a href="{{ route('client.access') }}">Mi expediente</a>
     <a href="{{ route('login') }}" @if(request()->routeIs('login')) aria-current="page" @endif>Ingresar</a>
 @else
     <a href="{{ route('profile.edit') }}" @if(request()->routeIs('profile.*')) aria-current="page" @endif>Mi perfil</a>

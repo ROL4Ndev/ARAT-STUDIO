@@ -1,0 +1,1 @@
+<h1>{{ $heading }}</h1><p>{{ $bodyText }}</p>@if($link)<p><a href="{{ $link }}">Abrir acceso de un solo uso</a></p><p>Vence en 15 minutos. Si no lo solicitaste, ignora este mensaje.</p>@endif<p>ARAT STUDIO</p>

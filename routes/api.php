@@ -7,5 +7,5 @@ Route::post(
     '/calcular-presupuesto',
     [QuotationCalculatorController::class, 'calculate']
 )
-    ->middleware('throttle:60,1')
+    ->middleware('throttle:60,1,estimate:')
     ->name('quotation.calculate');

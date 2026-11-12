@@ -2,86 +2,88 @@
 
 namespace Tests\Feature;
 
-use App\Models\ServiceRequest;
-use App\Models\TariffParam;
 use App\Models\User;
-use App\Services\ServiceRequestService;
+use App\Services\ClientRevisionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Tests\Support\CommercialFixtures;
 use Tests\TestCase;
 
 class CommercialWorkflowTest extends TestCase
 {
-    use RefreshDatabase;
+    use CommercialFixtures,RefreshDatabase;
 
-    private ServiceRequest $record;
+    private $r;
+
+    private $manager;
 
     protected function setUp(): void
     {
         parent::setUp();
         Storage::fake('commercial');
-        TariffParam::create(['lod_level' => 'LOD_300', 'base_price_m2' => '100', 'lod_factor' => '1.35', 'max_area_m2' => '500']);
-        [$this->record] = app(ServiceRequestService::class)->register(['submission_token' => (string) Str::uuid(), 'client_name' => 'Ana', 'client_email' => 'ana@example.test', 'client_phone' => '999888777', 'city' => 'Lima', 'service' => 'Arquitectura', 'project_type' => 'Vivienda', 'description' => 'Vivienda familiar', 'area_m2' => '80', 'lod_selected' => 'LOD_300'], UploadedFile::fake()->image('plano.png'));
+        Mail::fake();
+        $this->tariff();
+        $this->r = $this->registerRequest('80', UploadedFile::fake()->image('plano.png'));
+        $this->manager = User::factory()->create(['role' => 'gestor']);
     }
 
-    public function test_access_and_private_download(): void
+    public function test_unassigned_queue_is_minimal_and_foreign_manager_cannot_view_or_download(): void
     {
-        $url = route('commercial.requests.attachment', $this->record);
-        $this->get('/gestion')->assertRedirect('/ingresar');
+        $url = route('commercial.requests.show', $this->r);
         $this->get($url)->assertRedirect('/ingresar');
-        $this->actingAs(User::factory()->create(['role' => null]))->get($url)->assertForbidden();
-        $this->get('/gestion')->assertForbidden();
-        $this->actingAs(User::factory()->create(['role' => 'gestor']))->get('/gestion')->assertOk()->assertSee($this->record->code);
-        $this->get(route('commercial.requests.show', $this->record))->assertOk();
-        $this->get($url)->assertOk()->assertDownload();
-        $this->get($url.'?preview=1&path=../../.env')->assertOk()->assertHeader('X-Content-Type-Options', 'nosniff');
+        $this->actingAs($this->manager)->get('/gestion')->assertOk()->assertSee($this->r->code)->assertDontSee($this->r->client_email)->assertDontSee($this->r->client_phone);
+        $this->get($url)->assertForbidden();
+        $this->get(route('commercial.requests.attachment', $this->r))->assertForbidden();
+        $this->action($this->r, $this->manager, 'claim');
+        $this->get($url)->assertOk();
+        $this->get(route('commercial.requests.attachment', $this->r))->assertDownload();
+        $other = User::factory()->create(['role' => 'gestor']);
+        $this->actingAs($other)->get($url)->assertForbidden();
         $this->get('/admin/categorias')->assertForbidden();
     }
 
-    public function test_transitions_and_rejection_require_reason(): void
+    public function test_stale_claim_and_invalid_transitions_conflict(): void
     {
-        $user = User::factory()->create(['role' => 'gestor']);
-        $url = route('commercial.requests.transition', $this->record);
-        $this->actingAs($user)->patch($url, ['expected_status' => 'pendiente', 'status' => 'aprobado'])->assertSessionHasErrors('status');
-        $this->patch($url, ['expected_status' => 'pendiente', 'status' => 'evaluacion'])->assertSessionHasNoErrors();
-        $this->patch($url, ['expected_status' => 'pendiente', 'status' => 'evaluacion'])->assertSessionHasErrors('status');
-        $this->patch($url, ['expected_status' => 'evaluacion', 'status' => 'rechazado'])->assertSessionHasErrors('observation');
-        $this->assertSame('evaluacion', $this->record->fresh()->status);
-        $this->patch($url, ['expected_status' => 'evaluacion', 'status' => 'rechazado', 'observation' => 'Fuera de alcance.'])->assertRedirect();
-        $this->assertSame('Fuera de alcance.', $this->record->fresh()->rejection_reason);
-        $this->assertDatabaseHas('service_request_histories', ['user_id' => $user->id, 'previous_status' => 'evaluacion', 'new_status' => 'rechazado']);
-        $this->patch($url, ['expected_status' => 'evaluacion', 'status' => 'aprobado'])->assertSessionHasErrors('status');
-        $this->assertCount(3, $this->record->histories);
+        $url = route('commercial.requests.transition', $this->r);
+        $this->action($this->r, $this->manager, 'claim');
+        $this->actingAs($this->manager)->patch($url, ['action' => 'claim', 'reason' => 'Intento atrasado', 'lock_version' => 0])->assertStatus(409);
+        $this->patch($url, ['action' => 'approve', 'reason' => 'Saltar evaluación', 'lock_version' => $this->r->lock_version, 'assessment' => 'Evaluación técnica que aún no corresponde.'])->assertStatus(409);
+        $this->action($this->r, $this->manager, 'start');
+        $this->patch($url, ['action' => 'reject', 'lock_version' => $this->r->lock_version])->assertSessionHasErrors('reason');
     }
 
-    public function test_admin_can_approve_after_evaluation_and_final_status_cannot_go_back(): void
+    public function test_observation_correction_preserves_revisions_files_and_needs_responsible_resume(): void
     {
-        $this->actingAs(User::factory()->create(['role' => 'admin']));
-        $url = route('commercial.requests.transition', $this->record);
-        $this->patch($url, ['expected_status' => 'pendiente', 'status' => 'evaluacion'])->assertSessionHasNoErrors();
-        $this->patch($url, ['expected_status' => 'evaluacion', 'status' => 'aprobado', 'observation' => 'Alcance viable.'])->assertSessionHasNoErrors();
-        $this->assertSame('aprobado', $this->record->fresh()->status);
-        $this->patch($url, ['expected_status' => 'evaluacion', 'status' => 'rechazado', 'observation' => 'Actualización atrasada.'])->assertSessionHasErrors('status');
-        $this->assertSame('aprobado', $this->record->fresh()->status);
-    }
-
-    public function test_search_status_filter_and_pagination_keep_query(): void
-    {
-        for ($i = 0; $i < 16; $i++) {
-            $copy = $this->record->replicate();
-            $copy->code = 'SOL-'.Str::ulid();
-            $copy->submission_token = (string) Str::uuid();
-            $copy->save();
+        $this->action($this->r, $this->manager, 'claim');
+        $this->action($this->r, $this->manager, 'start');
+        $this->action($this->r, $this->manager, 'observe', ['public_observation' => 'Corrige la descripción y adjunta otra referencia.']);
+        [$grant] = $this->clientGrant($this->r);
+        app(ClientRevisionService::class)->correct($this->r, $grant, ['lock_version' => $this->r->lock_version, 'client_name' => 'Nombre corregido', 'client_phone' => '999000111', 'city' => 'Lima', 'project_type' => 'Vivienda', 'description' => 'Descripción corregida válida para evaluación técnica.', 'area_m2' => '80', 'lod_selected' => 'LOD_300', 'reason' => 'Corrección solicitada por el equipo.'], UploadedFile::fake()->image('otro.png'));
+        $this->r->refresh();
+        $this->assertCount(2, $this->r->revisions);
+        $this->assertSame($grant->id, $this->r->currentRevision->client_grant_id);
+        $this->assertSame($this->r->attachment_path, $this->r->currentRevision->after['attachment_path']);
+        $this->assertCount(2, $this->r->files);
+        foreach ($this->r->files as $file) {
+            Storage::disk('commercial')->assertExists($file->path);
         }
-        $this->actingAs(User::factory()->create(['role' => 'gestor']));
-        $response = $this->get('/gestion?search=ana&status=pendiente')->assertOk();
-        $this->assertCount(15, $response->viewData('requests'));
-        $this->assertSame(17, $response->viewData('requests')->total());
-        $this->assertStringContainsString('status=pendiente', $response->viewData('requests')->nextPageUrl());
-        $this->get('/gestion?status=aprobado')->assertOk()->assertSee('No hay solicitudes');
-        $this->get('/gestion?search='.$this->record->code)->assertOk()->assertSee($this->record->code);
-        $this->get('/gestion/solicitudes/'.$this->record->id)->assertNotFound();
+        $this->assertSame('evaluacion', $this->r->fresh()->status);
+        $this->action($this->r, $this->manager, 'approve', ['assessment' => 'Evaluación técnica posterior a la corrección válida.']);
+        $this->assertSame('aprobado', $this->r->status);
+    }
+
+    public function test_reassignment_revokes_previous_manager_access_and_disabled_account_loses_session(): void
+    {
+        $this->action($this->r, $this->manager, 'claim');
+        $admin = User::factory()->create(['role' => 'admin']);
+        $other = User::factory()->create(['role' => 'gestor']);
+        $this->action($this->r, $admin, 'assign', ['assigned_to' => $other->id]);
+        $this->actingAs($this->manager)->get(route('commercial.requests.show', $this->r))->assertForbidden();
+        $this->actingAs($other)->get(route('commercial.requests.show', $this->r))->assertOk();
+        $other->forceFill(['is_active' => false])->save();
+        $this->get('/gestion')->assertForbidden();
+        $this->assertGuest();
     }
 }

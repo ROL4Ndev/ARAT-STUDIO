@@ -32,7 +32,7 @@ return [
 
         'commercial' => [
             'driver' => 'local',
-            'root' => storage_path('app/commercial'),
+            'root' => env('COMMERCIAL_STORAGE_ROOT', storage_path('app/commercial')),
             'visibility' => 'private',
             'serve' => false,
             'throw' => true,

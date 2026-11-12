@@ -18,7 +18,7 @@ class HomePresentationTest extends TestCase
         $project = Project::create(['title' => 'Proyecto visible', 'slug' => 'proyecto-visible', 'category_id' => $category->id, 'description' => 'Descripción del proyecto', 'cover_image' => 'img/LOGO.png', 'is_active' => true]);
         Project::create(['title' => 'Proyecto oculto', 'slug' => 'proyecto-oculto', 'category_id' => $category->id, 'description' => 'No debe aparecer', 'cover_image' => 'img/LOGO.png', 'is_active' => false]);
         $response = $this->get('/')->assertOk()->assertSee('Angelo Trinidad')->assertSee('Luz Nicole Arana Peláez')
-            ->assertSee('Diseño de Muebles en Melamina')->assertSee('Diagramación de Paneles')
+            ->assertSee('Modelado BIM')->assertDontSee('Diseño de Muebles en Melamina')->assertDontSee('Diagramación de Paneles')
             ->assertSee('mailto:aratstudio.pe@gmail.com')->assertSee('https://wa.me/51918985143')
             ->assertSee(route('service-requests.create'))->assertSee(route('projects.show', $project))
             ->assertDontSee('Proyecto oculto')->assertDontSee('href="#"', false);
