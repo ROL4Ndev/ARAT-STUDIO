@@ -199,11 +199,21 @@ php artisan queue:work --queue=default --tries=1 --timeout=180 --sleep=1
 php artisan schedule:work
 ```
 
-También explica `commercial:recover`, `commercial:recover --inline`,
-`commercial:retry ID` y la recuperación de leases; no es necesario leer esta
-conversación para operarlo. GUIA_EXPOSICION contiene el recorrido actualizado
-de 12 minutos. La clasificación por CU, RN, PA y requisitos transversales está
-en [REVISION_INFORME_INTEGRAL.md](REVISION_INFORME_INTEGRAL.md).
+La versión del README preparada en esa entrega también explicaba
+`commercial:recover`, `commercial:recover --inline`, `commercial:retry ID`,
+`queue:restart` y la recuperación de leases. Los comandos de recuperación son:
+
+```powershell
+php artisan commercial:recover
+php artisan commercial:recover --inline
+php artisan commercial:retry ID
+php artisan queue:restart
+```
+
+`ID` corresponde al trabajo fallido; `--inline` se usa con el worker detenido.
+GUIA_EXPOSICION contiene el recorrido de 12 minutos. La clasificación por CU,
+RN, PA y requisitos transversales está en
+[REVISION_INFORME_INTEGRAL.md](REVISION_INFORME_INTEGRAL.md).
 
 Se revisaron Pint sobre PHP modificado, sintaxis JS, vistas Blade y `git diff --check`.
 Los archivos nuevos publicables son código, migraciones, pruebas y documentación.

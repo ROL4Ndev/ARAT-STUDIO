@@ -123,9 +123,9 @@ la vigente de trabajo solo para obtener una captura. No hay borrados de negocio.
 Con URL visible y datos ficticios: Home; los cuatro catálogos y sus estados;
 solicitud registrada; asignación/evaluación e historial; corrección y archivos
 conservados; cotización v1/v2 y PDF; expediente aceptado/cerrado; 403 del gestor;
-repositorio https://github.com/ROL4Ndev/arat-studios. No capturar enlaces con
-tokens, contraseñas, .env ni logs. El repositorio remoto puede diferir del trabajo
-local: esta entrega no hace git add, commit ni push.
+repositorio https://github.com/ROL4Ndev/ARAT-STUDIO. No capturar enlaces con
+tokens, contraseñas, .env ni logs. Al preparar esta guía, el remoto podía diferir
+del trabajo local; en esa entrega no se hizo git add, commit ni push.
 
 ## Límites que deben decirse
 
