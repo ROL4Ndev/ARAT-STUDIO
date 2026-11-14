@@ -22,6 +22,15 @@
   `MAIL_MAILER=log` simula mensajes; el operador consulta el enlace localmente
   sin proyectar logs, tokens ni credenciales. Configurar APP_URL con el servidor
   que realmente se utilizará también para worker y scheduler.
+- Para preparar la exposición localmente, establecer `APP_ENV=local` y
+  `CLIENT_ACCESS_DEMO_ENABLED=true` en `.env`, ejecutar
+  `php artisan config:clear` si se había cacheado la configuración e iniciar
+  sesión como personal autorizado. En el detalle de un expediente asignado
+  aparece **Preparar acceso de cliente para demostración**. El enlace temporal
+  se muestra solo en su pantalla privada; copiarlo y abrirlo en una ventana de
+  incógnito, no en otra pestaña del perfil interno. No requiere worker ni envía
+  correo. La opción viene desactivada por defecto y fuera de `local` responde
+  404 incluso si se activa la variable.
 
 ## Recorrido de 12 minutos
 

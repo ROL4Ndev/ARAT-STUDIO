@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 
 class WorkProcessor
 {
-    public function __construct(private QuotationPdfService $pdf, private AuditService $audit, private NotificationService $notifications) {}
+    public function __construct(private QuotationPdfService $pdf, private AuditService $audit, private NotificationService $notifications, private ClientAccessService $access) {}
 
     public function run(int $id): void
     {
@@ -140,9 +140,13 @@ class WorkProcessor
 
                 return;
             }
-            $raw = bin2hex(random_bytes(32));
-            $token->update(['token_hash' => hash('sha256', $raw), 'expires_at' => now('UTC')->addMinutes(15)]);
-            $link = route('client.access.form', ['token' => $raw]);
+            $link = $this->access->temporaryLink($token);
+            if (! $link) {
+                $n->update(['status' => 'cancelled', 'error' => 'El enlace ya se utilizó; solicita un nuevo acceso.']);
+                $this->finish($work, 'cancelled');
+
+                return;
+            }
             $heading = 'Acceso temporal a tu expediente';
             $body = 'Verifica tu correo para acceder únicamente a tu solicitud.';
         } elseif ($n->kind === 'received') {

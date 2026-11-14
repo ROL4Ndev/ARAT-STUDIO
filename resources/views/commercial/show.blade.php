@@ -57,6 +57,15 @@
                     <p>Tarifa histórica: {{ $serviceRequest->base_price_m2 ?? 'No aplica' }} × {{ $serviceRequest->lod_factor ?? 'No aplica' }}; límite {{ $serviceRequest->max_area_m2 ?? 'No aplica' }} m².</p>
                     <p>Revisión actual: {{ $serviceRequest->currentRevision?->version ?? 'No registrada' }} · Consentimiento: {{ $serviceRequest->consented_at?->timezone('America/Lima')->format('d/m/Y H:i:s').' (Lima)' ?? 'No registrado' }}</p>
 
+                    @if (config('app.env') === 'local' && config('client_access.demo_enabled'))
+                        @can('operate', $serviceRequest)
+                            <form method="POST" action="{{ route('commercial.requests.demo-access.prepare', $serviceRequest) }}">
+                                @csrf
+                                <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Preparando acceso…">Preparar acceso de cliente para demostración</button>
+                            </form>
+                        @endcan
+                    @endif
+
                     @if (auth()->user()->role === 'admin' && ! in_array($serviceRequest->status, ['cerrada', 'cancelado', 'rechazado'], true))
                         <h3>Asignación</h3>
                         <form method="POST" action="{{ route('commercial.requests.transition', $serviceRequest) }}" data-confirm="¿Confirmas guardar la asignación o reasignación?">

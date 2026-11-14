@@ -14,6 +14,7 @@ use App\Models\RequestFile;
 use App\Models\ServiceRequest;
 use App\Models\ServiceRequestHistory;
 use App\Models\User;
+use App\Services\ClientAccessService;
 use App\Services\ClientRevisionService;
 use App\Services\CommercialWorkflowService;
 use Carbon\CarbonImmutable;
@@ -61,6 +62,26 @@ class ServiceRequestController extends Controller
         })->latest('id')->get();
 
         return view('commercial.show', compact('serviceRequest', 'responsibles', 'notices'));
+    }
+
+    public function showDemoAccess(Request $request, ServiceRequest $serviceRequest)
+    {
+        Gate::authorize('operate', $serviceRequest);
+        $demoUrl = $request->session()->get('demo_access_url');
+        $response = response()->view('commercial.demo-access', compact('serviceRequest', 'demoUrl'));
+        $response->headers->set('Cache-Control', 'private, no-store');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Referrer-Policy', 'no-referrer');
+
+        return $response;
+    }
+
+    public function prepareDemoAccess(Request $request, ServiceRequest $serviceRequest, ClientAccessService $access)
+    {
+        $demoUrl = $access->prepareDemoLink($serviceRequest, $request->user());
+
+        return redirect()->route('commercial.requests.demo-access.show', $serviceRequest)
+            ->with('demo_access_url', $demoUrl);
     }
 
     public function transition(CommercialActionRequest $request, ServiceRequest $serviceRequest, CommercialWorkflowService $workflow)

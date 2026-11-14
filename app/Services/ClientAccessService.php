@@ -5,10 +5,12 @@ namespace App\Services;
 use App\Models\ClientAccessToken;
 use App\Models\ClientGrant;
 use App\Models\ServiceRequest;
+use App\Models\User;
 use App\Policies\ServiceRequestPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ClientAccessService
 {
@@ -24,6 +26,56 @@ class ClientAccessService
             $token = ClientAccessToken::create(['service_request_id' => $r->id, 'email' => $r->client_email, 'purpose' => 'access', 'token_hash' => hash('sha256', random_bytes(32)), 'expires_at' => now('UTC')->addMinutes(15)]);
             $this->notifications->queue('access', $token->id, $r->client_email);
         });
+    }
+
+    public function prepareDemoLink(ServiceRequest $serviceRequest, User $actor): string
+    {
+        abort_unless(config('app.env') === 'local' && config('client_access.demo_enabled'), 404);
+
+        return DB::transaction(function () use ($serviceRequest, $actor) {
+            $lockedRequest = ServiceRequest::whereKey($serviceRequest->id)->lockForUpdate()->firstOrFail();
+            Gate::forUser($actor)->authorize('operate', $lockedRequest);
+            $token = ClientAccessToken::create([
+                'service_request_id' => $lockedRequest->id,
+                'email' => $lockedRequest->client_email,
+                'purpose' => 'access',
+                'token_hash' => hash('sha256', random_bytes(32)),
+                'expires_at' => now('UTC')->addMinutes(15),
+            ]);
+            $link = $this->temporaryLink($token);
+            abort_unless($link, 500, 'No se pudo preparar el acceso de demostración.');
+
+            $this->audit->record(
+                $lockedRequest,
+                'demo_client_access_prepared',
+                'Enlace temporal de demostración preparado.',
+                [],
+                ['purpose' => 'access', 'expires_at' => $token->fresh()->expires_at->toIso8601String()],
+                $actor,
+            );
+
+            return $link;
+        }, 3);
+    }
+
+    public function temporaryLink(ClientAccessToken $token): ?string
+    {
+        return DB::transaction(function () use ($token) {
+            $lockedToken = ClientAccessToken::whereKey($token->id)->lockForUpdate()->firstOrFail();
+            if ($lockedToken->consumed_at) {
+                return null;
+            }
+
+            abort_unless(in_array($lockedToken->purpose, ['access', 'email_change'], true), 409);
+
+            $raw = bin2hex(random_bytes(32));
+            $lockedToken->update([
+                'token_hash' => hash('sha256', $raw),
+                'expires_at' => now('UTC')->addMinutes(15),
+            ]);
+
+            return route('client.access.form', ['token' => $raw]);
+        }, 3);
     }
 
     public function grant(Request $request): ClientGrant
