@@ -65,33 +65,47 @@ class CatalogController extends Controller
 
     public function create(Request $request)
     {
-        return view('admin.catalog.form', $this->context($request) + ['categories' => Category::where('is_active', true)->orderBy('name')->get()]);
+        $context = $this->context($request);
+
+        return view('admin.catalog.form', $context + ['categories' => $context['kind'] === 'projects' ? Category::where('is_active', true)->orderBy('name')->get() : collect()]);
     }
 
     public function show(Request $request, $record)
     {
         $c = $this->context($request, $record);
         $item = $c['item'];
+        match ($c['kind']) {
+            'projects' => $item->load(['projectCategory', 'coverHistories' => fn ($q) => $q->with('user')->latest('id')]),
+            'categories' => $item->load('projects'),
+            'tariffs' => $item->load('group'),
+            default => null,
+        };
         $events = AuditEvent::where('resource_type', $item->getMorphClass())->where('resource_id', $item->id)->orderByDesc('id')->paginate(15);
+        $actors = User::whereIn('id', $events->pluck('actor_id')->filter()->unique())->pluck('name', 'id');
+        $snapshots = $events->getCollection()->flatMap(fn ($event) => [$event->before ?? [], $event->after ?? []]);
+        $references = [
+            'categories' => $c['kind'] === 'projects' ? Category::whereIn('id', $snapshots->pluck('category_id')->filter()->unique())->pluck('name', 'id') : collect(),
+            'groups' => $c['kind'] === 'tariffs' ? TariffGroup::whereIn('id', $snapshots->pluck('tariff_group_id')->filter()->unique())->pluck('lod_level', 'id') : collect(),
+        ];
         $auditEvents = $events->getCollection()->map(fn (AuditEvent $event) => [
             'occurred_at' => $event->occurred_at,
             'action' => $this->auditActionLabel($event->action),
             'actor' => $event->actor_id
-                ? (User::find($event->actor_id)?->name ?? 'Personal')
+                ? ($actors[$event->actor_id] ?? 'Personal')
                 : match (true) {
                     $event->actor_type === 'system' => 'Sistema',
                     str_starts_with($event->actor_type, 'client:') => 'Cliente',
                     default => 'Personal',
                 },
             'reason' => $event->reason,
-            'before' => $this->presentAuditSnapshot($c['kind'], $event->before),
-            'after' => $this->presentAuditSnapshot($c['kind'], $event->after),
+            'before' => $this->presentAuditSnapshot($c['kind'], $event->before, $references),
+            'after' => $this->presentAuditSnapshot($c['kind'], $event->after, $references),
         ]);
 
         return view('admin.catalog.show', $c + compact('events', 'auditEvents'));
     }
 
-    private function presentAuditSnapshot(string $kind, ?array $snapshot): array
+    private function presentAuditSnapshot(string $kind, ?array $snapshot, array $references): array
     {
         $fields = match ($kind) {
             'categories' => [
@@ -150,9 +164,9 @@ class CatalogController extends Controller
 
             $value = $snapshot[$key];
             if ($key === 'category_id') {
-                $value = $value ? (Category::find($value)?->name ?? 'Categoría no disponible') : 'Sin categoría';
+                $value = $value ? ($references['categories'][$value] ?? 'Categoría no disponible') : 'Sin categoría';
             } elseif ($key === 'tariff_group_id') {
-                $value = $value ? (TariffGroup::find($value)?->lod_level ?? 'Familia no disponible') : 'Sin familia';
+                $value = $value ? ($references['groups'][$value] ?? 'Familia no disponible') : 'Sin familia';
             } elseif ($key === 'cover_image') {
                 $value = $value ? 'Configurada' : 'Sin portada';
             } elseif ($key === 'is_active') {
@@ -198,7 +212,7 @@ class CatalogController extends Controller
     {
         $context = $this->context($request, $record);
 
-        return view('admin.catalog.form', $context + ['categories' => Category::where(fn ($q) => $q->where('is_active', true)->orWhere('id', $context['item']->category_id))->orderBy('name')->get()]);
+        return view('admin.catalog.form', $context + ['categories' => $context['kind'] === 'projects' ? Category::where(fn ($q) => $q->where('is_active', true)->orWhere('id', $context['item']->category_id))->orderBy('name')->get() : collect()]);
     }
 
     public function store(CatalogRequest $request, CatalogWorkflowService $service)

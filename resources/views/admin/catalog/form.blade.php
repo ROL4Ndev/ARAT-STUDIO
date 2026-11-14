@@ -18,6 +18,8 @@
             <input type="hidden" name="lock_version" value="{{ $item->lock_version }}">
         @endif
 
+        <fieldset class="form-section">
+        <legend>{{ $kind === 'tariffs' ? '01. Valores de la tarifa' : '01. Información del registro' }}</legend>
         @if ($kind === 'tariffs')
             <p>Solo se editan precios de un borrador. Editar una tarifa publicada crea otra versión borrador y no cambia la vigente.</p>
             @if (! $item->exists)
@@ -158,12 +160,16 @@
             @endif
         @endif
 
+        </fieldset>
+        <fieldset class="form-section">
+        <legend>02. Registro del cambio</legend>
+        <p class="form-text">Explica por qué realizas este cambio. Se conservará en la auditoría del registro.</p>
         <label for="reason" class="form-label">Motivo del alta o cambio <span aria-hidden="true">*</span></label>
         <textarea id="reason" name="reason" class="form-control @error('reason') is-invalid @enderror" required minlength="5" maxlength="2000" @error('reason') aria-invalid="true" aria-describedby="reason-error" @enderror>{{ old('reason') }}</textarea>
         @error('reason')
             <p class="form-feedback" id="reason-error" role="alert">{{ $message }}</p>
         @enderror
-
+        </fieldset>
         <div class="admin-form__actions">
             <button class="btn btn-dark admin-button" type="submit" data-loading-label="Guardando…">{{ $item->exists ? 'Guardar cambios' : 'Crear '.mb_strtolower(rtrim($label, 's')) }}</button>
             <a class="btn btn-outline-dark admin-button" href="{{ route('admin.'.$kind.'.index') }}">Volver al listado</a>

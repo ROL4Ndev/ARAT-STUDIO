@@ -5,40 +5,28 @@
 @section('content')
     <section
         id="inicio"
-        class="hero d-flex align-items-center justify-content-center"
+        class="home-hero"
         aria-labelledby="home-title"
     >
-        @if ($projects->isNotEmpty())
-            <div class="home-hero-photo" aria-hidden="true">
-                <img src="{{ $projects->first()->cover_image_url }}" alt="" fetchpriority="high" width="1600" height="1000">
+        <div class="home-hero__grid">
+            <div class="home-hero__copy">
+                <p class="hero__eyebrow">Estudio de arquitectura · Lima, Perú</p>
+                <h1 id="home-title">Espacios con propósito.</h1>
+                <p>Arquitectura · Diseño · Visualización 3D</p>
+                <p>Transformamos tus ideas en espacios que conectan la forma, la luz y tu manera de vivir.</p>
+                <div class="home-hero-actions">
+                    <a href="{{ route('projects.index') }}" class="btn btn-dark">Explorar portafolio <span aria-hidden="true">→</span></a>
+                    <a href="{{ route('service-requests.create') }}" class="home-intro-link">Hablemos de tu proyecto</a>
+                </div>
             </div>
-        @endif
-        <div class="hero__bg-logo" aria-hidden="true">
-            <img src="{{ asset('img/LOGO.png') }}" alt="">
-        </div>
-
-        <div class="hero__overlay" aria-hidden="true"></div>
-
-        <div class="container text-center position-relative home-hero-content">
-            <p class="hero__eyebrow">Lima, Perú</p>
-
-            <div class="hero__logo-wrap">
-                <img
-                    src="{{ asset('img/LOGO1.png') }}"
-                    alt="ARAT STUDIO"
-                    class="hero__logo"
-                >
-            </div>
-
-            <h1 id="home-title" class="hero__subtitle">
-                Arquitectura · Diseño · Visualización 3D
-            </h1>
-
-            <div class="home-hero-actions mt-4">
-                <a href="{{ route('projects.index') }}" class="btn btn-light btn-hero">Explorar portafolio</a>
-                <a href="{{ route('service-requests.create') }}" class="btn btn-outline-light btn-hero">Solicitar proyecto</a>
-            </div>
-            <a href="#sobre" class="home-intro-link">Conocer el estudio <span aria-hidden="true">↓</span></a>
+            @if ($projects->isNotEmpty())
+                <figure class="home-hero__figure">
+                    <img src="{{ $projects->first()->cover_image_url }}" alt="{{ $projects->first()->title }}: una mirada a nuestro trabajo" fetchpriority="high" width="1000" height="1000">
+                    <figcaption><a href="{{ route('projects.show', $projects->first()) }}"><span>{{ $projects->first()->title }} · {{ $projects->first()->projectCategory->name }}</span><span aria-hidden="true">↗</span></a></figcaption>
+                </figure>
+            @else
+                <div class="home-hero__empty"><img src="{{ asset('img/LOGO1.png') }}" alt="ARAT STUDIO" width="200" height="200"></div>
+            @endif
         </div>
     </section>
 
@@ -47,16 +35,16 @@
         class="section-block"
         aria-labelledby="about-title"
     >
-        <div class="container">
-            <div class="section-header text-center mb-5">
+        <div class="container home-about-grid">
+            <div class="section-header">
                 <span class="section-label">Nuestro enfoque</span>
                 <h2 id="about-title" class="section-title mt-2">
                     Sobre el estudio
                 </h2>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
+            <div>
+                <div>
                     <h3 class="studio-info__title mb-4">
                         Diseño con propósito.<br>
                         Arquitectura con precisión.
@@ -137,7 +125,7 @@
     aria-labelledby="projects-title"
 >
     <div class="container">
-        <div class="section-header text-center mb-5">
+        <div class="section-header mb-5">
             <span class="section-label">Nuestro trabajo</span>
             <h2 id="projects-title" class="section-title mt-2">
                 Proyectos destacados

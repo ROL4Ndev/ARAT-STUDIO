@@ -49,7 +49,8 @@
                     <button class="btn btn-dark account-form__submit" type="submit" data-loading-label="Solicitando enlace…">Solicitar acceso temporal</button>
                 </form>
 
-                <p class="mt-3 mb-0">El enlace vence en 15 minutos y solo puede usarse una vez. La sesión verificada dura 30 minutos y puedes cerrarla desde el expediente. En desarrollo, el correo log es una simulación local.</p>
+                <p class="form-text mt-4 mb-0">El enlace vence en 15 minutos y solo puede usarse una vez. La sesión verificada dura 30 minutos y puedes cerrarla desde el expediente.</p>
+                @if (app()->environment('local'))<p class="form-text mt-2 mb-0">Demostración local: los correos pueden ser simulados.</p>@endif
             </div>
         </div>
     </section>

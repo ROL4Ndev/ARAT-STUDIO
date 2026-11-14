@@ -51,6 +51,8 @@ Las pruebas funcionales usan SQLite en memoria, no la base MySQL local.
 
 ## Documentación y verificación
 
+- [Entrega de diseño, pruebas y capturas actuales](docs/design/ENTREGA.md)
+- [Galería de antes y después](docs/design/index.html)
 - [Recorrido de exposición y límites](GUIA_EXPOSICION.md)
 - [Matriz de requisitos y evidencia](REVISION_INFORME_INTEGRAL.md)
 - [Resultados, pruebas y pendientes](VERIFICACION_ENTREGA.md)
@@ -58,6 +60,12 @@ Las pruebas funcionales usan SQLite en memoria, no la base MySQL local.
 La suite se ejecuta con `php artisan test --compact`. La integración MariaDB
 requiere una conexión con permiso para crear una base de ensayo:
 `php tests/Integration/MariaDbConcurrency.php --run`.
+
+En Windows verifica `php -v`: XAMPP puede dejar PHP 8.2 antes que Herd en
+el PATH. PHPUnit fuerza SQLite en memoria tanto en el entorno del proceso
+como en `$_SERVER`; las variables MySQL heredadas no deben usarse en pruebas.
+La interfaz compila Bootstrap para el sitio público y Tabler (que ya incluye
+Bootstrap) para el panel. No requiere cargar hojas de estilo desde un CDN.
 
 El límite de archivos del servidor PHP integrado sigue pendiente para cargas
 superiores a 64 MiB: puede responder HTTP 200 antes de Laravel, no el 413

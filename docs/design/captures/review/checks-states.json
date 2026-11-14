@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "31-cliente-observado",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "31-cliente-observado-movil",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "32-propuesta-vencida",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "33-version-anterior",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "Observaciones públicas, propuesta vencida y PDF de versión anterior",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

@@ -39,7 +39,7 @@ class QuotationController extends Controller
     {
         $service->prepare($quotation, $request->user(), (int) $request->validated('lock_version'));
 
-        return redirect()->route('commercial.quotations.show', $quotation)->with('status', 'Trabajo durable preparado. El PDF se generará sin mantener bloqueos de base de datos.');
+        return redirect()->route('commercial.quotations.show', $quotation)->with('status', 'La emisión de esta versión está en preparación. Actualiza el estado para consultar su PDF.');
     }
 
     public function show(Quotation $quotation)

@@ -3,35 +3,23 @@
 @section('title', $panel.' | ARAT STUDIO')
 
 @section('content')
-    <section class="account-page" aria-labelledby="dashboard-title">
-        <div class="container account-page__container">
-            <div class="account-card dashboard-card">
+    <section class="workspace-view" aria-labelledby="dashboard-title">
+        <header class="workspace-hero"><div class="container">
                 <p class="section-label">Panel interno</p>
-                <h1 id="dashboard-title" class="account-card__title">Panel de {{ $panel }}</h1>
-                <p>Hola, {{ auth()->user()->name }}.</p>
-                <p>Tu perfil: <strong>{{ $role }}</strong></p>
-
+                <h1 id="dashboard-title">Panel de {{ $panel }}</h1>
+                <p>Hola, {{ auth()->user()->name }}. Organiza los proyectos del estudio y acompaña cada nueva solicitud.</p>
+                <a class="btn btn-dark mt-2" href="{{ route('management.dashboard') }}">Abrir Gestión comercial</a>
+        </div></header>
+        <div class="workspace-content"><div class="container">
                 <nav aria-label="Navegación del panel" class="dashboard-navigation">
                     @if (auth()->user()->role === 'admin')
-                        <a class="btn btn-outline-dark" href="{{ route('admin.dashboard') }}">Administración</a>
-                        <a class="btn btn-dark" href="{{ route('admin.categories.index') }}">Administrar categorías</a>
-                        <a class="btn btn-dark" href="{{ route('admin.projects.index') }}">Administrar proyectos</a>
-                        <a class="btn btn-dark" href="{{ route('admin.services.index') }}">Administrar servicios</a>
-                        <a class="btn btn-dark" href="{{ route('admin.tariffs.index') }}">Administrar tarifas</a>
+                        <a class="dashboard-link" href="{{ route('admin.projects.index') }}"><strong>Administrar proyectos</strong><span>Publica el trabajo del estudio y actualiza sus portadas.</span></a>
+                        <a class="dashboard-link" href="{{ route('admin.categories.index') }}"><strong>Administrar categorías</strong><span>Organiza el portafolio para que sea fácil de explorar.</span></a>
+                        <a class="dashboard-link" href="{{ route('admin.services.index') }}"><strong>Administrar servicios</strong><span>Define qué ofrece el estudio y cómo se estima cada servicio.</span></a>
+                        <a class="dashboard-link" href="{{ route('admin.tariffs.index') }}"><strong>Administrar tarifas</strong><span>Revisa los importes vigentes y prepara nuevas versiones.</span></a>
                     @endif
-                    <a class="btn btn-outline-dark" href="{{ route('management.dashboard') }}">Gestión</a>
-                    <a class="btn btn-outline-dark" href="{{ route('profile.edit') }}">Mi perfil</a>
                 </nav>
-
-                <div class="dashboard-pending">
-                    <h2 class="account-card__subtitle">Recorrido del sistema</h2>
-                    <ul>
-                        <li>Catálogos con desactivación, versiones y auditoría.</li>
-                        <li>Asignación, evaluación y correcciones de solicitudes.</li>
-                        <li>Cotizaciones PDF por versión y respuesta del cliente verificado.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+                <section class="next-action mt-4"><h2>Una solicitud, un recorrido claro</h2><p>Asigna un responsable, evalúa el proyecto y prepara la propuesta oficial. El expediente conserva las correcciones, las versiones y la respuesta del cliente.</p></section>
+        </div></div>
     </section>
 @endsection

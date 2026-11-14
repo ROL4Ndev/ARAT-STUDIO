@@ -41,7 +41,7 @@
             <h3>Proyectos asociados y dependencias</h3>
             <p>La desactivación queda impedida mientras haya proyectos activos en esta categoría.</p>
             <ul>
-                @forelse ($item->projects()->get() as $project)
+                @forelse ($item->projects as $project)
                     <li>
                         <a href="{{ route('admin.projects.show', $project->id) }}">{{ $project->title }}</a>
                         · @include('shared.status-label', ['value' => $project->is_active ? 'activo' : 'inactivo'])
@@ -59,7 +59,7 @@
             <img class="admin-project-cover" src="{{ $item->cover_image_url }}" alt="Portada de {{ $item->title }}" width="800" height="600">
             <h3>Portadas conservadas</h3>
             <ul>
-                @forelse ($item->coverHistories()->with('user')->latest('id')->get() as $cover)
+                @forelse ($item->coverHistories as $cover)
                     <li>
                         <a href="{{ route('admin.covers.download', $cover->id) }}">Descargar portada histórica</a>
                         · {{ $cover->created_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
@@ -118,6 +118,7 @@
                     {{ $event['occurred_at']->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
                     · {{ $event['action'] }} · Responsable: {{ $event['actor'] }}
                     · Motivo: {{ $event['reason'] }}
+                    <div class="table-responsive" tabindex="0" role="region" aria-label="Cambios del evento {{ $loop->iteration }}">
                     <table class="table table-sm mt-2">
                         <caption class="visually-hidden">Cambios registrados, sin identificadores internos</caption>
                         <thead>
@@ -133,6 +134,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </li>
             @empty
                 <li>No hay cambios posteriores a la importación.</li>

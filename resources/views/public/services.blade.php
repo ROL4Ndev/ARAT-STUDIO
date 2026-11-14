@@ -18,6 +18,7 @@
                                 <span class="service-card__number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                 <h3 class="service-card__title">{{ $service->name }}</h3>
                                 <p class="service-card__text">{{ $service->description }}</p>
+                                <a class="home-intro-link mt-3" href="{{ route('service-requests.create', ['service_id' => $service->id]) }}">Consultar este servicio <span aria-hidden="true">→</span></a>
                             </article>
                         </div>
                     @endforeach

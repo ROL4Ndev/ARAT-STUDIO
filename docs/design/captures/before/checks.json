@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "name": "01-inicio-escritorio",
+      "url": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "brokenImages": [
+        "http://127.0.0.1:8765/img/Proyecto OPV/1.webp",
+        "http://127.0.0.1:8765/img/Departamento MR/1.webp"
+      ],
+      "heading": "Arquitectura · Diseño · Visualización 3D"
+    },
+    {
+      "name": "02-inicio-movil",
+      "url": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "brokenImages": [
+        "http://127.0.0.1:8765/img/Proyecto OPV/1.webp",
+        "http://127.0.0.1:8765/img/Departamento MR/1.webp"
+      ],
+      "heading": "Arquitectura · Diseño · Visualización 3D"
+    },
+    {
+      "name": "expediente-movil",
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

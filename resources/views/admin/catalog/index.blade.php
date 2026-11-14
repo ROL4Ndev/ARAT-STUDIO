@@ -65,6 +65,7 @@
         <a class="btn btn-outline-dark admin-button" href="{{ route('admin.'.$kind.'.index') }}">Limpiar filtros</a>
     </form>
 
+    <p class="form-text d-md-none">Desliza la tabla para consultar todas las columnas y sus acciones.</p>
     <div class="table-responsive" role="region" aria-label="Resultados de {{ mb_strtolower($label) }}" tabindex="0">
         <table class="table admin-table align-middle">
             <thead>

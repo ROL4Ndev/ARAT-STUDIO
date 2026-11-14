@@ -11,6 +11,8 @@
     <div class="workspace-content">
         <div class="container">
             <form id="quotation-form" class="workspace-card" data-estimate-endpoint="{{ route('quotation.calculate') }}">
+                <h2>Una primera referencia para tu proyecto</h2>
+                <p class="form-text">Elige el servicio y completa los datos que apliquen. Después podrás enviarlos al estudio para una evaluación técnica.</p>
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="service_id" class="form-label">Servicio</label>
@@ -41,9 +43,10 @@
                                 <option @selected($level === 'LOD_300')>{{ $level }}</option>
                             @endforeach
                         </select>
+                        <p class="form-text">LOD es el nivel de detalle del modelo: conceptual (200), definido (300) o para fabricación (400).</p>
                     </div>
                 </div>
-                <div class="my-4">
+                <div class="my-4 estimate-summary">
                     <h2>Estimación referencial en PEN</h2>
                     <output id="estimate-preview" aria-live="polite" aria-atomic="true">Completa los datos.</output>
                     <p class="form-text">Un servicio manual, un área fuera de escala o la falta de una tarifa vigente requieren evaluación personalizada; no se asigna un importe automático. Las tarifas demostrativas no sustituyen una cotización oficial.</p>

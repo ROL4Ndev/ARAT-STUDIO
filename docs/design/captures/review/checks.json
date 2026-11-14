@@ -1,0 +1,521 @@
+{
+  "checks": [
+    {
+      "name": "01-servicios",
+      "path": "/servicios",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "01-servicios-movil",
+      "path": "/servicios",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "02-portafolio",
+      "path": "/proyectos",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "02-portafolio-movil",
+      "path": "/proyectos",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "03-proyecto",
+      "path": "/proyectos/proyecto-sala-t",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "03-proyecto-movil",
+      "path": "/proyectos/proyecto-sala-t",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "04-cotizador",
+      "path": "/cotizador",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "04-cotizador-movil",
+      "path": "/cotizador",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "05-solicitud",
+      "path": "/solicitar-proyecto",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "05-solicitud-movil",
+      "path": "/solicitar-proyecto",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "06-acceso-cliente",
+      "path": "/acceder-expediente",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "06-acceso-cliente-movil",
+      "path": "/acceder-expediente",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "07-ingreso",
+      "path": "/ingresar",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "07-ingreso-movil",
+      "path": "/ingresar",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "08-nosotros",
+      "path": "/nosotros",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "08-nosotros-movil",
+      "path": "/nosotros",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "09-contacto",
+      "path": "/contacto",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "09-contacto-movil",
+      "path": "/contacto",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "Teclado: salto al contenido y menú móvil con Escape",
+      "passed": true
+    },
+    {
+      "name": "10-confirmacion",
+      "path": "/solicitar-proyecto/confirmacion",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "11-panel",
+      "path": "/admin",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "12-gestion",
+      "path": "/gestion",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "12-gestion-movil",
+      "path": "/gestion",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "13-proyectos",
+      "path": "/admin/proyectos",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "13-proyectos-movil",
+      "path": "/admin/proyectos",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "14-categorias",
+      "path": "/admin/categorias",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "14-categorias-movil",
+      "path": "/admin/categorias",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "15-servicios",
+      "path": "/admin/servicios",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "15-servicios-movil",
+      "path": "/admin/servicios",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "16-tarifas",
+      "path": "/admin/tarifas",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "16-tarifas-movil",
+      "path": "/admin/tarifas",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "17-perfil",
+      "path": "/perfil",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "17-perfil-movil",
+      "path": "/perfil",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "18-crear-proyecto",
+      "path": "/admin/proyectos/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "18-crear-proyecto-movil",
+      "path": "/admin/proyectos/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "19-crear-categoria",
+      "path": "/admin/categorias/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "19-crear-categoria-movil",
+      "path": "/admin/categorias/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "20-crear-servicio",
+      "path": "/admin/servicios/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "20-crear-servicio-movil",
+      "path": "/admin/servicios/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "21-crear-tarifa",
+      "path": "/admin/tarifas/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "21-crear-tarifa-movil",
+      "path": "/admin/tarifas/create",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "22-consultar-proyecto",
+      "path": "/admin/proyectos/1",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "22-consultar-proyecto-movil",
+      "path": "/admin/proyectos/1",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "23-editar-servicio",
+      "path": "/admin/servicios/1/edit",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "23-editar-servicio-movil",
+      "path": "/admin/servicios/1/edit",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "24-expediente-observado",
+      "path": "/gestion/solicitudes/SOL-01M7DE505Z69TEZCQTPV7ASJ6D",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "24-expediente-observado-movil",
+      "path": "/gestion/solicitudes/SOL-01M7DE505Z69TEZCQTPV7ASJ6D",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "25-aprobacion-tecnica",
+      "path": "/gestion/solicitudes/SOL-01M7DRMB33M2K2V3F8MB3CFGJZ",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "26-borrador",
+      "path": "/gestion/cotizaciones/COT-01M7DRN8E9WXK5E3XJ97N5Y9XR",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "27-emision",
+      "path": "/gestion/cotizaciones/COT-01M7DRN8E9WXK5E3XJ97N5Y9XR",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/panel-Bku8-gbo.css"
+      ]
+    },
+    {
+      "name": "28-verificar-acceso",
+      "path": "/acceso-expediente/b38c0b0b978dd389ff18427c070b072880d54d6200c089ac486412d283cc275b",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "29-propuesta-cliente",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "30-aceptacion-y-cierre",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "Solicitud → responsable → evaluación → aprobación → borrador → emisión/PDF → acceso → aceptación → cierre",
+      "passed": true
+    },
+    {
+      "name": "31-cliente-observado",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "31-cliente-observado-movil",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "32-propuesta-vencida",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "33-version-anterior",
+      "path": "/mi-solicitud",
+      "overflow": false,
+      "brokenImages": [],
+      "frameworks": [
+        "http://127.0.0.1:8765/build/assets/app-BWj4hqjQ.css"
+      ]
+    },
+    {
+      "name": "Observaciones públicas, propuesta vencida y PDF de versión anterior",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

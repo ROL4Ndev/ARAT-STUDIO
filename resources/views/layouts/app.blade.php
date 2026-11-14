@@ -10,23 +10,14 @@
         content="ARAT STUDIO: arquitectura, diseño de interiores y visualización 3D en Lima, Perú."
     >
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link rel="stylesheet" href="{{ asset('css/arat.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/presentation.css') }}">
+    @php($internal = auth()->check() && request()->routeIs('admin.*', 'management.*', 'commercial.*', 'profile.*'))
+    @vite([$internal ? 'resources/css/panel.css' : 'resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="{{ $internal ? 'internal' : 'public-site' }}">
     <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+    @if ($internal)
+        @include('layouts.components.workspace-navigation')
+    @else
     <nav
         id="navbar"
         class="navbar fixed-top"
@@ -53,14 +44,13 @@
             </div>
         </div>
     </nav>
+    @endif
 
     <main id="contenido-principal" tabindex="-1">
         @yield('content')
     </main>
 
     @include('layouts.components.footer')
-    <script src="{{ asset('js/navigation.js') }}" defer></script>
-    <script src="{{ asset('js/interface.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

@@ -11,6 +11,39 @@ document.querySelectorAll('[data-password-toggle]').forEach((button) => {
     });
 });
 
+const errorSummary = document.querySelector('[data-validation-summary]');
+if (errorSummary) {
+    errorSummary.querySelectorAll('[data-field-error]').forEach((error, index) => {
+        const candidates = [...document.querySelectorAll(`[name="${CSS.escape(error.dataset.fieldError)}"]`)];
+        const field = candidates.find(input => input.form?.elements.action?.value === errorSummary.dataset.errorAction) ?? candidates[0];
+        if (!field || field.type === 'hidden') return;
+        field.id ||= `invalid-field-${index}`;
+        field.setAttribute('aria-invalid', 'true');
+        let feedback = field.nextElementSibling?.matches('.form-feedback, .invalid-feedback') ? field.nextElementSibling : null;
+        if (!feedback) {
+            feedback = document.createElement('p');
+            feedback.className = 'form-feedback';
+            feedback.textContent = error.textContent;
+            field.after(feedback);
+        }
+        feedback.id ||= `field-error-${index}`;
+        const descriptions = new Set((field.getAttribute('aria-describedby') || '').split(' ').filter(Boolean));
+        descriptions.add(feedback.id);
+        field.setAttribute('aria-describedby', [...descriptions].join(' '));
+        const link = document.createElement('a');
+        link.href = `#${field.id}`;
+        link.textContent = error.textContent;
+        link.addEventListener('click', () => {
+            for (let parent = field.parentElement; parent; parent = parent.parentElement) {
+                if (parent instanceof HTMLDetailsElement) parent.open = true;
+            }
+            field.focus();
+        });
+        error.replaceChildren(link);
+    });
+    errorSummary.focus();
+}
+
 document.addEventListener('submit', (event) => {
     if (event.defaultPrevented) return;
     const form = event.target;

@@ -1,0 +1,48 @@
+{
+  "checks": [
+    {
+      "name": "35-error-de-conexion-simulado",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "La firma referencial se invalida inmediatamente al editar los datos",
+      "passed": true
+    },
+    {
+      "name": "36-validacion-junto-al-campo",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "37-acceso-no-autorizado",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "38-catalogo-sin-resultados",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "Menú interno con teclado y conservación del filtro",
+      "passed": true
+    },
+    {
+      "name": "39-gestion-ancho-320",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "39-gestion-ancho-768",
+      "passed": true,
+      "overflow": false
+    },
+    {
+      "name": "39-gestion-ancho-1024",
+      "passed": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

@@ -15,19 +15,15 @@
             <div class="container">
                 @include('shared.errors')
 
-                <section class="workspace-card mb-4" aria-labelledby="metrics-title">
-                    <h2 id="metrics-title">Indicadores del período</h2>
-                    <dl class="row">
-                        <dt class="col-sm-8">Pendientes visibles</dt>
-                        <dd class="col-sm-4">{{ $counts['pendiente'] ?? 0 }}</dd>
-                        <dt class="col-sm-8">Promedio hasta primera evaluación</dt>
-                        <dd class="col-sm-4">{{ $minutes === null ? 'Sin datos' : round($minutes, 1).' minutos' }}</dd>
-                        <dt class="col-sm-8">Cotizaciones emitidas</dt>
-                        <dd class="col-sm-4">{{ $issued }}</dd>
-                        <dt class="col-sm-8">Tasa de aceptación</dt>
-                        <dd class="col-sm-4">{{ $denominator ? round(100 * $accepted / $denominator, 1).'%' : 'Sin emisiones' }}</dd>
+                <section class="mb-4" aria-labelledby="metrics-title">
+                    <h2 id="metrics-title" class="visually-hidden">Indicadores del período</h2>
+                    <dl class="metrics-grid">
+                        <div class="metric"><dt>Pendientes visibles</dt><dd>{{ $counts['pendiente'] ?? 0 }}</dd></div>
+                        <div class="metric"><dt>Primera evaluación</dt><dd>{{ $minutes === null ? 'Sin datos' : round($minutes, 1).' min' }}</dd></div>
+                        <div class="metric"><dt>Cotizaciones emitidas</dt><dd>{{ $issued }}</dd></div>
+                        <div class="metric"><dt>Tasa de aceptación</dt><dd>{{ $denominator ? round(100 * $accepted / $denominator, 1).'%' : 'Sin emisiones' }}</dd></div>
                     </dl>
-                    <p class="form-text mb-0">La aceptación se calcula sobre solicitudes distintas cuya primera emisión pertenece al período, por defecto los últimos 30 días. El promedio de evaluación considera solicitudes creadas en el período. Se aplica tu visibilidad por asignación.</p>
+                    <details class="secondary-details"><summary>Cómo se calculan los indicadores</summary><p class="form-text">La aceptación se calcula sobre solicitudes distintas cuya primera emisión pertenece al período, por defecto los últimos 30 días. El promedio de evaluación considera solicitudes creadas en el período. Se aplica tu visibilidad por asignación. Los pendientes corresponden a todos tus expedientes visibles.</p></details>
                 </section>
 
                 <section class="workspace-card mb-4" aria-labelledby="requests-title">
@@ -144,12 +140,12 @@
 
                 <section class="workspace-card" aria-labelledby="history-title">
                     <h2 id="history-title">Historial filtrado</h2>
-                    <ol>
+                    <ol class="history-timeline">
                         @forelse ($histories as $history)
                             <li>
                                 <a href="{{ route('commercial.requests.show', $history->serviceRequest) }}">{{ $history->serviceRequest->code }}</a>
                                 · {{ $history->created_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
-                                · {{ ucfirst(str_replace('_', ' ', $history->action)) }} · {{ $history->observation }}
+                                · @include('shared.activity-label', ['value' => $history->action]) · {{ $history->observation }}
                             </li>
                         @empty
                             <li>Sin eventos visibles para estos filtros.</li>

@@ -51,6 +51,7 @@
 
                     <button type="submit" class="btn btn-dark account-form__submit" data-loading-label="Ingresando…">Ingresar</button>
                 </form>
+                <p class="form-text mt-4 mb-0">¿Quieres consultar tu proyecto? <a href="{{ route('client.access') }}">Accede a tu expediente como cliente</a>.</p>
             </div>
         </div>
     </section>

@@ -8,6 +8,7 @@
             <div class="container">
                 <h1 id="request-title">Solicitar proyecto</h1>
                 <p>La estimación es referencial. El equipo confirmará el alcance y el importe oficial.</p>
+                <p class="form-text">1. Cuéntanos tu idea · 2. Evaluamos el alcance · 3. Recibes una propuesta oficial</p>
             </div>
         </header>
 
@@ -39,6 +40,9 @@
                         <input type="hidden" name="related" value="1">
                     @endif
 
+                    <fieldset class="form-section">
+                    <legend>01. Tus datos de contacto</legend>
+                    <p class="form-text">Los campos con * son obligatorios. Usaremos estos datos para acompañar tu solicitud.</p>
                     <div class="row g-3">
                         @foreach (['client_name' => 'Nombre completo', 'client_email' => 'Correo electrónico', 'client_phone' => 'Teléfono', 'city' => 'Ciudad'] as $field => $label)
                             <div class="col-md-6">
@@ -60,6 +64,11 @@
                             </div>
                         @endforeach
 
+                    </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                    <legend>02. El proyecto y su estimación</legend>
+                    <div class="row g-3">
                         <div class="col-md-6">
                             <label for="service_id" class="form-label">Servicio <span aria-hidden="true">*</span></label>
                             <select
@@ -119,10 +128,11 @@
                                     <option @selected(old('lod_selected', request('lod_selected', 'LOD_300')) === $level)>{{ $level }}</option>
                                 @endforeach
                             </select>
+                            <p class="form-text">LOD indica el detalle del modelo BIM: 200, conceptual; 300, definido; 400, detallado para fabricación.</p>
                         </div>
 
                         <div class="col-12">
-                            <div class="alert alert-light border mb-0">
+                            <div class="estimate-summary">
                                 <strong>Estimación referencial en PEN:</strong>
                                 <output id="estimate-preview" aria-live="polite" aria-atomic="true">
                                     @if (isset($estimate))
@@ -154,6 +164,11 @@
                             @enderror
                         </div>
 
+                    </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                    <legend>03. Tu idea y las referencias</legend>
+                    <div class="row g-3">
                         <div class="col-12">
                             <label for="description" class="form-label">Descripción del proyecto <span aria-hidden="true">*</span></label>
                             <textarea
@@ -182,7 +197,7 @@
                                 aria-describedby="attachment-help file-selection file-error"
                                 @error('attachment') aria-invalid="true" @enderror
                             >
-                            <p id="attachment-help" class="form-text">PDF, JPG, JPEG, PNG, DWG o ZIP. No se ejecutan ni descomprimen archivos. Si supera 50 MiB, comparte un enlace externo.</p>
+                            <p id="attachment-help" class="form-text">Comparte planos o referencias en PDF, JPG, JPEG, PNG, DWG o ZIP. Si supera 50 MiB, comparte un enlace externo.</p>
                             <p id="file-selection" class="file-selection" data-file-selection aria-live="polite"></p>
                             <button type="button" class="btn btn-outline-secondary btn-sm d-none" data-remove-file aria-controls="attachment">Retirar archivo seleccionado</button>
                             <p id="file-error" data-file-error tabindex="-1" class="form-feedback" role="alert" aria-live="assertive"></p>
@@ -209,6 +224,11 @@
                             @enderror
                         </div>
 
+                    </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                    <legend>04. Confirma tu solicitud</legend>
+                    <div class="row g-3">
                         <div class="col-12">
                             <label class="form-check-label" for="consent">
                                 <input
@@ -227,6 +247,7 @@
                             @enderror
                         </div>
                     </div>
+                    </fieldset>
 
                     <button class="btn btn-dark mt-4" type="submit" data-loading-label="Registrando solicitud…" @disabled($services->isEmpty())>
                         Confirmar estimación y registrar solicitud

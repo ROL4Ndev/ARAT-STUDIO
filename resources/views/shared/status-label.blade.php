@@ -25,6 +25,9 @@
         'sent' => 'Enviada al transporte',
         'unknown' => 'Resultado no confirmado',
         'discarded' => 'Descartado',
+        'done' => 'Completado',
+        'anulada' => 'Anulada',
+        'vigente' => 'Vigente',
         default => ucfirst(str_replace('_', ' ', $statusValue)),
     };
     $statusTone = match ($statusValue) {

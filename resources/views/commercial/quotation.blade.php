@@ -21,17 +21,19 @@
             <div class="container">
                 @include('shared.errors')
                 <article class="workspace-card">
-                    <h2>Importes y estados técnicos</h2>
+                    <h2>Importe de la propuesta</h2>
                     <p>Estimación referencial del expediente:
                         {{ $quotation->serviceRequest->estimated_cost === null ? 'Evaluación personalizada, sin importe automático' : 'PEN '.$quotation->serviceRequest->estimated_cost }}.
                     </p>
-                    <p>Importe oficial de esta versión: <strong>PEN {{ $quotation->official_amount }}</strong></p>
+                    <p>Importe oficial de esta versión: <strong class="quotation-amount">PEN {{ $quotation->official_amount }}</strong></p>
+                    <details class="secondary-details"><summary>Estado del PDF y la notificación</summary>
                     <dl>
                         <dt>Estado de emisión PDF</dt>
                         <dd>@include('shared.status-label', ['value' => $quotation->pdf_status])</dd>
                         <dt>Estado de notificación</dt>
                         <dd>@include('shared.status-label', ['value' => $quotation->notification_status])</dd>
                     </dl>
+                    </details>
 
                     @if ($quotation->status === 'borrador')
                         <h2>Editar borrador</h2>
@@ -53,7 +55,8 @@
                                 {{ $quotation->pdf_status === 'failed' ? 'Reintentar PDF de la misma versión' : 'Preparar emisión PDF' }}
                             </button>
                         </form>
-                        <p class="mt-3">El servidor, el worker y el scheduler deben estar iniciados. Recarga esta página para consultar el resultado; no se hacen consultas automáticas.</p>
+                        <p class="form-text mt-3">La emisión puede tardar unos momentos. Actualiza la página para consultar si tu PDF ya está listo.</p>
+                        <a class="btn btn-outline-dark mb-3" href="{{ route('commercial.quotations.show', $quotation) }}">Actualizar estado de emisión</a>
                     @endif
 
                     @if ($quotation->issued_at)
@@ -78,7 +81,7 @@
                     </dl>
 
                     @if ($intent)
-                        <h2>Trabajo técnico</h2>
+                        <details class="secondary-details"><summary>Detalles de procesamiento</summary>
                         <p>
                             Procesamiento de esta versión
                             · @include('shared.status-label', ['value' => $intent->status])
@@ -87,12 +90,14 @@
                                 · {{ $intent->error }}
                             @endif
                         </p>
+                        <p class="form-text">Si el trabajo permanece pendiente, comprueba que el worker y el scheduler estén activos.</p>
+                        </details>
                     @endif
                     @if ($quotation->technical_error)
                         <p class="alert alert-warning" role="status">{{ $quotation->technical_error }}</p>
                     @endif
 
-                    <h2>Notificaciones</h2>
+                    <details class="secondary-details"><summary>Notificaciones e intentos de entrega</summary>
                     <ul>
                         @forelse ($notices as $notice)
                             <li>
@@ -133,6 +138,7 @@
                         @endforelse
                     </ul>
                     <p>Una notificación simulada corresponde al transporte local log/array. “Enviada al transporte” indica aceptación por este, no confirma la entrega en la bandeja del destinatario.</p>
+                    </details>
                 </article>
             </div>
         </div>

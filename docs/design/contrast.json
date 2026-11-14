@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Texto",
+    "foreground": "#2e2f36",
+    "background": "#ffffff",
+    "ratio": 13.32
+  },
+  {
+    "name": "Texto secundario",
+    "foreground": "#5d666c",
+    "background": "#f6f5f1",
+    "ratio": 5.37
+  },
+  {
+    "name": "Botón principal",
+    "foreground": "#ffffff",
+    "background": "#324853",
+    "ratio": 9.6
+  },
+  {
+    "name": "Éxito",
+    "foreground": "#226044",
+    "background": "#e9f5ee",
+    "ratio": 6.64
+  },
+  {
+    "name": "Atención",
+    "foreground": "#785011",
+    "background": "#fff3d6",
+    "ratio": 6.45
+  },
+  {
+    "name": "Error",
+    "foreground": "#922f3e",
+    "background": "#fbecef",
+    "ratio": 6.8
+  },
+  {
+    "name": "Navegación interna",
+    "foreground": "#d9e1e5",
+    "background": "#2e2f36",
+    "ratio": 10.06
+  }
+]

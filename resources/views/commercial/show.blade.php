@@ -26,6 +26,7 @@
         <div class="workspace-content">
             <div class="container">
                 @include('shared.errors')
+                @include('shared.request-progress', ['record' => $serviceRequest])
 
                 <section class="workspace-card mb-4" id="resumen" aria-labelledby="summary-title">
                     <h2 id="summary-title">Resumen</h2>
@@ -54,20 +55,24 @@
 
                     <h3>Estimación registrada</h3>
                     <p>Importe referencial: {{ $serviceRequest->estimated_cost === null ? 'Evaluación personalizada, sin importe automático' : 'PEN '.$serviceRequest->estimated_cost }} · {{ $serviceRequest->estimation_reason }}</p>
+                    <details class="secondary-details"><summary>Tarifa histórica y consentimiento</summary>
                     <p>Tarifa histórica: {{ $serviceRequest->base_price_m2 ?? 'No aplica' }} × {{ $serviceRequest->lod_factor ?? 'No aplica' }}; límite {{ $serviceRequest->max_area_m2 ?? 'No aplica' }} m².</p>
                     <p>Revisión actual: {{ $serviceRequest->currentRevision?->version ?? 'No registrada' }} · Consentimiento: {{ $serviceRequest->consented_at?->timezone('America/Lima')->format('d/m/Y H:i:s').' (Lima)' ?? 'No registrado' }}</p>
+                    </details>
 
                     @if (config('app.env') === 'local' && config('client_access.demo_enabled'))
                         @can('operate', $serviceRequest)
+                            <details class="secondary-details"><summary>Demostración local del acceso del cliente</summary>
                             <form method="POST" action="{{ route('commercial.requests.demo-access.prepare', $serviceRequest) }}">
                                 @csrf
                                 <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Preparando acceso…">Preparar acceso de cliente para demostración</button>
                             </form>
+                            </details>
                         @endcan
                     @endif
 
                     @if (auth()->user()->role === 'admin' && ! in_array($serviceRequest->status, ['cerrada', 'cancelado', 'rechazado'], true))
-                        <h3>Asignación</h3>
+                        <details class="secondary-details" id="asignacion" @if(!$serviceRequest->assigned_to || old('action') === 'assign') open @endif><summary>{{ $serviceRequest->assigned_to ? 'Cambiar responsable' : 'Asignar un responsable' }}</summary>
                         <form method="POST" action="{{ route('commercial.requests.transition', $serviceRequest) }}" data-confirm="¿Confirmas guardar la asignación o reasignación?">
                             @csrf
                             @method('PATCH')
@@ -76,13 +81,14 @@
                             <label for="assigned_to" class="form-label">Asignar o reasignar responsable</label>
                             <select name="assigned_to" id="assigned_to" class="form-select">
                                 @foreach ($responsibles as $responsible)
-                                    <option value="{{ $responsible->id }}" @selected($serviceRequest->assigned_to === $responsible->id)>{{ $responsible->name }} ({{ $responsible->role }})</option>
+                                    <option value="{{ $responsible->id }}" @selected($serviceRequest->assigned_to === $responsible->id)>{{ $responsible->name }} ({{ $responsible->role === 'admin' ? 'Administrador' : 'Gestor' }})</option>
                                 @endforeach
                             </select>
                             <label for="assign_reason" class="form-label mt-3">Motivo <span aria-hidden="true">*</span></label>
                             <textarea id="assign_reason" name="reason" class="form-control" required minlength="5" maxlength="2000"></textarea>
                             <button class="btn btn-dark mt-3" type="submit" data-loading-label="Guardando asignación…">Confirmar asignación</button>
                         </form>
+                        </details>
                     @endif
                 </section>
 
@@ -96,7 +102,9 @@
                         default => [],
                     })
 
-                    @if ($serviceRequest->status === 'pendiente')
+                    @if ($serviceRequest->status === 'pendiente' && ! $serviceRequest->assigned_to)
+                        <p class="next-action"><strong>Siguiente paso:</strong> asignar un responsable antes de iniciar la evaluación.</p>
+                    @elseif ($serviceRequest->status === 'pendiente')
                         <p class="next-action"><strong>Siguiente acción disponible:</strong> iniciar la evaluación del expediente.</p>
                     @elseif ($serviceRequest->status === 'evaluacion')
                         <p class="next-action"><strong>Siguiente acción disponible:</strong> registrar una observación pública, una evaluación técnica para aprobar o un rechazo.</p>
@@ -111,6 +119,8 @@
                     @include('commercial.correction-form')
 
                     @foreach ($actions as $action => $label)
+                        <details class="secondary-details" @if(old('action', $serviceRequest->status === 'evaluacion' ? 'approve' : 'start') === $action) open @endif>
+                        <summary>{{ $label }}</summary>
                         <form
                             class="border p-3 mb-3"
                             method="POST"
@@ -123,29 +133,33 @@
                             @method('PATCH')
                             <input type="hidden" name="action" value="{{ $action }}">
                             <input type="hidden" name="lock_version" value="{{ $serviceRequest->lock_version }}">
-                            <h3 class="h5">{{ $label }}</h3>
                             <label for="reason-{{ $action }}" class="form-label">
                                 Motivo {{ $action === 'observe' ? '(interno)' : '' }} <span aria-hidden="true">*</span>
                             </label>
                             <textarea id="reason-{{ $action }}" name="reason" class="form-control" required minlength="5" maxlength="5000">{{ old('reason') }}</textarea>
+                            @error('reason')<p class="form-feedback" role="alert">{{ $message }}</p>@enderror
 
                             @if ($action === 'observe')
                                 <label for="public_observation" class="form-label mt-3">Observación pública para el cliente <span aria-hidden="true">*</span></label>
                                 <textarea id="public_observation" name="public_observation" class="form-control" required minlength="10" maxlength="5000">{{ old('public_observation') }}</textarea>
+                                @error('public_observation')<p class="form-feedback" role="alert">{{ $message }}</p>@enderror
                                 <p class="form-text">Este texto se comparte con el cliente; el motivo anterior es interno.</p>
                             @endif
 
                             @if ($action === 'approve')
                                 <label for="assessment" class="form-label mt-3">Evaluación técnica interna <span aria-hidden="true">*</span></label>
                                 <textarea id="assessment" name="assessment" class="form-control long-form-text" required minlength="20" maxlength="10000">{{ old('assessment') }}</textarea>
+                                @error('assessment')<p class="form-feedback" role="alert">{{ $message }}</p>@enderror
                                 <p class="form-text">Esta evaluación es interna y no se muestra en el expediente del cliente.</p>
                             @endif
 
-                            <button class="btn btn-dark mt-3" type="submit" data-loading-label="Registrando…">{{ $label }}</button>
+                            <button class="btn {{ in_array($action, ['start', 'approve'], true) ? 'btn-dark' : 'btn-outline-dark' }} mt-3" type="submit" data-loading-label="Registrando…">{{ $label }}</button>
                         </form>
+                        </details>
                     @endforeach
 
                     @if (in_array($serviceRequest->status, ['pendiente', 'evaluacion', 'observada', 'aprobado'], true))
+                        <details class="secondary-details" @if(old('action') === 'cancel') open @endif><summary>Cancelar solicitud</summary>
                         <form method="POST" action="{{ route('commercial.requests.transition', $serviceRequest) }}" data-confirm="¿Confirmas cancelar la solicitud? Se conservarán los datos y archivos; no se podrá deshacer esta acción.">
                             @csrf
                             @method('PATCH')
@@ -156,6 +170,7 @@
                             <textarea name="reason" id="cancel_reason" class="form-control" required minlength="5" maxlength="2000"></textarea>
                             <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Cancelando…">Cancelar solicitud</button>
                         </form>
+                        </details>
                     @endif
 
                     @foreach ($serviceRequest->evaluations as $evaluation)
@@ -195,7 +210,7 @@
                     <ul>
                         @forelse ($notices as $notice)
                             <li class="mb-3">
-                                {{ $notice->kind }} · @include('shared.status-label', ['value' => $notice->status])
+                                @include('shared.activity-label', ['value' => $notice->kind]) · @include('shared.status-label', ['value' => $notice->status])
                                 · {{ $notice->attempts }} intentos
                                 @if ($notice->error)
                                     <p class="form-feedback">{{ $notice->error }}</p>
@@ -239,12 +254,12 @@
 
                 <section class="workspace-card" id="historial" aria-labelledby="history-title">
                     <h2 id="history-title">Historial cronológico</h2>
-                    <ol>
+                    <ol class="history-timeline">
                         @forelse ($serviceRequest->histories as $history)
                             <li class="mb-3">
                                 <time datetime="{{ $history->created_at->toIso8601String() }}">{{ $history->created_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)</time>
                                 · {{ $history->user?->name ?? 'Cliente / sistema' }}
-                                · {{ ucfirst(str_replace('_', ' ', $history->action)) }}
+                                · @include('shared.activity-label', ['value' => $history->action])
                                 · @include('shared.status-label', ['value' => $history->previous_status ?? 'Inicio'])
                                 → @include('shared.status-label', ['value' => $history->new_status])
                                 · {{ $history->observation }}

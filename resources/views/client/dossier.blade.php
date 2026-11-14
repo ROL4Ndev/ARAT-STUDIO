@@ -6,7 +6,9 @@
     <section class="workspace-view" aria-labelledby="dossier-title">
         <header class="workspace-hero">
             <div class="container">
-                <h1 id="dossier-title">{{ $dossier->code }}</h1>
+                <p class="section-label">Área del cliente</p>
+                <h1 id="dossier-title">Tu proyecto, paso a paso.</h1>
+                <p class="text-break">Expediente {{ $dossier->code }}</p>
                 <p>
                     Estado: @include('shared.status-label', ['value' => $dossier->status])
                     · Acceso válido hasta {{ $grant->expires_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima).
@@ -23,6 +25,9 @@
         <div class="workspace-content">
             <div class="container">
                 @include('shared.errors')
+                @include('shared.request-progress', ['record' => $dossier, 'clientView' => true])
+                <div class="dossier-layout">
+                <div class="dossier-main">
 
                 @if (in_array($dossier->status, ['rechazado', 'cancelado', 'cerrada'], true))
                     <section class="alert alert-info" role="status" aria-labelledby="outcome-title">
@@ -35,34 +40,8 @@
                     </section>
                 @endif
 
-                <section class="workspace-card mb-4" aria-labelledby="dossier-summary-title">
-                    <h2 id="dossier-summary-title">Resumen de tu solicitud</h2>
-                    <dl class="row">
-                        <dt class="col-md-3">Nombre</dt>
-                        <dd class="col-md-9">{{ $dossier->client_name }}</dd>
-                        <dt class="col-md-3">Correo</dt>
-                        <dd class="col-md-9 text-break">{{ $dossier->client_email }}</dd>
-                        <dt class="col-md-3">Ciudad</dt>
-                        <dd class="col-md-9">{{ $dossier->city }}</dd>
-                        <dt class="col-md-3">Servicio</dt>
-                        <dd class="col-md-9">{{ $dossier->service }} · {{ $dossier->project_type }}</dd>
-                    </dl>
-                    <h3>Descripción</h3>
-                    <p class="preserve-lines long-form-text">{{ $dossier->description }}</p>
-                    <h3>Estimación</h3>
-                    <p>Estimación referencial: {{ $dossier->estimated_cost === null ? 'Evaluación personalizada, sin importe automático' : 'PEN '.$dossier->estimated_cost }} · {{ $dossier->estimation_reason }}</p>
-                    <h3>Archivos conservados</h3>
-                    <ul>
-                        @forelse ($dossier->files as $file)
-                            <li><a href="{{ route('client.files.download', $file->id) }}">Descargar {{ $file->original_name }}</a></li>
-                        @empty
-                            <li>No hay archivos adjuntos.</li>
-                        @endforelse
-                    </ul>
-                </section>
-
                 @if ($dossier->status === 'observada')
-                    <form method="POST" enctype="multipart/form-data" data-document-upload class="workspace-card mb-4" action="{{ route('client.correct') }}">
+                    <form id="corregir-solicitud" method="POST" enctype="multipart/form-data" data-document-upload class="workspace-card mb-4" action="{{ route('client.correct') }}">
                         @csrf
                         <h2>Corregir solicitud observada</h2>
                         <input name="lock_version" type="hidden" value="{{ $dossier->lock_version }}">
@@ -109,59 +88,25 @@
                     </form>
                 @endif
 
-                <section class="workspace-card mb-4" aria-labelledby="quotations-title">
+                <section class="workspace-card mb-4" id="cotizaciones" aria-labelledby="quotations-title">
                     <h2 id="quotations-title">Cotizaciones oficiales</h2>
                     @forelse ($dossier->quotations as $quotation)
-                        @php($isCurrent = $dossier->current_quotation_id === $quotation->id)
-                        <article class="border p-3 mb-3">
-                            <h3>{{ $quotation->code }} · versión {{ $quotation->version }}</h3>
-                            <p>
-                                @include('shared.status-label', ['value' => $quotation->status])
-                                · {{ $isCurrent ? 'Versión actual' : 'Versión anterior' }}
-                                @if ($quotation->isExpired())
-                                    · Vencida por fecha
-                                @endif
-                                · Importe oficial: <strong>PEN {{ $quotation->official_amount }}</strong>
-                            </p>
-                            <p>
-                                Emisión: {{ $quotation->issued_at->timezone('America/Lima')->format('d/m/Y H:i:s') }}
-                                · Vencimiento: {{ $quotation->expires_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
-                            </p>
-                            <a class="btn btn-outline-dark" href="{{ route('client.quotations.download', $quotation) }}">Descargar PDF de la versión {{ $quotation->version }}</a>
-
-                            <dl class="mt-3">
-                                @foreach (['scope' => 'Alcance', 'deliverables' => 'Entregables', 'exclusions' => 'Exclusiones', 'execution_term' => 'Plazo de ejecución'] as $field => $label)
-                                    <dt>{{ $label }}</dt>
-                                    <dd class="preserve-lines long-form-text">{{ $quotation->$field ?? 'No registrado en esta versión' }}</dd>
-                                @endforeach
-                            </dl>
-
-                            @if ($isCurrent && $quotation->status === 'emitida' && ! $quotation->isExpired() && $dossier->status === 'aprobado')
-                                <p>Tu respuesta se confirma en el servidor; no equivale a una firma digital certificada.</p>
-                                <form method="POST" action="{{ route('client.respond', $quotation) }}" class="mb-3" data-confirm="¿Confirmas aceptar la propuesta vigente por PEN {{ $quotation->official_amount }}? La respuesta se registrará en el expediente.">
-                                    @csrf
-                                    <input type="hidden" name="decision" value="aceptada">
-                                    <input type="hidden" name="lock_version" value="{{ $quotation->lock_version }}">
-                                    <button class="btn btn-dark" type="submit" data-loading-label="Registrando respuesta…">Aceptar propuesta vigente</button>
-                                </form>
-                                <form method="POST" action="{{ route('client.respond', $quotation) }}" data-confirm="¿Confirmas rechazar esta propuesta? La decisión se registrará en el expediente.">
-                                    @csrf
-                                    <input type="hidden" name="decision" value="rechazada">
-                                    <input type="hidden" name="lock_version" value="{{ $quotation->lock_version }}">
-                                    <label for="reject-{{ $quotation->version }}" class="form-label">Motivo del rechazo <span aria-hidden="true">*</span></label>
-                                    <textarea id="reject-{{ $quotation->version }}" name="reason" class="form-control" required minlength="5" maxlength="5000">{{ old('reason') }}</textarea>
-                                    <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Registrando respuesta…">Rechazar propuesta</button>
-                                </form>
-                            @endif
-                        </article>
+                        @if ($dossier->current_quotation_id === $quotation->id)
+                            @include('client.quotation-card')
+                        @else
+                            <details class="secondary-details">
+                                <summary>Versión anterior {{ $quotation->version }} · {{ $quotation->code }}</summary>
+                                @include('client.quotation-card')
+                            </details>
+                        @endif
                     @empty
-                        <p>Todavía no hay cotizaciones emitidas disponibles.</p>
+                        <div class="empty-state">Todavía no hay cotizaciones emitidas disponibles. Te avisaremos cuando tu propuesta esté lista.</div>
                     @endforelse
                 </section>
 
                 <section class="workspace-card mb-4" aria-labelledby="public-history-title">
                     <h2 id="public-history-title">Historial público</h2>
-                    <ol>
+                    <ol class="history-timeline">
                         @forelse ($dossier->histories as $history)
                             <li>
                                 <time datetime="{{ $history->created_at->toIso8601String() }}">{{ $history->created_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)</time>
@@ -173,9 +118,37 @@
                     </ol>
                 </section>
 
+                </div>
+                <aside class="dossier-aside" aria-label="Datos y opciones de la solicitud">
+                <section class="workspace-card mb-4" aria-labelledby="dossier-summary-title">
+                    <h2 id="dossier-summary-title">Resumen de tu solicitud</h2>
+                    <dl class="row">
+                        <dt class="col-md-3">Nombre</dt>
+                        <dd class="col-md-9">{{ $dossier->client_name }}</dd>
+                        <dt class="col-md-3">Correo</dt>
+                        <dd class="col-md-9 text-break">{{ $dossier->client_email }}</dd>
+                        <dt class="col-md-3">Ciudad</dt>
+                        <dd class="col-md-9">{{ $dossier->city }}</dd>
+                        <dt class="col-md-3">Servicio</dt>
+                        <dd class="col-md-9">{{ $dossier->service }} · {{ $dossier->project_type }}</dd>
+                    </dl>
+                    <h3>Descripción</h3>
+                    <p class="preserve-lines long-form-text">{{ $dossier->description }}</p>
+                    <h3>Estimación</h3>
+                    <p>Estimación referencial: {{ $dossier->estimated_cost === null ? 'Evaluación personalizada, sin importe automático' : 'PEN '.$dossier->estimated_cost }} · {{ $dossier->estimation_reason }}</p>
+                    <h3>Archivos conservados</h3>
+                    <ul>
+                        @forelse ($dossier->files as $file)
+                            <li><a href="{{ route('client.files.download', $file->id) }}">Descargar {{ $file->original_name }}</a></li>
+                        @empty
+                            <li>No hay archivos adjuntos.</li>
+                        @endforelse
+                    </ul>
+                </section>
+
                 @if (! in_array($dossier->status, ['rechazado', 'cancelado', 'cerrada'], true))
                     <section class="workspace-card mb-4" aria-labelledby="email-change-title">
-                        <h2 id="email-change-title">Verificar otro correo</h2>
+                        <details class="secondary-details" @if($errors->has('email')) open @endif><summary id="email-change-title">Verificar otro correo</summary>
                         <form method="POST" action="{{ route('client.email') }}">
                             @csrf
                             <label for="new_email" class="form-label">Nuevo correo electrónico <span aria-hidden="true">*</span></label>
@@ -183,6 +156,7 @@
                             <p class="form-text">El correo actual no cambia hasta confirmar el enlace desde esta sesión verificada.</p>
                             <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Preparando verificación…">Preparar verificación</button>
                         </form>
+                        </details>
                         <a class="d-inline-flex mt-3" href="{{ route('service-requests.create', ['related' => 1]) }}">Solicitar otro servicio en una nueva solicitud vinculada</a>
                     </section>
                 @endif
@@ -191,12 +165,16 @@
                     <form method="POST" class="workspace-card" action="{{ route('client.cancel') }}" data-confirm="¿Confirmas cancelar tu solicitud? La respuesta se registrará y no se podrá deshacer.">
                         @csrf
                         <input type="hidden" name="lock_version" value="{{ $dossier->lock_version }}">
-                        <h2>Cancelar solicitud</h2>
+<details class="secondary-details"><summary>Cancelar solicitud</summary>
+                        <p class="form-text">La cancelación finalizará esta solicitud y quedará registrada en el historial.</p>
                         <label for="cancel_reason" class="form-label">Motivo <span aria-hidden="true">*</span></label>
                         <textarea id="cancel_reason" name="reason" class="form-control" required minlength="5" maxlength="5000">{{ old('reason') }}</textarea>
                         <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Registrando cancelación…">Confirmar cancelación</button>
+                        </details>
                     </form>
                 @endif
+                </aside>
+                </div>
             </div>
         </div>
     </section>

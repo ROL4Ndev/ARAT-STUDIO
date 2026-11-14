@@ -19,6 +19,7 @@ use App\Services\ClientRevisionService;
 use App\Services\CommercialWorkflowService;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -31,9 +32,11 @@ class ServiceRequestController extends Controller
         $data = $request->validated();
         $visible = ServiceRequest::query()->when($request->user()->role !== 'admin', fn ($q) => $q->where('assigned_to', $request->user()->id));
         $counts = (clone $visible)->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status');
-        $filtered = (clone $visible)->when($data['status'] ?? null, fn ($q, $s) => $q->where('status', $s))->when($data['service_id'] ?? null, fn ($q, $id) => $q->where('service_id', $id))->when($data['from'] ?? null, fn ($q, $v) => $q->where('created_at', '>=', $v.' 00:00:00'))->when($data['to'] ?? null, fn ($q, $v) => $q->where('created_at', '<=', $v.' 23:59:59'))->when($data['search'] ?? null, fn ($q, $s) => $q->where(fn ($q) => $q->where('code', 'like', '%'.$s.'%')->orWhere('client_name', 'like', '%'.$s.'%')->orWhere('client_email', 'like', '%'.$s.'%')));
+        $filtered = $this->filterRequests(clone $visible, $data);
         $requests = (clone $filtered)->with(['currentQuotation', 'assignee'])->latest('id')->paginate(15)->withQueryString();
-        $unassigned = ServiceRequest::select(['code', 'service', 'project_type', 'created_at', 'status', 'lock_version'])->whereNull('assigned_to')->whereIn('status', ['pendiente', 'evaluacion', 'observada', 'aprobado'])->when($data['status'] ?? null, fn ($q, $v) => $q->where('status', $v))->when($data['service_id'] ?? null, fn ($q, $v) => $q->where('service_id', $v))->when($data['from'] ?? null, fn ($q, $v) => $q->where('created_at', '>=', $v.' 00:00:00'))->when($data['to'] ?? null, fn ($q, $v) => $q->where('created_at', '<=', $v.' 23:59:59'))->when($data['search'] ?? null, fn ($q, $v) => $q->where('code', 'like', '%'.$v.'%'))->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
+        $queue = ServiceRequest::select(['code', 'service', 'project_type', 'created_at', 'status', 'lock_version'])
+            ->whereNull('assigned_to')->whereIn('status', ['pendiente', 'evaluacion', 'observada', 'aprobado']);
+        $unassigned = $this->filterRequests($queue, $data, minimal: true)->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
         $from = CarbonImmutable::parse($data['from'] ?? today()->subDays(30)->toDateString(), 'America/Lima')->startOfDay()->utc();
         $to = CarbonImmutable::parse($data['to'] ?? today()->toDateString(), 'America/Lima')->endOfDay()->utc();
         $cohort = (clone $visible)->whereRaw('(SELECT MIN(issued_at) FROM quotations WHERE quotations.service_request_id = service_requests.id) BETWEEN ? AND ?', [$from->format('Y-m-d H:i:s.u'), $to->format('Y-m-d H:i:s.u')]);
@@ -49,10 +52,25 @@ class ServiceRequestController extends Controller
         return view('commercial.index', compact('requests', 'unassigned', 'counts', 'denominator', 'accepted', 'minutes', 'issued', 'services', 'histories'));
     }
 
+    private function filterRequests(Builder $query, array $data, bool $minimal = false): Builder
+    {
+        return $query
+            ->when($data['status'] ?? null, fn ($q, $value) => $q->where('status', $value))
+            ->when($data['service_id'] ?? null, fn ($q, $value) => $q->where('service_id', $value))
+            ->when($data['from'] ?? null, fn ($q, $value) => $q->where('created_at', '>=', $value.' 00:00:00'))
+            ->when($data['to'] ?? null, fn ($q, $value) => $q->where('created_at', '<=', $value.' 23:59:59'))
+            ->when($data['search'] ?? null, fn ($q, $value) => $q->where(function ($search) use ($value, $minimal) {
+                $search->where('code', 'like', '%'.$value.'%');
+                if (! $minimal) {
+                    $search->orWhere('client_name', 'like', '%'.$value.'%')->orWhere('client_email', 'like', '%'.$value.'%');
+                }
+            }));
+    }
+
     public function show(ServiceRequest $serviceRequest)
     {
         Gate::authorize('view', $serviceRequest);
-        $serviceRequest->load(['assignee', 'currentRevision', 'files', 'quotations' => fn ($q) => $q->orderByDesc('version'), 'histories' => fn ($q) => $q->orderBy('id'), 'histories.user', 'evaluations.user']);
+        $serviceRequest->load(['assignee', 'currentRevision', 'currentQuotation', 'files', 'quotations' => fn ($q) => $q->orderByDesc('version'), 'histories' => fn ($q) => $q->orderBy('id'), 'histories.user', 'evaluations.user']);
         $responsibles = User::where('is_active', true)->whereIn('role', ['admin', 'gestor'])->orderBy('name')->get();
         $notices = NotificationRecord::with('deliveries')->where(function ($q) use ($serviceRequest) {
             $q->where(fn ($q) => $q->where('kind', 'received')->where('resource_id', $serviceRequest->id))

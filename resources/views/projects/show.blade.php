@@ -6,7 +6,7 @@
     <section class="project-detail" aria-labelledby="project-title">
         <div class="container">
             <a
-                href="{{ route('home') }}#proyectos"
+                href="{{ route('projects.index') }}"
                 class="project-back-link"
             >
                 <span aria-hidden="true">←</span> Volver a proyectos
@@ -39,6 +39,11 @@
                     {{ $project->title }} · {{ $project->projectCategory?->name ?? 'Sin categoría' }}
                 </figcaption>
             </figure>
+            <section class="next-action" aria-labelledby="project-next-title">
+                <h2 id="project-next-title">Demos forma a tu próximo espacio.</h2>
+                <p>Cuéntanos qué necesitas. El equipo revisará el alcance de tu proyecto y preparará una propuesta.</p>
+                <a class="btn btn-dark mt-3" href="{{ route('service-requests.create') }}">Solicitar un proyecto</a>
+            </section>
         </div>
     </section>
 @endsection

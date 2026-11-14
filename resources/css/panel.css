@@ -1,0 +1,3 @@
+/* Tabler ya incluye Bootstrap. No importar bootstrap.css aquí. */
+@import '@tabler/core/dist/css/tabler.min.css';
+@import './studio.css';
