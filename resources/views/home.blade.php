@@ -42,12 +42,6 @@
         </div>
     </section>
 
-    <nav class="home-section-navigation" aria-label="Secciones de la página principal">
-        <div class="container">
-            <a href="#sobre">Estudio</a><a href="#servicios">Servicios</a><a href="#equipo">Equipo</a><a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a>
-        </div>
-    </nav>
-
     <section
         id="sobre"
         class="section-block"

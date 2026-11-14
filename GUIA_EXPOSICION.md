@@ -11,7 +11,10 @@
 - Disponer de admin y gestor. Si faltan, ejecutar `php artisan usuarios:crear-interno`
   de forma interactiva; cada persona introduce su contraseña, sin claves fijas.
 - Revisar `/`, `/proyectos`, portadas, enlaces y descarga de un PDF autorizado.
-  Para nuevas portadas, comprobar `php artisan storage:link`.
+  Para nuevas portadas, comprobar que `public/storage` apunte al
+  `storage/app/public` de este checkout. Un enlace heredado de otra carpeta
+  puede existir y aun así devolver 404. Departamento MR usa ahora el original
+  `img/Departamento MR/1.webp`; no requiere pasar por `/storage/`.
 - Tener un PDF pequeño sin datos reales. En este equipo se usó
   `storage/framework/testing/verification-input.pdf` (artefacto local ignorado);
   en otro equipo puede imprimirse una hoja ficticia como PDF.
@@ -24,15 +27,16 @@
 
 | Minutos | Demostración |
 |---|---|
-| 0–2 | Home, acceso y perfil breves. Como admin recorrer categorías, proyectos, servicios y tarifas; mostrar consulta/edición, estado con motivo y auditoría, sin borrar. |
-| 2–4 | Cotizador 80 m² / LOD 300, solicitud con PDF pequeño y confirmación. Admin localiza y asigna al gestor con motivo. |
-| 4–6 | Gestor inicia evaluación y observa con texto público. Cliente solicita acceso, verifica el enlace y corrige con otro PDF; la corrección devuelve automáticamente a evaluación y avisa al gestor, que aprueba con evaluación técnica. |
-| 6–8 | Crear v1 con alcance, entregables, exclusiones, plazo e importe; preparar, procesar tarea y descargar PDF. Mostrar historial y fechas en Lima. |
-| 8–10 | Crear borrador v2: v1 sigue emitida. Preparar y procesar v2: v1 sustituida, archivos conservados; cliente verifica, acepta y el expediente queda cerrado. |
-| 10–12 | Gestor entra a CRUD por URL y recibe 403; explicar Policies, decimal, snapshots, transacciones y trabajo durable con los archivos siguientes. |
+| 0–1 | Home, páginas informativas, acceso y perfil breves. |
+| 1–4 | Como admin, exponer PROYECTOS y TARIFAS: listado, alta, consulta y edición; desactivar/reactivar con motivo y mostrar auditoría. Editar una tarifa publicada crea borrador y conserva la vigente. Categorías y servicios quedan disponibles como catálogos de apoyo. |
+| 4–7 | Cotizador 80 m² / LOD 300, solicitud con PDF y asignación. Gestor evalúa y observa; cliente verifica acceso y corrige; gestor aprueba con evaluación técnica. |
+| 7–9 | Crear y emitir v1 con worker real, descargar PDF; crear v2 conservando v1 hasta su emisión. Mostrar estados y versiones. |
+| 9–10 | Cliente acepta la propuesta vigente; mostrar cierre e historial. |
+| 10–12 | Gestor recibe 403 en CRUD; explicar rutas, Policies, relaciones, transacciones y cola. Reservar este tramo para preguntas a los integrantes. |
 
 Si se necesita evitar la espera del scheduler, ejecutar `php artisan commercial:recover`
-con worker activo. Con worker detenido, usar `php artisan commercial:recover --inline`.
+con worker activo. Mantener el procesamiento en cola durante el ensayo;
+si el worker está detenido, iniciarlo antes de continuar.
 No anunciar PDF listo mientras la pantalla siga preparando o failed.
 
 ## Tres escenarios reproducibles
@@ -138,3 +142,5 @@ El PDF usa marca textual ARAT STUDIO y fuente DejaVu para Unicode, sin logo
 gráfico; la web mantiene Kodchasan/Arial. La matriz contra el Informe Integral está en [REVISION_INFORME_INTEGRAL.md](REVISION_INFORME_INTEGRAL.md).
 Resultados exactos y alcance de las
 pruebas constan en [VERIFICACION_ENTREGA.md](VERIFICACION_ENTREGA.md).
+El orden de capturas exigido por PCAL-S13 y los pendientes del documento están
+en [CHECKLIST_CAPTURAS_CANVAS.md](CHECKLIST_CAPTURAS_CANVAS.md).

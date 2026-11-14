@@ -1,4 +1,315 @@
-# Verificación final — 11/11/2026, Lima
+# Contraste con PCAL-S13 y portada real — 13/11/2026, Lima
+
+**Resultado actual:** el recorrido de la segunda presentación está listo para
+ensayarse en el entorno local comprobado. La imagen de Departamento MR se
+verificó en el servidor de trabajo, además del ensayo aislado. El documento
+académico para Canvas aún debe armarse con la portada del grupo y ser entregado
+por cada integrante; el checklist está en
+[CHECKLIST_CAPTURAS_CANVAS.md](CHECKLIST_CAPTURAS_CANVAS.md).
+
+## Fuente leída y alcance de la rúbrica
+
+Se leyeron íntegramente las **siete páginas** de
+`C:\Users\rolan\OneDrive\Desktop\PCAL-S13-PVERGEL-2026-02.pdf`, incluido el
+cuadro de rúbrica de la página 6 y las condiciones/descuentos de la página 7.
+SHA-256: `b6880d2376edfaf73205dc09738476d9d73ff33e2ef602610c24c27f13bb0c55`.
+El archivo corresponde a la **segunda presentación**; no contiene la rúbrica
+de la primera. Se revisaron los lineamientos comunes de su sección I sin
+inventar criterios de un documento ausente. No se asigna una nota automática:
+la exposición, el dominio del código y la participación son evaluaciones humanas.
+
+## MR: fallo reproducido y corrección aplicada al registro autorizado
+
+Se confirmó el servidor abierto en `http://127.0.0.1:8000`, PHP de Herd 8.5.12,
+ejecutando `artisan serve` desde este checkout. La configuración local no está
+cacheada: conexión `mysql`, host `127.0.0.1`, base `arat_studios`.
+La identidad comprobada fue el único registro con slug `departamento-mr`, título
+Departamento MR y categoría Remodelación; su clave interna es 3 (solo se
+documenta aquí para identificar la intervención, no se muestra en el CRUD).
+
+**Causa exacta:** `public/storage` era una junction con destino
+`C:\Users\rolan\OneDrive\Desktop\PROYECTO PHP\arat-studios\storage\app\public`,
+perteneciente a otra carpeta. El registro apuntaba a una subida del disco public
+de **ARAT-STUDIO**, por lo que el enlace no alcanzaba el archivo. Antes de
+corregir, el detalle real devolvió 200 pero su imagen devolvió **404, text/html**,
+con `naturalWidth=0` y `naturalHeight=0`. En cambio, el original solicitado ya
+devolvía 200, `image/webp`. El ajuste previo de `object-fit` mejoraba el encuadre
+pero no resolvía esta falla de carga; aquella prueba aislada servía las imágenes
+por una ruta de ensayo y no detectó la junction del servidor real.
+
+Se corrigió únicamente el enlace de directorio, sin borrar su destino anterior,
+para apuntar a `ARAT-STUDIO\storage\app\public`. También se configuró el archivo
+expresamente solicitado en el registro existente mediante
+`CatalogWorkflowService::save`, con autorización, control de versión, auditoría
+y conservación privada. Se agregó al mismo servicio una referencia opcional
+a imagen existente bajo `public/img`, con validación de ruta, tipo y tamaño;
+las subidas mantienen su mecanismo y su resolución por el disco public.
+
+| Dato | Valor comprobado |
+|---|---|
+| Archivo original | `public/img/Departamento MR/1.webp`, respetando nombre y espacios |
+| `cover_image` anterior | `project-covers/6dFlbBWTaec4lcnucvXfAiCFQCSYZUlTpL5mhSp2.webp` |
+| `cover_image` final | `img/Departamento MR/1.webp` |
+| URL pública final | `http://127.0.0.1:8000/img/Departamento%20MR/1.webp` |
+| Historial | De dos a tres entradas privadas; copias y archivos retirados verificados por hash |
+| Cambios del registro | Solo portada, fecha de actualización y versión de edición |
+
+Antes de intervenir se guardaron ficha, historial y bytes de la portada anterior
+en almacenamiento privado, bajo `backups/guide-cover-20261113_234155/`.
+El motivo de auditoría indica expresamente que es una corrección técnica
+autorizada y ejecutada por Codex; se usó la cuenta administrativa existente ROL4N.
+No se creó otro proyecto ni se modificaron las otras dos fichas.
+
+**Confirmación visual real:** doce combinaciones de Home, portafolio y detalle
+a 320, 390, 768 y 1440 px dieron URL final correcta, **200/image/webp**, imagen
+decodificada **1400 × 1120**, caja visible con dimensiones positivas y sin otro
+elemento cubriendo su centro. Se conservaron `contain`, proporciones naturales
+y ausencia de zoom al hover. Se inspeccionaron las capturas de detalle a 390 y
+1440 px. No se agregó cache busting: la causa comprobada era el enlace de disco.
+
+Se comprobó también una subida ficticia del ensayo, desde el propio servidor
+8000, con 200/image/png y dimensiones naturales positivas. Así se verificaron
+ambas resoluciones: los assets `img/` no reciben prefijo `/storage/`, y las
+subidas continúan usando la junction real corregida.
+
+## Matriz de cumplimiento de la guía
+
+“Probado” indica comprobación ejecutada; no equivale a certificación productiva.
+Las referencias II/III/IV corresponden a las secciones del PDF adjunto.
+
+| Requisito | Implementación | Evidencia | Estado | Corrección o pendiente |
+|---|---|---|---|---|
+| I.1, I.4: aplicación PHP/Laravel 13 | Laravel, Blade, Bootstrap, MariaDB | `artisan --version`: **13.39.0**; composer y servidor real | Probado | Ninguno en este alcance |
+| I.3: grupo de 2–4 integrantes | Dato académico, no una función del sistema | No se proporcionó nómina ni número de grupo | Pendiente | Completar portada del documento |
+| II.1.1–1.3: Home completo, diseño y destinos | Estudio, servicios, equipo, proyectos, contacto y acciones públicas | Navegador, imágenes decodificadas y comprobación de destinos/anclas locales | Probado | Enlaces externos conservan sus destinos; no se enviaron mensajes |
+| II.2.1–2.3: informativas accesibles y diseño común | Nosotros, Servicios y Contacto con layout compartido; Estudio en el menú | HTTP 200, cabecera/footer únicos, capturas y cuatro anchos | Probado | Corregido el espacio superior bajo cabecera fija |
+| I.5.3, II.3.1–3.3: usuarios y perfiles según proyecto | Cuentas internas, login/logout, perfil, middleware y Policies | Suite de autenticación; login admin/gestor, perfil guardado y cierre real en MariaDB aislada | Probado | Registro interno existente por comando; no se añadió registro público |
+| II.3.1–3.3: CRUD restringidos y menús por rol | Administración solo admin; gestión admin/gestor; cliente temporal separado | Gestor 403 en cuatro CRUD; visitante redirigido; Mi cuenta según rol; expediente ajeno denegado | Probado | Ninguno |
+| I.5.4, II.4.1–4.2: dos CRUD principales, ajenos a usuarios/roles | PROYECTOS y TARIFAS para exponer; categorías y servicios conservados | Altas, consulta, edición y estados de los cuatro catálogos en navegador | Probado | Ninguno; cuatro catálogos disponibles |
+| II.4.3: DELETE opcional e integridad | Desactivación/reactivación con motivo e historial | Misma ficha tras cambios de estado; categoría con proyectos activos bloqueada; DELETE 405 en suite | Probado | No se requiere implementar borrado |
+| II.4.4–4.5: IDs y relaciones | Formularios sin ID editable; listados y detalle con nombres; auditoría filtrada | Código de formularios, suite y texto visible de auditoría sin JSON ni rutas privadas | Probado | IDs solo en rutas, opciones y campos ocultos necesarios |
+| Proyectos: portada y publicación | Portada original MR y subidas del disco public; visibilidad por proyecto/categoría activos | Servidor 8000, portafolio aislado con subida, baja/alta y portada decodificada | Probado | Corregidos registro MR y junction |
+| Tarifas: edición publicada conserva vigente | Nueva versión en borrador, activación explícita | V1 siguió activa al crear V2 borrador con nuevo precio; precio de V1 intacto | Probado | Ninguno |
+| II.5.1: mayor parte del proceso funcional | Cotizador, solicitud, asignación, evaluación, observación, corrección, aprobación, v1/v2, PDF, aceptación y cierre | Flujo completo HTTP/navegador con persistencia MariaDB aislada | Probado | Sin HTML simulado como reemplazo de operaciones del flujo |
+| II.5.2: escenarios de distintos perfiles | Administrador asigna; gestor evalúa y cotiza; cliente verificado corrige y acepta | Sesiones separadas, permisos positivos y negativos, `GUIA_EXPOSICION.md` | Probado | Repartir la exposición entre integrantes |
+| Proceso: duplicados, versiones y privacidad | Intenciones durables, bloqueos, versiones y acceso verificado | Reenvío idéntico sin alta adicional, contenido distinto 409, v1 vigente durante v2, fallo/reintento misma versión, vencida/sustituida 409 | Probado | Ninguno en los escenarios ensayados |
+| Interfaz: teclado, móvil, tipos de letra y errores | Menú único, details/summary, foco/Escape, tablas contenidas, feedback por campo | **92 combinaciones** a cuatro anchos; menú sin JS; Kodchasan cargada y Arial computada; errores reales y perfil guardado | Probado | Zoom nativo 200 % pendiente |
+| Documento, pág. 4: Word/PDF, portada, capturas y repositorio | Checklist ordenado y capturas reales disponibles localmente | `CHECKLIST_CAPTURAS_CANVAS.md`; remoto Git consultado | Parcial | Armar documento final y entrega individual en Canvas; cambios locales sin publicar por instrucción |
+| III y IV: 10–15 min, aplicación/código y dominio individual | Guion ajustado a 12 min con preguntas; archivos de explicación identificados | `GUIA_EXPOSICION.md`; lectura de rúbrica y condiciones | Documentado | Ensayar tiempos y respuestas con todo el grupo; no se garantiza calificación |
+| I.5.6: proceso secundario | La guía lo reserva para una etapa posterior | Página 2 del PDF | No exigible aquí | No se añadió otro módulo |
+
+La rúbrica contiene cuatro criterios de hasta cinco puntos: Home/usuarios,
+CRUD, proceso principal y exposición individual. La guía contempla descuento
+por errores no manejados y por no entregar el documento; no se presentan los
+resultados técnicos como una nota ni como evidencia de participación de alumnos.
+
+## Pruebas y conservación de este corte
+
+- **88 pruebas, 774 aserciones correctas**, SQLite en memoria. Se añadieron
+  pruebas de la portada existente: mismo proyecto, historial privado, original
+  intacto, Home/portafolio/detalle, visibilidad, subidas y rechazo de rutas externas.
+  Después del ajuste de las informativas se repitieron las seis pruebas
+  afectadas (95 aserciones). Compilación Vite, sintaxis de todos los JS públicos,
+  sintaxis/estilo del PHP nuevo, `view:cache` y `git diff --check`: correctos.
+- Ensayo nuevo en **MariaDB 10.4.32**, `arat_guide_20261113_234522`, servidor
+  8141, cuentas ficticias deshabilitadas al finalizar. Se copiaron solo fichas
+  públicas; no expedientes ni contactos reales. Las subidas usaron
+  `storage/app/public/isolated/arat_guide_20261113_234522`, servidas por la junction
+  real, sin una ruta especial que ocultara su estado.
+- Flujo completo hasta cierre. V2 falló en el worker de prueba, conservó V1,
+  y el reintento autorizado emitió esa misma versión. Solo dos cotizaciones
+  del expediente principal; propuestas vencida y sustituida no aceptables.
+  PDF v1 de una página y v2 de dos, descargados, abiertos y renderizados.
+- **QUEUE_CONNECTION=database**: recuperación y worker reales, sin `sync` ni
+  `--inline`; scheduler ejecutó recuperación y vencimiento. Los avisos revisados
+  quedaron `simulated`, nunca declarados entregados. Se vació la cola pendiente
+  antes de comprobar sus estados finales; un aviso pendiente antes del worker
+  no se consideró un fallo ni se ocultó cambiando la configuración.
+- 92 mediciones de páginas/formularios/tablas, más las doce de MR en el
+  servidor 8000. Tras ajustar las informativas se repitieron sus doce posiciones
+  y sus capturas, quedando por debajo de la cabecera en los cuatro anchos.
+  Teclado, menú abierto, Escape y foco pasaron a 320/390/768/1440; navegación
+  sin JS a 320 px. Cinco auditorías axe sin infracciones detectadas. Consola
+  y recursos de las mediciones finales sin nuevos errores; 403/409 de pruebas
+  negativas y el 404 inicial de MR se identifican como tales.
+- Después de la corrección autorizada se compararon las **27 tablas** de
+  desarrollo: solo `sessions` varió durante la revisión. Las otras 26 mantuvieron
+  sus hashes. Las otras dos fichas de proyectos y los diez originales MR
+  permanecen iguales; las tres copias históricas privadas están verificadas.
+- Sin cambios de `.env`, credenciales, XAMPP ni dependencias; sin seeders,
+  fresh/refresh/wipe, git add, commits ni push. Se conservan artefactos anteriores.
+
+Evidencia ignorada en `storage/framework/testing/`: `guide-mr-before.json`,
+`guide-real-image-results.json`, `guide-upload-runtime.json`,
+`guide-browser-results.json`, `guide-info-position.json`,
+`guide-menu-results.json`, `guide-conservation.json`, capturas `guide-*.png`
+y PDF `guide-v1.pdf`/`guide-v2.pdf`. Hay capturas auténticas de alta/edición,
+listados, páginas informativas y pantallas del flujo para seleccionar en Canvas.
+Las capturas de fallo se conservan para diagnóstico y no se confunden con las
+capturas de resultado final.
+
+Pendientes: documento Word/PDF de Canvas con número de grupo y nombres, entrega
+individual, ensayo humano de 10–15 minutos y preguntas; zoom **nativo** al 200 %
+(la automatización no permite controlarlo con fiabilidad), SMTP real, producción
+y navegadores/dispositivos adicionales. El pendiente histórico de 413 para
+cargas superiores a 64 MiB no se volvió a ensayar. La rúbrica de primera
+presentación no está en el PDF recibido. El servidor de trabajo 8000 se conserva;
+solo el servidor temporal de este corte se detiene al terminar.
+
+---
+
+# Antecedente aislado anterior — 13/11/2026, Lima
+
+**Nota de alcance:** las comprobaciones siguientes son históricas. La causa y
+la solución definitivas del fallo de carga de MR están en el corte superior;
+este antecedente no probaba la junction del servidor de trabajo.
+
+**Resultado:** el recorrido descrito en la solicitud está listo para ensayarse
+en el entorno local comprobado. Esta sección corresponde a las correcciones
+actuales; los cortes anteriores se conservan debajo como antecedentes.
+Por indicación del usuario, el contraste documental con
+`PCAL-S13-PVERGEL-2026-02` queda para cuando facilite ese documento. No se afirma
+haberlo leído ni validado sus criterios adicionales.
+
+## Departamento MR: causa comprobada y corrección
+
+Se consultó el registro real de `arat_studios` en una transacción de solo lectura.
+La portada utilizada es
+`project-covers/6dFlbBWTaec4lcnucvXfAiCFQCSYZUlTpL5mhSp2.webp`, servida por
+el accessor `cover_image_url` desde `/storage/project-covers/`.
+Su SHA-256 coincide exactamente con `public/img/Departamento MR/1.webp`:
+
+`7f626251f7e66272cf4054cb385ab57c37baa171b5807d0c30205d707d759142`
+
+Se compararon visualmente las diez imágenes disponibles. `1.webp` muestra la
+cocina; `2.webp`, planta y corte; `3–4`, otras vistas de cocina; `5–10`, comedor,
+sala y vistas generales. Hay varias opciones válidas y se conservó la actual,
+tal como se pidió. No se modificó el registro ni se sustituyeron fotografías.
+
+La causa comprobada era la presentación: imagen de 1400 × 1120 (5:4) dentro
+de tarjetas 4:3 con `object-fit: cover`, que cortaba aproximadamente 6,25 % de
+su altura, más `scale(1.05)` al pasar el cursor. No se encontró una ruta rota,
+una imagen distinta en el accessor ni evidencia de que la caché fuera la causa.
+Las tarjetas compartidas por Home y portafolio usan ahora `contain`, centrado
+y sin zoom; el detalle mantiene ancho adaptable y altura natural. La consulta
+administrativa también conserva la proporción.
+
+Chrome decodificó la portada real en Home, portafolio y detalle en los cuatro
+anchos solicitados: doce mediciones con dimensiones naturales 1400 × 1120,
+`object-fit: contain` y sin transformación al hover. Se inspeccionaron las
+capturas, además del estado HTTP. Los originales y su historial se conservaron.
+
+## Navegación final
+
+- Inicio, **Estudio** (Nosotros, Servicios, Contacto), Portafolio, Cotizador,
+  **Solicitar proyecto** como acción principal y **Acceso** (Mi expediente,
+  Ingresar) para visitantes.
+- En sesión interna, **Mi cuenta** agrupa Mi perfil, los paneles permitidos por
+  rol y Cerrar sesión. Administración aparece solo para admin; Gestión, para
+  admin y gestor. El acceso temporal del cliente sigue separado de la sesión
+  interna; no se modificaron middleware, políticas ni reglas de autenticación.
+- Se eliminó la barra adicional de secciones del Home y la duplicación del
+  árbol de enlaces para escritorio/móvil. Se mantienen las páginas informativas
+  y el footer común, con enlaces operativos.
+- Submenús nativos `details/summary`, utilizables con clic, Enter y espacio.
+  El control móvil informa `aria-expanded`; Escape cierra primero el submenú
+  y devuelve foco, y luego cierra el menú. Foco visible comprobado. Sin JS,
+  la navegación móvil queda expandida y desplazable y los submenús funcionan.
+
+También se retiró el ID autogenerado del trabajo técnico del detalle de
+cotización; el aviso de corrección identifica el expediente por su código
+público. Se conservaron los cambios previos de auditoría legible y páginas
+informativas. Las relaciones de proyectos y tarifas muestran categoría/familia,
+y la auditoría utiliza etiquetas permitidas, responsables y motivos, sin
+snapshots JSON, IDs de relaciones ni rutas privadas.
+
+## Ensayos realizados en este corte
+
+MariaDB **10.4.32**, base nueva `arat_presentation_20261113_225523`, servidor
+temporal `127.0.0.1:8139`, discos y sesiones separados, cuentas ficticias y
+correo `log`. Solo se copiaron las tres fichas públicas y la portada utilizada
+para reproducir la presentación. No se copiaron expedientes ni contactos reales.
+Las cuentas de navegador se deshabilitaron al terminar.
+
+- PROYECTOS y TARIFAS: crear, listar/consultar, editar, desactivar y reactivar
+  en navegador, conservando registros e historial. También se recorrieron los
+  otros dos catálogos. La categoría con proyectos activos siguió bloqueando
+  su desactivación; gestor recibió 403 en los cuatro CRUD.
+- Cotizador: 80 m², LOD 300, PEN 10 800.00; solicitud con PDF, reenvío idéntico
+  sin duplicación y contenido distinto con la misma clave rechazado con 409.
+- Asignación, evaluación, observación pública, acceso del cliente mediante
+  enlace producido por correo simulado, corrección conservando dos adjuntos,
+  regreso a evaluación y aprobación técnica.
+- V1 emitida, V2 en borrador conservando V1; fallo de PDF de V2 provocado solo
+  en el worker de ensayo, V1 todavía vigente; reintento desde la acción
+  autorizada, V2 emitida sin crear otra versión. Se mantuvieron exactamente
+  dos cotizaciones y el PDF privado anterior siguió disponible al responsable.
+- Propuestas sustituidas y vencidas por fecha rechazaron aceptación HTTP 409.
+  La fecha vencida se preparó/restauró solo en datos ficticios aislados.
+  Aceptación verificada de V2 y cierre del expediente completados.
+- Gestor ajeno sin expediente ni adjunto; visitante sin PDF privado.
+  Área de 501 m² sin importe automático, rechazo con motivo, servicio manual
+  sin área/LOD y archivo mayor de 50 MiB retirado con mensaje correcto.
+- Servidor, jobs y scheduler comprobados con **QUEUE_CONNECTION=database**.
+  `commercial:recover` encoló trabajos y `queue:work --stop-when-empty`
+  procesó la cola real; no se usó `--inline` ni se cambió a `sync` para el
+  ensayo MariaDB. `schedule:run -v` ejecutó `commercial:recover` y
+  `commercial:expire` correctamente. Las notificaciones comprobadas quedaron
+  `simulated`, visibles como “Simulada (entorno local)”; no se entregó SMTP real.
+- 84 combinaciones (21 páginas × 320/390/768/1440 px), incluyendo públicas,
+  formularios, listados y detalles de proyectos/tarifas, perfil, expediente y
+  cotizaciones: sin desbordamiento horizontal del documento. Las tablas
+  conservan su contenedor de desplazamiento. Se comprobaron clic, teclado,
+  Escape, foco, cambio de breakpoint y navegación sin JavaScript.
+- Las cinco páginas/combinaciones auditadas con axe no informaron infracciones.
+  No se presenta como certificación integral de accesibilidad. Red y consola
+  de las comprobaciones visuales terminaron sin errores ni recursos 404 nuevos;
+  los 403/409 de pruebas negativas fueron respuestas esperadas.
+
+La suite de PHPUnit utiliza SQLite en memoria y su configuración previa de
+pruebas; es evidencia distinta del ensayo de cola MariaDB:
+**86 pruebas, 753 aserciones, correctas**. Se agregaron comprobaciones de
+navegación única/roles, ocultación del ID técnico y código público del aviso.
+La integración de concurrencia existente pasó sus **siete escenarios** en
+`arat_concurrency_20261113_231151` (toma, borrador, dos reenvíos, ambos órdenes
+aceptación/emisión y cambio tarifario).
+
+`npm.cmd run build`, sintaxis de todos los JS públicos, sintaxis/estilo del PHP
+modificado, `php artisan view:cache` y `git diff --check`: correctos.
+El `php` del PATH apunta a XAMPP 8.2 y no satisface las dependencias instaladas;
+las comprobaciones PHP usaron el ejecutable existente de **Herd 8.5.12**.
+Para ensayar, iniciar servidor, worker y scheduler con ese PHP compatible.
+No se modificaron PATH permanente, `.env`, credenciales ni dependencias.
+
+## Conservación, evidencia y pendientes
+
+Se compararon hashes de las 27 tablas de desarrollo antes/después: **26 sin
+cambios**; `sessions` presentó variaciones durante la revisión, cuya causa
+no se atribuye sin evidencia adicional. No cambiaron catálogos, expedientes,
+cotizaciones, auditoría ni demás tablas de negocio. Las diez imágenes originales
+de Departamento MR y la copia registrada mantuvieron sus hashes (11/11).
+No se ejecutaron seeders, fresh, refresh, wipe ni SQL masivo sobre `arat_studios`.
+No se borraron respaldos, originales ni datos históricos. Los entornos ficticios
+se conservan para trazabilidad. No se hizo git add, commit ni push.
+
+La evidencia local está ignorada en `storage/framework/testing/`:
+`presentation-browser-results.json`, `presentation-conservation.json`,
+`presentation-mr-*.png`, `presentation-v1.pdf`, `presentation-v2.pdf` y los
+guiones `presentation-*.php/cjs`. Se conservaron los artefactos anteriores.
+
+Pendientes concretos: contraste con PCAL-S13 cuando se facilite; **zoom nativo
+al 200 %**, que no pudo controlarse de forma fiable con Playwright (no se
+sustituyó por zoom CSS o densidad emulada); SMTP real y producción. Se mantiene
+el pendiente histórico de respuesta 413 para cargas superiores a 64 MiB,
+que no se volvió a ensayar en este corte. El servidor temporal se detuvo al
+cerrar la revisión; los procesos de trabajo existentes no se alteraron.
+
+El recorrido solicitado puede ensayarse con los componentes iniciados y PHP
+compatible. Este resultado se limita a los escenarios y anchos comprobados.
+
+---
+
+# Verificación anterior — 11/11/2026, Lima
 
 Revisión contra `Informe_Integral_ARAT_STUDIO_Laravel.docx`, versión 1.0,
 facilitado en `C:\Users\rolan\OneDrive\Desktop\`. Se leyó su contenido y sus

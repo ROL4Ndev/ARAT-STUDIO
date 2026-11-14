@@ -59,6 +59,42 @@ class AdminCatalogTest extends TestCase
         $this->assertDatabaseCount('categories', 1);
     }
 
+    public function test_catalog_audit_is_presented_with_allowed_labels_and_actor_name(): void
+    {
+        $actor = auth()->user();
+        $actor->forceFill(['name' => 'Administradora de prueba'])->save();
+        $category = $this->category();
+        $this->put(route('admin.categories.update', $category), [
+            'name' => 'Categoría renombrada',
+            'lock_version' => $category->lock_version,
+            'reason' => 'Cambio de nombre para validar auditoría',
+        ])->assertSessionHasNoErrors();
+
+        $event = AuditEvent::where('resource_id', $category->id)->latest('id')->firstOrFail();
+        $this->assertSame($category->id, $event->after['id']);
+        $this->assertSame('Categoría renombrada', $event->after['name']);
+
+        $this->get(route('admin.categories.show', $category))
+            ->assertOk()
+            ->assertSeeText('Administradora de prueba')
+            ->assertSeeText('Nombre')
+            ->assertSeeText('Categoría renombrada')
+            ->assertSeeText('Motivo: Cambio de nombre para validar auditoría')
+            ->assertDontSee('actor_id')
+            ->assertDontSee('resource_id')
+            ->assertDontSee('catalog_edit')
+            ->assertDontSee('json_encode');
+    }
+
+    public function test_catalog_administration_remains_restricted_to_admins(): void
+    {
+        $manager = User::factory()->create(['role' => 'gestor']);
+
+        $this->actingAs($manager)
+            ->get(route('admin.services.index'))
+            ->assertForbidden();
+    }
+
     public function test_unique_names_length_and_generated_slugs(): void
     {
         foreach (['Café', 'Cafe'] as $name) {
@@ -79,7 +115,12 @@ class AdminCatalogTest extends TestCase
         $slug = $p->slug;
         $old = $p->cover_image;
         Storage::disk('public')->assertExists($old);
-        $this->get(route('admin.projects.show', $p))->assertOk()->assertSee('Portadas conservadas');
+        $this->get(route('admin.projects.show', $p))
+            ->assertOk()
+            ->assertSeeText('Portadas conservadas')
+            ->assertSeeText($c->name)
+            ->assertSeeText('Categoría')
+            ->assertDontSee('category_id');
         $this->get(route('admin.projects.edit', $p))->assertOk();
         $this->put(route('admin.projects.update', $p), [...$data, 'title' => 'Proyecto renovado', 'lock_version' => $p->lock_version, 'cover_image' => UploadedFile::fake()->image('new.png')])->assertSessionHasNoErrors();
         $p->refresh();
@@ -137,7 +178,11 @@ class AdminCatalogTest extends TestCase
         $service = ['code' => 'NUEVO_SERVICIO', 'name' => 'Servicio de prueba', 'description' => 'Descripción del servicio para evaluación manual.', 'audience' => 'estudiantes', 'display_order' => 20, 'estimation_mode' => 'manual', 'reason' => 'Alta de catálogo para ensayo'];
         $this->post(route('admin.services.store'), $service)->assertSessionHasNoErrors();
         $s = OfferedService::where('code', 'NUEVO_SERVICIO')->first();
-        $this->get(route('admin.services.show', $s))->assertOk();
+        $this->get(route('admin.services.show', $s))
+            ->assertOk()
+            ->assertSeeText('Público')
+            ->assertSeeText('Evaluación manual')
+            ->assertDontSee('deactivated_by');
         $this->get(route('admin.services.edit', $s))->assertOk();
         unset($service['code']);
         $this->put(route('admin.services.update', $s), $service + ['lock_version' => $s->lock_version])->assertSessionHasNoErrors();
@@ -145,7 +190,12 @@ class AdminCatalogTest extends TestCase
         $d = ['lod_level' => 'LOD_300', 'base_price_m2' => '100', 'lod_factor' => '1.35', 'max_area_m2' => '500', 'reason' => 'Tarifa de ensayo inicial'];
         $this->post(route('admin.tariffs.store'), $d)->assertSessionHasNoErrors();
         $t = TariffParam::latest('id')->first();
-        $this->get(route('admin.tariffs.show', $t))->assertOk();
+        $this->get(route('admin.tariffs.show', $t))
+            ->assertOk()
+            ->assertSeeText('Familia de tarifa')
+            ->assertSeeText('LOD_300')
+            ->assertDontSee('tariff_group_id')
+            ->assertDontSee('active_tariff_id');
         $this->get(route('admin.tariffs.edit', $t))->assertOk();
         $this->post(route('admin.tariffs.status', $t), ['active' => 1, 'reason' => 'Activar tarifa de prueba', 'lock_version' => $t->lock_version, 'expected_active_id' => null])->assertSessionHasNoErrors();
     }

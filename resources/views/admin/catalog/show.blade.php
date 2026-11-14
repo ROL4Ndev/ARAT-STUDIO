@@ -12,6 +12,10 @@
         <dl class="admin-project-detail__data">
             <dt>Estado</dt>
             <dd>@include('shared.status-label', ['value' => $state])</dd>
+            @if ($kind === 'projects')
+                <dt>Categoría</dt>
+                <dd>{{ $item->projectCategory?->name ?? 'Sin categoría' }}</dd>
+            @endif
             <dt>Versión de edición</dt>
             <dd>{{ $item->lock_version }}</dd>
             @if ($item->description)
@@ -109,15 +113,26 @@
     <section class="workspace-card mt-4" aria-labelledby="audit-title">
         <h2 id="audit-title">Auditoría</h2>
         <ol>
-            @forelse ($events as $event)
+            @forelse ($auditEvents as $event)
                 <li class="mb-3">
-                    {{ $event->occurred_at->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
-                    · {{ $event->action }} · actor {{ $event->actor_type }} {{ $event->actor_id ?? '' }}
-                    · {{ $event->reason }}
-                    <details>
-                        <summary>Consultar datos anteriores y posteriores</summary>
-                        <pre class="text-wrap">{{ json_encode(['antes' => $event->before, 'despues' => $event->after], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) }}</pre>
-                    </details>
+                    {{ $event['occurred_at']->timezone('America/Lima')->format('d/m/Y H:i:s') }} (Lima)
+                    · {{ $event['action'] }} · Responsable: {{ $event['actor'] }}
+                    · Motivo: {{ $event['reason'] }}
+                    <table class="table table-sm mt-2">
+                        <caption class="visually-hidden">Cambios registrados, sin identificadores internos</caption>
+                        <thead>
+                            <tr><th scope="col">Campo</th><th scope="col">Valor anterior</th><th scope="col">Valor nuevo</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (array_unique(array_merge(array_keys($event['before']), array_keys($event['after']))) as $field)
+                                <tr>
+                                    <th scope="row">{{ $field }}</th>
+                                    <td>{{ $event['before'][$field] ?? '—' }}</td>
+                                    <td>{{ $event['after'][$field] ?? '—' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </li>
             @empty
                 <li>No hay cambios posteriores a la importación.</li>

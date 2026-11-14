@@ -156,7 +156,8 @@ class WorkProcessor
             $body = 'Hay una observación pública en tu expediente. Solicita acceso verificado para consultar y corregir.';
         } elseif ($n->kind === 'corrected') {
             $revision = RequestRevision::findOrFail($n->resource_id);
-            $heading = 'Corrección recibida del expediente '.$revision->service_request_id;
+            $r = ServiceRequest::findOrFail($revision->service_request_id);
+            $heading = 'Corrección recibida del expediente '.$r->code;
             $body = 'El cliente presentó una revisión validada. La solicitud volvió a evaluación.';
         } else {
             $q = Quotation::findOrFail($n->resource_id);

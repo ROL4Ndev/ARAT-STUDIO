@@ -45,15 +45,12 @@
                 >
                 <span class="navbar-brand__text">ARAT STUDIO</span>
             </a>
-            <div class="site-navigation site-navigation--desktop">
+            <button type="button" class="site-menu-toggle" aria-controls="site-navigation" aria-expanded="true" hidden>
+                Menú <span aria-hidden="true">☰</span>
+            </button>
+            <div id="site-navigation" class="site-navigation">
                 @include('layouts.components.navigation-links')
             </div>
-            <details id="mobile-navigation" class="site-menu">
-                <summary>Menú <span aria-hidden="true">☰</span></summary>
-                <div class="site-navigation">
-                    @include('layouts.components.navigation-links')
-                </div>
-            </details>
         </div>
     </nav>
 

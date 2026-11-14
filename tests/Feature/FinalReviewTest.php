@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Mail\CommercialNotice;
 use App\Models\Category;
 use App\Models\ClientGrant;
 use App\Models\NotificationRecord;
@@ -202,6 +203,10 @@ class FinalReviewTest extends TestCase
         $this->assertSame('evaluacion', $r->status);
         $this->assertSame($g->id, $r->currentRevision->client_grant_id);
         $this->assertDatabaseHas('notification_records', ['kind' => 'corrected', 'resource_id' => $r->current_revision_id, 'recipient' => $u->email]);
+        $notice = NotificationRecord::where('kind', 'corrected')->where('resource_id', $r->current_revision_id)->firstOrFail();
+        $intent = WorkIntent::where('key', 'notification:'.$notice->id)->firstOrFail();
+        app(WorkProcessor::class)->run($intent->id);
+        Mail::assertSent(CommercialNotice::class, fn ($mail) => $mail->heading === 'Corrección recibida del expediente '.$r->code);
     }
 
     public function test_staff_correction_requires_evidence_and_never_impersonates_the_client(): void

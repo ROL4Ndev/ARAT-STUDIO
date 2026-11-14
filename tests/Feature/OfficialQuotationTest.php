@@ -62,7 +62,8 @@ class OfficialQuotationTest extends TestCase
         $this->assertStringStartsWith('%PDF-', Storage::disk('commercial')->get($q->pdf_path));
         $this->r->update(['client_name' => 'Otro nombre']);
         $this->assertSame('Cliente ficticio', $q->fresh()->client_snapshot['name']);
-        $this->actingAs($this->manager)->get(route('commercial.quotations.show', $q))->assertOk();
+        $this->actingAs($this->manager)->get(route('commercial.quotations.show', $q))
+            ->assertOk()->assertSeeText('Procesamiento de esta versión')->assertDontSeeText('ID '.$intent->id);
         $this->get(route('commercial.quotations.download', $q))->assertDownload();
         $this->actingAs(User::factory()->create(['role' => 'gestor']))->get(route('commercial.quotations.download', $q))->assertForbidden();
     }

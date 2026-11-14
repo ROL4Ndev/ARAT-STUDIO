@@ -80,7 +80,7 @@
                     @if ($intent)
                         <h2>Trabajo técnico</h2>
                         <p>
-                            ID {{ $intent->id }}
+                            Procesamiento de esta versión
                             · @include('shared.status-label', ['value' => $intent->status])
                             · {{ $intent->attempts }} intentos
                             @if ($intent->error)

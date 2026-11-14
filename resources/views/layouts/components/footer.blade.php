@@ -6,10 +6,11 @@
                 <span>ARAT STUDIO<small>Arquitectura · Diseño · Visualización 3D</small></span>
             </a>
             <nav class="site-footer__links" aria-label="Enlaces del pie de página">
-                <a href="{{ route('home') }}#servicios">Servicios</a>
+                <a href="{{ route('about') }}">Nosotros</a>
+                <a href="{{ route('services') }}">Servicios</a>
                 <a href="{{ route('projects.index') }}">Portafolio</a>
                 <a href="{{ route('service-requests.create') }}">Solicitar proyecto</a>
-                <a href="{{ route('home') }}#contacto">Contacto</a>
+                <a href="{{ route('contact') }}">Contacto</a>
             </nav>
             <div class="site-footer__contact">
                 <a href="mailto:{{ config('studio.email') }}">{{ config('studio.email') }}</a>

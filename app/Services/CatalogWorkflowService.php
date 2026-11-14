@@ -22,17 +22,31 @@ class CatalogWorkflowService
 {
     public function __construct(private AuditService $audit) {}
 
-    public function save(string $kind, ?Model $record, array $data, ?UploadedFile $file, User $actor): Model
+    public function save(string $kind, ?Model $record, array $data, ?UploadedFile $file, User $actor, ?string $publicCover = null): Model
     {
         [, $class] = CatalogRegistry::get($kind);
         Gate::forUser($actor)->authorize($record ? 'update' : 'create', $record ?? $class);
+        if ($publicCover !== null) {
+            if ($kind !== 'projects' || $file !== null) {
+                throw new \InvalidArgumentException('La portada existente solo se aplica a proyectos sin otra subida.');
+            }
+            $root = realpath(public_path('img'));
+            $path = realpath(public_path($publicCover));
+            if (! str_starts_with($publicCover, 'img/') || str_contains($publicCover, '..') || ! $root || ! $path
+                || ! str_starts_with(strtolower($path), strtolower($root.DIRECTORY_SEPARATOR))
+                || ! is_file($path) || ! in_array(@getimagesize($path)[2] ?? null, [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)
+                || filesize($path) > 5 * 1024 * 1024) {
+                throw ValidationException::withMessages(['cover_image' => 'Selecciona una imagen existente y válida dentro de public/img, de hasta 5 MiB.']);
+            }
+        }
         $uploaded = $file?->store('project-covers', 'public');
         if ($file && ! $uploaded) {
             throw new \RuntimeException('No se pudo guardar la portada.');
         }
+        $cover = $uploaded ?? $publicCover;
         $relocations = [];
         try {
-            return DB::transaction(function () use ($kind, $record, $data, $actor, $uploaded, $class, &$relocations) {
+            return DB::transaction(function () use ($kind, $record, $data, $actor, $cover, $class, &$relocations) {
                 $category = $kind === 'projects' ? Category::whereKey($data['category_id'])->lockForUpdate()->firstOrFail() : null;
                 $group = $kind === 'tariffs' ? TariffGroup::firstOrCreate(['lod_level' => $record?->lod_level ?? $data['lod_level']]) : null;
                 if ($group) {
@@ -48,8 +62,8 @@ class CatalogWorkflowService
                     if (! $record) {
                         $values['slug'] = Str::slug($data['title']).'-'.Str::lower((string) Str::ulid());
                     }
-                    if ($uploaded) {
-                        $values['cover_image'] = $uploaded;
+                    if ($cover) {
+                        $values['cover_image'] = $cover;
                     }
                 }
                 if ($kind === 'categories' && ! $record) {
@@ -71,16 +85,16 @@ class CatalogWorkflowService
                 $locked->fill($values);
                 $locked->lock_version = $locked->exists ? $locked->lock_version + 1 : 0;
                 $locked->save();
-                if ($uploaded) {
-                    $this->archiveCover($locked, $uploaded, $actor);
-                    if (isset($before['cover_image']) && $before['cover_image'] !== $uploaded) {
+                if ($cover && ($before['cover_image'] ?? null) !== $cover) {
+                    $this->archiveCover($locked, $cover, $actor);
+                    if (isset($before['cover_image']) && $before['cover_image'] !== $cover) {
                         $this->retireCover($before['cover_image'], $relocations);
                     }
                 }
                 $this->audit->record($locked, $before ? 'catalog_edit' : 'catalog_create', $data['reason'], $before, $locked->toArray(), $actor);
 
                 return $locked;
-            }, $uploaded ? 1 : 3);
+            }, $cover ? 1 : 3);
         } catch (\Throwable $e) {
             foreach (array_reverse($relocations) as [$from,$to]) {
                 if (is_file($to) && ! is_file($from) && ! rename($to, $from)) {
@@ -142,7 +156,9 @@ class CatalogWorkflowService
 
     private function archiveCover(Project $project, string $source, User $actor): void
     {
-        $disk = Storage::disk('public');
+        $disk = str_starts_with($source, 'img/')
+            ? Storage::build(['driver' => 'local', 'root' => public_path(), 'throw' => true])
+            : Storage::disk('public');
         $private = 'covers/'.Str::uuid().'.'.pathinfo($source, PATHINFO_EXTENSION);
         if (! Storage::disk('commercial')->put($private, $disk->get($source))) {
             throw new \RuntimeException('No se pudo preservar la portada.');

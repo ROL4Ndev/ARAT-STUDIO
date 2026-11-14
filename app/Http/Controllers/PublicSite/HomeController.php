@@ -23,4 +23,25 @@ class HomeController extends Controller
 
         return view('home', compact('projects', 'services'));
     }
+
+    public function about(): View
+    {
+        return view('public.about');
+    }
+
+    public function services(): View
+    {
+        $services = OfferedService::where('is_active', true)
+            ->orderBy('display_order')
+            ->orderBy('id')
+            ->get()
+            ->groupBy(fn ($service) => $service->audience === 'estudiantes' ? 'Servicios para estudiantes' : 'Servicios generales');
+
+        return view('public.services', compact('services'));
+    }
+
+    public function contact(): View
+    {
+        return view('public.contact');
+    }
 }
