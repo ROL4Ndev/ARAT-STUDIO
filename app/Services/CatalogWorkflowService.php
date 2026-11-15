@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\ProjectCoverHistory;
+use App\Models\ProjectImage;
 use App\Models\TariffGroup;
 use App\Models\TariffParam;
 use App\Models\User;
@@ -22,7 +23,7 @@ class CatalogWorkflowService
 {
     public function __construct(private AuditService $audit) {}
 
-    public function save(string $kind, ?Model $record, array $data, ?UploadedFile $file, User $actor, ?string $publicCover = null): Model
+    public function save(string $kind, ?Model $record, array $data, ?UploadedFile $file, User $actor, ?string $publicCover = null, ?ProjectImage $galleryCover = null): Model
     {
         [, $class] = CatalogRegistry::get($kind);
         Gate::forUser($actor)->authorize($record ? 'update' : 'create', $record ?? $class);
@@ -46,7 +47,7 @@ class CatalogWorkflowService
         $cover = $uploaded ?? $publicCover;
         $relocations = [];
         try {
-            return DB::transaction(function () use ($kind, $record, $data, $actor, $cover, $class, &$relocations) {
+            return DB::transaction(function () use ($kind, $record, $data, $actor, $cover, $galleryCover, $class, &$relocations) {
                 $category = $kind === 'projects' ? Category::whereKey($data['category_id'])->lockForUpdate()->firstOrFail() : null;
                 $group = $kind === 'tariffs' ? TariffGroup::firstOrCreate(['lod_level' => $record?->lod_level ?? $data['lod_level']]) : null;
                 if ($group) {
@@ -55,6 +56,16 @@ class CatalogWorkflowService
                 $locked = $record ? DomainLock::get($record, (int) $data['lock_version']) : new $class;
                 $before = $locked->exists ? $locked->toArray() : [];
                 $values = Arr::except($data, ['reason', 'lock_version', 'cover_image']);
+                if ($galleryCover) {
+                    abort_unless($kind === 'projects' && $record && ! $cover, 422);
+                    $selected = ProjectImage::whereKey($galleryCover->id)->where('project_id', $locked->id)->where('is_active', true)->lockForUpdate()->firstOrFail();
+                    $exists = str_starts_with($selected->path, 'img/') ? is_file(public_path($selected->path)) : Storage::disk('public')->exists($selected->path);
+                    abort_unless($exists, 409, 'La imagen ya no está disponible.');
+                    $cover = $selected->path;
+                    $values['cover_image_id'] = $selected->id;
+                } elseif ($cover && $kind === 'projects') {
+                    $values['cover_image_id'] = null;
+                }
                 if ($kind === 'projects') {
                     if ($data['is_active'] && ! $category->is_active) {
                         throw ValidationException::withMessages(['category_id' => 'La categoría debe estar activa para publicar.']);
@@ -168,7 +179,7 @@ class CatalogWorkflowService
 
     private function retireCover(string $source, array &$relocations): void
     {
-        if (Project::where('cover_image', $source)->exists()) {
+        if (str_starts_with($source, 'img/') || Project::where('cover_image', $source)->exists() || ProjectImage::where('path', $source)->exists()) {
             return;
         }
         // Un activo compartido de identidad sigue siendo público por ese uso.

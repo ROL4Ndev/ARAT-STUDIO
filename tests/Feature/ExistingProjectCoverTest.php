@@ -22,7 +22,7 @@ class ExistingProjectCoverTest extends TestCase
         Storage::fake('commercial');
         $actor = User::factory()->create(['role' => 'admin']);
         $category = Category::create(['name' => 'Remodelación', 'slug' => 'remodelacion', 'is_active' => true]);
-        $data = ['title' => 'Departamento MR', 'description' => 'Departamento con cocina y comedor integrados.', 'category_id' => $category->id, 'is_active' => true, 'reason' => 'Portada del proyecto de prueba'];
+        $data = ['title' => 'Departamento MR', 'description' => 'Departamento con cocina y comedor integrados.', 'category_id' => $category->id, 'is_active' => true, 'is_featured' => true, 'reason' => 'Portada del proyecto de prueba'];
         $service = app(CatalogWorkflowService::class);
         $project = $service->save('projects', null, $data, UploadedFile::fake()->image('anterior.png'), $actor);
         $old = $project->cover_image;

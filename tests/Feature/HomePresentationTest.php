@@ -16,7 +16,7 @@ class HomePresentationTest extends TestCase
     public function test_home_uses_original_content_and_only_active_projects(): void
     {
         $category = Category::create(['name' => 'Arquitectura', 'slug' => 'arquitectura']);
-        $project = Project::create(['title' => 'Proyecto visible', 'slug' => 'proyecto-visible', 'category_id' => $category->id, 'description' => 'Descripción del proyecto', 'cover_image' => 'img/LOGO.png', 'is_active' => true]);
+        $project = Project::create(['title' => 'Proyecto visible', 'slug' => 'proyecto-visible', 'category_id' => $category->id, 'description' => 'Descripción del proyecto', 'cover_image' => 'img/LOGO.png', 'is_active' => true, 'is_featured' => true]);
         Project::create(['title' => 'Proyecto oculto', 'slug' => 'proyecto-oculto', 'category_id' => $category->id, 'description' => 'No debe aparecer', 'cover_image' => 'img/LOGO.png', 'is_active' => false]);
         $response = $this->get('/')->assertOk()->assertSee('Angelo Trinidad')->assertSee('Luz Nicole Arana Peláez')
             ->assertSee('Modelado BIM')->assertDontSee('Diseño de Muebles en Melamina')->assertDontSee('Diagramación de Paneles')

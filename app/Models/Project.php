@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class Project extends BusinessModel
 {
+    protected $attributes = ['lock_version' => 0, 'is_featured' => false, 'featured_order' => 0];
+
     protected $fillable = [
         'title',
         'slug',
@@ -16,12 +18,15 @@ class Project extends BusinessModel
         'cover_image',
         'is_active',
         'lock_version', 'status_reason', 'deactivated_at', 'deactivated_by',
+        'is_featured', 'featured_order', 'cover_image_id',
     ];
 
     protected function casts(): array
     {
         return [...parent::casts(),
             'is_active' => 'boolean',
+            'is_featured' => 'boolean',
+            'featured_order' => 'integer',
         ];
     }
 
@@ -43,6 +48,21 @@ class Project extends BusinessModel
     public function coverHistories()
     {
         return $this->hasMany(ProjectCoverHistory::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProjectImage::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function coverMedia()
+    {
+        return $this->belongsTo(ProjectImage::class, 'cover_image_id');
+    }
+
+    public function getCoverThumbnailUrlAttribute(): string
+    {
+        return $this->relationLoaded('coverMedia') && $this->coverMedia ? $this->coverMedia->thumbnail_url : $this->cover_image_url;
     }
 
     public function getCoverImageUrlAttribute(): string

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CatalogController;
+use App\Http\Controllers\Admin\ProjectGalleryController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Client\AccessController;
 use App\Http\Controllers\Client\DossierController;
@@ -88,7 +90,19 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
+        Route::get('equipo', [TeamController::class, 'index'])->name('team.index');
+        Route::get('equipo/create', [TeamController::class, 'create'])->name('team.create');
+        Route::post('equipo', [TeamController::class, 'store'])->name('team.store');
+        Route::get('equipo/{manager}/edit', [TeamController::class, 'edit'])->name('team.edit');
+        Route::get('equipo/{manager}', [TeamController::class, 'show'])->name('team.show');
+        Route::put('equipo/{manager}', [TeamController::class, 'update'])->name('team.update');
+        Route::post('equipo/{manager}/estado', [TeamController::class, 'status'])->name('team.status');
+        Route::post('equipo/{manager}/contrasena', [TeamController::class, 'password'])->middleware('throttle:6,1,team-password:')->name('team.password');
         Route::get('portadas/{history}', [CatalogController::class, 'cover'])->name('covers.download');
+        Route::post('proyectos/{project:id}/galeria', [ProjectGalleryController::class, 'add'])->name('gallery.add');
+        Route::post('proyectos/{project:id}/galeria/orden', [ProjectGalleryController::class, 'order'])->name('gallery.order');
+        Route::post('proyectos/{project:id}/galeria/{image}/estado', [ProjectGalleryController::class, 'status'])->name('gallery.status');
+        Route::post('proyectos/{project:id}/galeria/{image}/portada', [ProjectGalleryController::class, 'cover'])->name('gallery.cover');
         foreach (CatalogRegistry::all() as $kind => [$label,$model,$path]) {
             foreach ([['GET', $path, 'index'], ['GET', $path.'/create', 'create'], ['POST', $path, 'store'], ['GET', $path.'/{record}/edit', 'edit'], ['GET', $path.'/{record}', 'show'], ['PUT', $path.'/{record}', 'update'], ['POST', $path.'/{record}/estado', 'status']] as [$method,$uri,$action]) {
                 Route::match([$method], $uri, [CatalogController::class, $action])->defaults('catalog_kind', $kind)->name($kind.'.'.$action);

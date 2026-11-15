@@ -1,7 +1,7 @@
 <article class="project-card project-card--preview">
     <div class="project-card__media">
         <img
-            src="{{ $project->cover_image_url }}"
+            src="{{ $project->cover_thumbnail_url }}"
             alt="Vista de {{ $project->title }}"
             loading="lazy"
             width="800"

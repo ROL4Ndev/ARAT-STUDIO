@@ -7,6 +7,7 @@
                 <p class="section-label">Administración</p>
                 <h1 id="admin-page-title" class="project-detail__title">@yield('admin-title')</h1>
                 <nav class="admin-navigation" aria-label="Administración del sitio">
+                    <a href="{{ route('admin.team.index') }}" @if (request()->routeIs('admin.team.*')) aria-current="page" @endif>Equipo</a>
                     <a href="{{ route('admin.categories.index') }}" @if (request()->routeIs('admin.categories.*')) aria-current="page" @endif>Categorías</a>
                     <a href="{{ route('admin.projects.index') }}" @if (request()->routeIs('admin.projects.*')) aria-current="page" @endif>Proyectos</a>
                     <a href="{{ route('admin.services.index') }}" @if (request()->routeIs('admin.services.*')) aria-current="page" @endif>Servicios</a>

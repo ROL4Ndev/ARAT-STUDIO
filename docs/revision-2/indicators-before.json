@@ -1,0 +1,9 @@
+{
+    "sample": "1000 solicitudes sintéticas de rendimiento, exclusivamente SQLite aislado",
+    "query_count": 15,
+    "controller_ms": 68.68,
+    "evaluation_query": [
+        "select \"created_at\", \"first_evaluated_at\" from \"service_requests\" where \"created_at\" between ? and ? and \"first_evaluated_at\" is not null"
+    ],
+    "average_minutes": 44.910190082801066
+}

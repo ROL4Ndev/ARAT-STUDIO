@@ -9,6 +9,7 @@
             <a href="{{ route('management.dashboard') }}" @if(request()->routeIs('management.*','commercial.*')) aria-current="page" @endif>Gestión comercial</a>
         @endif
         @if (auth()->user()->role === 'admin')
+            <a href="{{ route('admin.team.index') }}" @if(request()->routeIs('admin.team.*')) aria-current="page" @endif>Equipo · Gestores</a>
             <a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif>Resumen del panel</a>
             @foreach (['projects' => 'Proyectos', 'categories' => 'Categorías', 'services' => 'Servicios', 'tariffs' => 'Tarifas'] as $kind => $label)
                 <a href="{{ route('admin.'.$kind.'.index') }}" @if(request()->routeIs('admin.'.$kind.'.*')) aria-current="page" @endif>{{ $label }}</a>

@@ -24,7 +24,7 @@ class ProjectController extends Controller
             ->get();
 
         $projects = Project::query()
-            ->with('projectCategory')
+            ->with(['projectCategory', 'coverMedia'])
             ->where('is_active', true)
             ->whereHas('projectCategory', fn ($q) => $q->where('is_active', true))
             ->when($selectedCategory !== '', function ($query) use ($selectedCategory) {
@@ -45,9 +45,8 @@ class ProjectController extends Controller
 
     public function show(Project $project): View
     {
+        $project->load(['projectCategory', 'images' => fn ($query) => $query->where('is_active', true), 'coverMedia']);
         abort_unless($project->is_active && $project->projectCategory?->is_active, 404);
-
-        $project->load('projectCategory');
 
         return view('projects.show', compact('project'));
     }

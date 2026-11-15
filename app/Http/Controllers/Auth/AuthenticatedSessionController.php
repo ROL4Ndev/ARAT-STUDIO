@@ -19,6 +19,7 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+        $request->session()->put('auth_version', $request->user()->auth_version);
 
         return redirect()->intended(route('panel'));
     }

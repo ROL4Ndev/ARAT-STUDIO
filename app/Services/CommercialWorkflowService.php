@@ -18,15 +18,22 @@ class CommercialWorkflowService
     public function transition(ServiceRequest $record, User $actor, array $data): void
     {
         DB::transaction(function () use ($record, $actor, $data) {
-            $r = DomainLock::get($record, (int) $data['lock_version']);
             $action = $data['action'];
+            $userIds = [$actor->id];
+            if ($action === 'assign') {
+                $userIds[] = (int) $data['assigned_to'];
+            }
+            $users = User::whereIn('id', $userIds)->orderBy('id')->lockForUpdate()->get()->keyBy('id');
+            $actor = $users[$actor->id];
+            $r = DomainLock::get($record, (int) $data['lock_version']);
             $before = $r->toArray();
             $reason = trim($data['reason']);
             abort_if($reason === '', 422, 'Indica el motivo.');
             if ($action === 'claim' || $action === 'assign') {
                 Gate::forUser($actor)->authorize($action, $r);
                 abort_if(in_array($r->status, ['rechazado', 'cancelado', 'cerrada']), 409, 'El expediente está finalizado.');
-                $responsible = $action === 'claim' ? $actor : User::whereKey($data['assigned_to'])->where('is_active', true)->whereIn('role', ['admin', 'gestor'])->firstOrFail();
+                $responsible = $action === 'claim' ? $actor : ($users[$data['assigned_to']] ?? null);
+                abort_unless($responsible && $responsible->is_active && in_array($responsible->role, ['admin', 'gestor'], true), 409, 'El responsable ya no está activo. Recarga antes de asignar.');
                 $r->assigned_to = $responsible->id;
             } else {
                 Gate::forUser($actor)->authorize('operate', $r);

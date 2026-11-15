@@ -1,0 +1,50 @@
+warning: in the working copy of 'resources/views/admin/catalog/form.blade.php', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'resources/views/admin/catalog/show.blade.php', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'resources/views/admin/layout.blade.php', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'resources/views/commercial/index.blade.php', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'resources/views/panels/dashboard.blade.php', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'resources/views/projects/show.blade.php', CRLF will be replaced by LF the next time Git touches it
+ app/Http/Controllers/Admin/CatalogController.php   |   14 [32m+[m[31m-[m
+ .../Auth/AuthenticatedSessionController.php        |    1 [32m+[m
+ .../Commercial/ServiceRequestController.php        |   44 [32m+[m[31m-[m
+ app/Http/Controllers/DashboardController.php       |    7 [32m+[m[31m-[m
+ app/Http/Controllers/ProfileController.php         |   26 [32m+[m[31m-[m
+ app/Http/Controllers/PublicSite/HomeController.php |   13 [32m+[m[31m-[m
+ .../Controllers/PublicSite/ProjectController.php   |    5 [32m+[m[31m-[m
+ app/Http/Middleware/EnsureActiveUser.php           |    7 [32m+[m[31m-[m
+ app/Http/Requests/Admin/CatalogRequest.php         |   10 [32m+[m[31m-[m
+ app/Models/Project.php                             |   20 [32m+[m
+ app/Models/ServiceRequest.php                      |   10 [32m+[m
+ app/Models/User.php                                |    9 [32m+[m[31m-[m
+ app/Providers/AppServiceProvider.php               |    3 [32m+[m
+ app/Services/CatalogWorkflowService.php            |   17 [32m+[m[31m-[m
+ app/Services/CommercialWorkflowService.php         |   11 [32m+[m[31m-[m
+ config/filesystems.php                             |    3 [32m+[m[31m-[m
+ database/seeders/ProjectSeeder.php                 |    6 [32m+[m[31m-[m
+ docs/design/captures/review/checks.json            |    2 [32m+[m[31m-[m
+ package-lock.json                                  |  662 [32m++++++++++++[m[31m-[m
+ package.json                                       |    5 [32m+[m[31m-[m
+ resources/css/app.css                              |    1 [32m+[m
+ resources/css/panel.css                            |    1 [32m+[m
+ resources/css/studio.css                           | 1032 [32m+++++++++++++++[m[31m-----[m
+ resources/js/app.js                                |   17 [32m+[m
+ resources/views/admin/catalog/form.blade.php       |  300 [32m+++[m[31m---[m
+ resources/views/admin/catalog/show.blade.php       |    4 [32m+[m
+ resources/views/admin/layout.blade.php             |    1 [32m+[m
+ resources/views/commercial/index.blade.php         |    3 [32m+[m[31m-[m
+ resources/views/home.blade.php                     |    1 [32m+[m
+ .../layouts/components/project-card.blade.php      |    4 [32m+[m[31m-[m
+ .../components/workspace-navigation.blade.php      |    1 [32m+[m
+ resources/views/panels/dashboard.blade.php         |   45 [32m+[m[31m-[m
+ resources/views/projects/show.blade.php            |   42 [32m+[m[31m-[m
+ resources/views/shared/activity-label.blade.php    |    5 [32m+[m
+ routes/web.php                                     |   14 [32m+[m
+ tests/Feature/ExistingProjectCoverTest.php         |    2 [32m+[m[31m-[m
+ tests/Feature/HomePresentationTest.php             |    2 [32m+[m[31m-[m
+ tests/Integration/MariaDbConcurrency.php           |   54 [32m+[m
+ tools/preview/bootstrap.php                        |    9 [32m+[m[31m-[m
+ tools/preview/prepare.php                          |   16 [32m+[m[31m-[m
+ tools/preview/router.php                           |   17 [32m+[m[31m-[m
+ tools/preview/verify.mjs                           |    9 [32m+[m[31m-[m
+ vite.config.js                                     |    2 [32m+[m[31m-[m
+ 43 files changed, 1972 insertions(+), 485 deletions(-)

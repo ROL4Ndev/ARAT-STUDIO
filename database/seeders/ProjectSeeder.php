@@ -34,7 +34,7 @@ class ProjectSeeder extends Seeder
             ],
         ];
 
-        foreach ($projects as $project) {
+        foreach ($projects as $position => $project) {
             $category = Category::query()
                 ->where('name', $project['category_name'])
                 ->firstOrFail();
@@ -42,7 +42,9 @@ class ProjectSeeder extends Seeder
             $project['category_id'] = $category->id;
             unset($project['category_name']);
 
-            Project::updateOrCreate(
+            $project['is_featured'] = true;
+            $project['featured_order'] = $position + 1;
+            Project::firstOrCreate(
                 ['slug' => $project['slug']],
                 $project
             );

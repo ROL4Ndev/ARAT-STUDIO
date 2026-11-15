@@ -9,47 +9,53 @@ use App\Http\Requests\Commercial\FilterServiceRequests;
 use App\Models\ClientAccessToken;
 use App\Models\NotificationRecord;
 use App\Models\OfferedService;
-use App\Models\Quotation;
 use App\Models\RequestFile;
 use App\Models\ServiceRequest;
 use App\Models\ServiceRequestHistory;
 use App\Models\User;
 use App\Services\ClientAccessService;
 use App\Services\ClientRevisionService;
+use App\Services\CommercialIndicators;
 use App\Services\CommercialWorkflowService;
-use Carbon\CarbonImmutable;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ServiceRequestController extends Controller
 {
-    public function index(FilterServiceRequests $request)
+    public function index(FilterServiceRequests $request, CommercialIndicators $indicators)
     {
         Gate::authorize('viewAny', ServiceRequest::class);
         $data = $request->validated();
-        $visible = ServiceRequest::query()->when($request->user()->role !== 'admin', fn ($q) => $q->where('assigned_to', $request->user()->id));
-        $counts = (clone $visible)->selectRaw('status, COUNT(*) as total')->groupBy('status')->pluck('total', 'status');
+        $visible = ServiceRequest::visibleTo($request->user());
         $filtered = $this->filterRequests(clone $visible, $data);
         $requests = (clone $filtered)->with(['currentQuotation', 'assignee'])->latest('id')->paginate(15)->withQueryString();
+        $unassigned = $this->unassignedQueue($data);
+        $period = $indicators->period($data);
+        $metrics = $indicators->commercialMetrics($request->user(), $period);
+        $overview = $indicators->overview($request->user(), $period, $filtered);
+        $services = OfferedService::orderBy('name')->get(['id', 'name']);
+        $histories = $this->filteredHistory($filtered, $data);
+
+        return view('commercial.index', compact('requests', 'unassigned', 'services', 'histories', 'overview') + $metrics);
+    }
+
+    private function unassignedQueue(array $filters)
+    {
         $queue = ServiceRequest::select(['code', 'service', 'project_type', 'created_at', 'status', 'lock_version'])
             ->whereNull('assigned_to')->whereIn('status', ['pendiente', 'evaluacion', 'observada', 'aprobado']);
-        $unassigned = $this->filterRequests($queue, $data, minimal: true)->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
-        $from = CarbonImmutable::parse($data['from'] ?? today()->subDays(30)->toDateString(), 'America/Lima')->startOfDay()->utc();
-        $to = CarbonImmutable::parse($data['to'] ?? today()->toDateString(), 'America/Lima')->endOfDay()->utc();
-        $cohort = (clone $visible)->whereRaw('(SELECT MIN(issued_at) FROM quotations WHERE quotations.service_request_id = service_requests.id) BETWEEN ? AND ?', [$from->format('Y-m-d H:i:s.u'), $to->format('Y-m-d H:i:s.u')]);
-        $denominator = (clone $cohort)->count();
-        $accepted = (clone $cohort)->where('closure_outcome', 'aceptada')->count();
-        // created_at conserva la zona local histórica; issued_at es UTC explícito.
-        $evaluated = (clone $visible)->whereBetween('created_at', [$from->timezone('America/Lima'), $to->timezone('America/Lima')])->whereNotNull('first_evaluated_at')->get(['created_at', 'first_evaluated_at']);
-        $minutes = $evaluated->count() ? $evaluated->avg(fn ($r) => $r->created_at->diffInSeconds($r->first_evaluated_at) / 60) : null;
-        $issued = Quotation::whereIn('service_request_id', (clone $visible)->select('id'))->whereBetween('issued_at', [$from, $to])->count();
-        $services = OfferedService::orderBy('name')->get(['id', 'name']);
-        $histories = ServiceRequestHistory::with('serviceRequest:id,code')->whereIn('service_request_id', (clone $filtered)->select('id'))->when($data['history_action'] ?? null, fn ($q, $v) => $q->where('action', $v))->latest('id')->paginate(15, ['*'], 'history_page')->withQueryString();
 
-        return view('commercial.index', compact('requests', 'unassigned', 'counts', 'denominator', 'accepted', 'minutes', 'issued', 'services', 'histories'));
+        return $this->filterRequests($queue, $filters, minimal: true)->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
+    }
+
+    private function filteredHistory(Builder $filtered, array $filters)
+    {
+        return ServiceRequestHistory::with('serviceRequest:id,code')
+            ->whereIn('service_request_id', (clone $filtered)->select('id'))
+            ->when($filters['history_action'] ?? null, fn ($query, $action) => $query->where('action', $action))
+            ->latest('id')->paginate(15, ['*'], 'history_page')->withQueryString();
     }
 
     private function filterRequests(Builder $query, array $data, bool $minimal = false): Builder

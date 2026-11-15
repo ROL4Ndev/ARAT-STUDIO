@@ -1,0 +1,9 @@
+{
+    "sample": "1000 solicitudes sintéticas de rendimiento, exclusivamente SQLite aislado",
+    "query_count": 19,
+    "controller_ms": 52.34,
+    "evaluation_query": [
+        "select AVG((julianday(first_evaluated_at) - julianday(created_at)) * 1440.0 + ?) AS minutes from \"service_requests\" where \"created_at\" between ? and ? and \"first_evaluated_at\" is not null limit 1"
+    ],
+    "average_minutes": 44.91019
+}

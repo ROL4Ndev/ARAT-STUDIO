@@ -10,11 +10,14 @@ use App\Models\TariffParam;
 use App\Models\User;
 use App\Services\CatalogWorkflowService;
 use App\Services\ClientResponseService;
+use App\Services\CommercialIndicators;
 use App\Services\CommercialWorkflowService;
 use App\Services\IssueQuotationService;
 use App\Services\QuotationPdfService;
 use App\Services\ServiceRequestService;
+use App\Services\TeamService;
 use App\Services\WorkProcessor;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +96,21 @@ if (($argv[1] ?? '') === '--worker') {
         }
         $actor = isset($data['actor']) ? User::findOrFail($data['actor']) : null;
         switch ($data['action']) {
+            case 'disable_manager':
+                app(TeamService::class)->changeStatus(User::findOrFail($data['manager']), $actor, [
+                    'lock_version' => $data['version'], 'is_active' => false,
+                    'expected_open_count' => $data['expected_open_count'],
+                    'replacement_id' => $data['replacement_id'], 'reason' => 'Desactivación concurrente aislada',
+                ]);
+                $resource = $data['manager'];
+                break;
+            case 'assign':
+                app(CommercialWorkflowService::class)->transition(ServiceRequest::findOrFail($data['request']), $actor, [
+                    'action' => 'assign', 'assigned_to' => $data['manager'],
+                    'lock_version' => $data['version'], 'reason' => 'Asignación concurrente aislada',
+                ]);
+                $resource = $data['request'];
+                break;
             case 'register':$resource = app(ServiceRequestService::class)->register($data['fields'], null)[0]->id;
                 break;
             case 'claim':app(CommercialWorkflowService::class)->transition(ServiceRequest::findOrFail($data['request']), $actor, ['action' => 'claim', 'lock_version' => $data['version'], 'reason' => 'Toma concurrente aislada']);
@@ -130,6 +148,8 @@ if (($argv[1] ?? '') === '--worker') {
             default:throw new LogicException('Acción inválida.');
         }
         echo json_encode(['status' => 'ok', 'resource' => $resource]);
+    } catch (AuthorizationException $e) {
+        echo json_encode(['status' => 'conflict', 'code' => 403]);
     } catch (HttpException $e) {
         echo json_encode(['status' => 'conflict', 'code' => $e->getStatusCode()]);
     } catch (Throwable $e) {
@@ -240,5 +260,39 @@ $group = TariffGroup::where('lod_level', 'LOD_300')->first();
 requireTrue(in_array($group->active_tariff_id, array_map(fn ($tariff) => $tariff->id, $new), true), 'La vigencia no apunta a una de las versiones activadas.');
 requireTrue($group->versions()->where('status', 'activa')->count() === 1 && $group->activeTariff->tariff_group_id === $group->id, 'Vigencias tarifarias incompatibles.');
 $results['atomic_tariff_switch'] = $activated;
+
+// La asignación y la desactivación toman los usuarios antes de bloquear expedientes.
+// Cualquiera puede ganar; nunca debe quedar trabajo abierto en una cuenta desactivada.
+foreach (['claim', 'assign'] as $assignmentAction) {
+    $manager = User::factory()->create(['role' => 'gestor']);
+    $pending = $fixtures->call('registerRequest');
+    $at = microtime(true) + 1;
+    $disable = worker([
+        'database' => $database, 'action' => 'disable_manager', 'actor' => $admin->id,
+        'manager' => $manager->id, 'version' => 0, 'expected_open_count' => 0,
+        'replacement_id' => $b->id, 'start_at' => $at,
+    ]);
+    $assignment = worker([
+        'database' => $database, 'action' => $assignmentAction,
+        'actor' => $assignmentAction === 'claim' ? $manager->id : $admin->id,
+        'manager' => $manager->id, 'request' => $pending->id, 'version' => 0, 'start_at' => $at,
+    ]);
+    $race = [result($disable), result($assignment)];
+    requireTrue(count(array_filter($race, fn ($value) => $value['status'] === 'ok')) === 1, 'La carrera de asignación/desactivación debe tener un solo ganador.');
+    requireTrue(count(array_filter($race, fn ($value) => in_array($value['code'] ?? null, [403, 409], true))) === 1, 'La operación perdedora debe informar conflicto o pérdida de acceso: '.json_encode($race));
+    requireTrue($manager->fresh()->is_active || $pending->fresh()->assigned_to !== $manager->id, 'Quedó un expediente abierto asignado a un gestor desactivado.');
+    $results['disable_vs_'.$assignmentAction] = $race;
+}
+
+// Ejecutar también la agregación SQL específica de MySQL con fechas locales/UTC conocidas.
+$sample = $fixtures->call('registerRequest');
+DB::table('service_requests')->where('id', $sample->id)->update([
+    'assigned_to' => $admin->id, 'created_at' => '2026-11-02 12:00:00',
+    'first_evaluated_at' => '2026-11-02 17:45:00',
+]);
+$indicators = app(CommercialIndicators::class);
+$metrics = $indicators->commercialMetrics($admin, $indicators->period(['from' => '2026-11-02', 'to' => '2026-11-02']));
+requireTrue(abs($metrics['minutes'] - 45) < 0.001, 'La media SQL de MariaDB no respeta el desfase de Lima.');
+$results['mariadb_evaluation_aggregate'] = ['minutes' => $metrics['minutes']];
 file_put_contents(storage_path('framework/testing/isolated-run.json'), json_encode(['database' => $database, 'results' => $results], JSON_PRETTY_PRINT));
 echo json_encode(['database' => $database, 'checks' => array_keys($results), 'status' => 'passed'], JSON_PRETTY_PRINT).PHP_EOL;

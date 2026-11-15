@@ -145,6 +145,7 @@
                     <p class="text-center">
                         Próximamente compartiremos nuestros proyectos.
                     </p>
+                    <p class="text-center">Mientras seleccionamos los destacados, puedes explorar el portafolio completo.</p>
                 </div>
             @endforelse
         </div>

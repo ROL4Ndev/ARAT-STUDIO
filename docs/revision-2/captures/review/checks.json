@@ -1,0 +1,103 @@
+{
+  "browser": "157.0.8103.51",
+  "checks": [
+    {
+      "name": "Fuentes realmente renderizadas (Chrome DevTools Protocol)",
+      "title": [
+        {
+          "familyName": "Kodchasan",
+          "postScriptName": "Kodchasan-Regular",
+          "isCustomFont": true,
+          "glyphCount": 22
+        }
+      ],
+      "body": [
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI",
+          "isCustomFont": false,
+          "glyphCount": 40
+        }
+      ]
+    },
+    {
+      "name": "01-inicio-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "02-galeria-teclado",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "03-movimiento-reducido",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "04-dashboard-tabla",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "05-dashboard-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "06-equipo",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "07-error-confirmacion",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "08-consulta-gestor",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "09-consulta-gestor-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "Alta, error de confirmación, restablecimiento con contraseña de administrador, revocación de sesión y desactivación",
+      "passed": true
+    },
+    {
+      "name": "10-galeria-administracion",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "11-galeria-administracion-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "12-seleccion-destacados",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "13-gestion-ambito-gestor",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "14-indicadores-vacios",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "name": "Contenido, enlaces a originales y tablas accesibles sin JavaScript",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

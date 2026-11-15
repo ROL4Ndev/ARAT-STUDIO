@@ -1,0 +1,9 @@
+{
+  "originals_verified_sha256": 100,
+  "changed_or_new_versionable_files_checked": 178,
+  "forbidden_artifacts": [],
+  "credential_or_access_url_patterns": [],
+  "existing_user_diff_excluded_and_preserved": "revision-arat.diff",
+  "test_case_guard_changed": false,
+  "limitation": "Inspección por nombres y patrones, complementada con revisión de los archivos modificados; no es un detector universal de secretos."
+}

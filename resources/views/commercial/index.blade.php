@@ -14,6 +14,7 @@
         <div class="workspace-content">
             <div class="container">
                 @include('shared.errors')
+                @include('shared.dashboard-insights')
 
                 <section class="mb-4" aria-labelledby="metrics-title">
                     <h2 id="metrics-title" class="visually-hidden">Indicadores del período</h2>
@@ -23,7 +24,7 @@
                         <div class="metric"><dt>Cotizaciones emitidas</dt><dd>{{ $issued }}</dd></div>
                         <div class="metric"><dt>Tasa de aceptación</dt><dd>{{ $denominator ? round(100 * $accepted / $denominator, 1).'%' : 'Sin emisiones' }}</dd></div>
                     </dl>
-                    <details class="secondary-details"><summary>Cómo se calculan los indicadores</summary><p class="form-text">La aceptación se calcula sobre solicitudes distintas cuya primera emisión pertenece al período, por defecto los últimos 30 días. El promedio de evaluación considera solicitudes creadas en el período. Se aplica tu visibilidad por asignación. Los pendientes corresponden a todos tus expedientes visibles.</p></details>
+                    <details class="secondary-details"><summary>Cómo se calculan los indicadores comerciales</summary><p class="form-text">La aceptación se calcula sobre solicitudes distintas cuya primera emisión pertenece al período, por defecto los últimos 30 días calendario incluidos hoy, en Lima. El promedio de evaluación considera solicitudes creadas en ese período. Se aplica tu visibilidad por asignación. Los pendientes corresponden a todos tus expedientes visibles. Las aceptaciones no son ingresos cobrados.</p></details>
                 </section>
 
                 <section class="workspace-card mb-4" aria-labelledby="requests-title">

@@ -1,5 +1,10 @@
 {{ match ($value) {
     'creacion', 'request_created' => 'Solicitud recibida',
+    'manager_created' => 'Cuenta de gestor creada',
+    'manager_updated' => 'Datos del gestor actualizados',
+    'manager_activated' => 'Cuenta reactivada',
+    'manager_deactivated' => 'Cuenta desactivada',
+    'manager_access_reset' => 'Contraseña restablecida y sesiones revocadas',
     'claim' => 'Solicitud asignada al responsable',
     'assign' => 'Asignación de responsable',
     'start' => 'Inicio de evaluación',

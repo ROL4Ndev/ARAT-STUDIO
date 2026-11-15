@@ -1,0 +1,31 @@
+{
+  "vite": "7.3.7",
+  "node": "v26.13.0",
+  "assets": {
+    "resources/css/app.css": {
+      "bytes": 252472,
+      "gzip_bytes": 36236,
+      "dynamic": false
+    },
+    "resources/css/panel.css": {
+      "bytes": 700136,
+      "gzip_bytes": 89761,
+      "dynamic": false
+    },
+    "resources/js/app.js": {
+      "bytes": 5742,
+      "gzip_bytes": 2298,
+      "dynamic": false
+    },
+    "resources/js/dashboard.js": {
+      "bytes": 163210,
+      "gzip_bytes": 56821,
+      "dynamic": false
+    },
+    "resources/js/gallery.js": {
+      "bytes": 1059,
+      "gzip_bytes": 480,
+      "dynamic": true
+    }
+  }
+}

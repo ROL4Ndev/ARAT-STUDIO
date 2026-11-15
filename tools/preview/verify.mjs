@@ -3,9 +3,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const base = 'http://127.0.0.1:8765';
-const directory = 'docs/design/captures/review';
+const directory = process.env.ARAT_CAPTURE_DIRECTORY || 'docs/design/captures/review';
 await mkdir(directory, { recursive: true });
-const state = JSON.parse(await readFile('storage/app/design-preview/state.json', 'utf8'));
+const state = JSON.parse(await readFile(`storage/app/${process.env.ARAT_PREVIEW_NAME || 'design-preview'}/state.json`, 'utf8'));
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
 const checks = [], errors = [];
 const onlyStates = process.argv.includes('--states-only');
@@ -25,11 +25,12 @@ const shot = async name => {
     });
     const health = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth,
-        brokenImages: [...document.images].filter(i => !i.naturalWidth).map(i => i.getAttribute('src')),
+        brokenImages: [...document.images].filter(i => i.hasAttribute('src') && !i.naturalWidth).map(i => i.getAttribute('src')),
         frameworks: [...document.styleSheets].map(sheet => sheet.href).filter(Boolean),
     }));
     await page.screenshot({ path: `${directory}/${name}.png`, fullPage: true });
-    checks.push({ name, path: new URL(page.url()).pathname, ...health });
+    const safePath = new URL(page.url()).pathname.replace(/\/acceso-expediente\/[a-f0-9]{64}/g, '/acceso-expediente/[acceso-omitido]');
+    checks.push({ name, path: safePath, ...health });
     assert.equal(health.overflow, false, `${name}: desbordamiento horizontal`);
     assert.deepEqual(health.brokenImages, [], `${name}: imágenes rotas`);
 };

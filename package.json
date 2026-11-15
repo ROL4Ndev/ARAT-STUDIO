@@ -13,7 +13,10 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@fontsource/kodchasan": "5.3.0",
         "@tabler/core": "1.7.5",
-        "bootstrap": "5.3.9"
+        "bootstrap": "5.3.9",
+        "chart.js": "4.6.1",
+        "sharp": "0.35.5"
     }
 }

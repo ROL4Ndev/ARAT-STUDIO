@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -75,7 +76,7 @@ class CatalogController extends Controller
         $c = $this->context($request, $record);
         $item = $c['item'];
         match ($c['kind']) {
-            'projects' => $item->load(['projectCategory', 'coverHistories' => fn ($q) => $q->with('user')->latest('id')]),
+            'projects' => $item->load(['projectCategory', 'images', 'coverMedia', 'coverHistories' => fn ($q) => $q->with('user')->latest('id')]),
             'categories' => $item->load('projects'),
             'tariffs' => $item->load('group'),
             default => null,
@@ -102,7 +103,9 @@ class CatalogController extends Controller
             'after' => $this->presentAuditSnapshot($c['kind'], $event->after, $references),
         ]);
 
-        return view('admin.catalog.show', $c + compact('events', 'auditEvents'));
+        $imageFolders = $c['kind'] === 'projects' ? array_map('basename', File::directories(public_path('img'))) : [];
+
+        return view('admin.catalog.show', $c + compact('events', 'auditEvents', 'imageFolders'));
     }
 
     private function presentAuditSnapshot(string $kind, ?array $snapshot, array $references): array
@@ -121,6 +124,8 @@ class CatalogController extends Controller
                 'description' => 'Descripción',
                 'category_id' => 'Categoría',
                 'cover_image' => 'Portada',
+                'is_featured' => 'Destacado en inicio',
+                'featured_order' => 'Orden en inicio',
                 'is_active' => 'Estado',
                 'lock_version' => 'Versión de edición',
                 'status_reason' => 'Motivo del estado',
@@ -204,6 +209,11 @@ class CatalogController extends Controller
             'deactivate' => 'Registro desactivado',
             'reactivate' => 'Registro activado o reactivado',
             'tariff_replaced' => 'Tarifa reemplazada',
+            'gallery_added' => 'Imágenes vinculadas a la galería',
+            'gallery_reordered' => 'Orden de imágenes actualizado',
+            'gallery_archived' => 'Imagen archivada',
+            'gallery_restored' => 'Imagen reactivada',
+            'portfolio_draft_imported' => 'Borrador incorporado desde el inventario',
             default => 'Actualización registrada',
         };
     }

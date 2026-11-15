@@ -12,14 +12,21 @@ class HomeController extends Controller
     public function index(): View
     {
         $projects = Project::query()
-            ->with('projectCategory')
+            ->with(['projectCategory', 'coverMedia'])
             ->where('is_active', true)
+            ->where('is_featured', true)
             ->whereHas('projectCategory', fn ($q) => $q->where('is_active', true))
+            ->orderBy('featured_order')
             ->orderBy('id')
-            ->limit(3)
             ->get();
 
-        $services = OfferedService::where('is_active', true)->orderBy('display_order')->orderBy('id')->get()->groupBy(fn ($s) => $s->audience === 'estudiantes' ? 'Servicios para estudiantes' : 'Servicios generales')->map(fn ($items) => $items->map(fn ($s) => ['name' => $s->name, 'description' => $s->description])->all())->all();
+        $services = OfferedService::where('is_active', true)
+            ->orderBy('display_order')
+            ->orderBy('id')
+            ->get(['name', 'description', 'audience'])
+            ->groupBy(fn ($service) => $service->audience === 'estudiantes' ? 'Servicios para estudiantes' : 'Servicios generales')
+            ->map(fn ($items) => $items->map->only(['name', 'description'])->all())
+            ->all();
 
         return view('home', compact('projects', 'services'));
     }

@@ -8,9 +8,11 @@ use App\Models\Project;
 use App\Models\Quotation;
 use App\Models\ServiceRequest;
 use App\Models\TariffParam;
+use App\Models\User;
 use App\Policies\CatalogPolicy;
 use App\Policies\QuotationPolicy;
 use App\Policies\ServiceRequestPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         }
         Gate::policy(ServiceRequest::class, ServiceRequestPolicy::class);
         Gate::policy(Quotation::class, QuotationPolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
         Paginator::useBootstrapFive();
     }
 }

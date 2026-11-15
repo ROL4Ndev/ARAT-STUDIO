@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\CategorySeeder;
+use Database\Seeders\ProjectSeeder;
+use Database\Seeders\TariffParamSeeder;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
@@ -9,17 +12,18 @@ use Tests\Support\CommercialFixtures;
 $app = require __DIR__.'/bootstrap.php';
 $app->make(Kernel::class)->bootstrap();
 $database = config('database.connections.sqlite.database');
-if (config('database.default') !== 'sqlite' || $database !== dirname(__DIR__, 2).'/storage/app/design-preview/demo.sqlite' || file_exists($database)) {
+if (config('database.default') !== 'sqlite' || str_replace('\\', '/', $database) !== str_replace('\\', '/', storage_path('demo.sqlite')) || file_exists($database)) {
     throw new RuntimeException('Solo se permite crear una base SQLite de demostración nueva. No se modifica ninguna base existente.');
 }
 touch($database);
 Artisan::call('migrate', ['--force' => true]);
-Artisan::call('db:seed', ['--class' => Database\Seeders\CategorySeeder::class, '--force' => true]);
-Artisan::call('db:seed', ['--class' => Database\Seeders\ProjectSeeder::class, '--force' => true]);
-Artisan::call('db:seed', ['--class' => Database\Seeders\TariffParamSeeder::class, '--force' => true]);
+Artisan::call('db:seed', ['--class' => CategorySeeder::class, '--force' => true]);
+Artisan::call('db:seed', ['--class' => ProjectSeeder::class, '--force' => true]);
+Artisan::call('db:seed', ['--class' => TariffParamSeeder::class, '--force' => true]);
 $password = bin2hex(random_bytes(12));
 $user = User::factory()->create(['name' => 'Equipo ARAT · Demostración', 'email' => 'admin@example.test', 'role' => 'admin', 'password' => Hash::make($password)]);
-$fixtures = new class {
+$fixtures = new class
+{
     use CommercialFixtures;
 
     public function prepare(User $user): array
@@ -40,4 +44,4 @@ $fixtures = new class {
 };
 $state = $fixtures->prepare($user);
 file_put_contents(storage_path('state.json'), json_encode($state + ['email' => $user->email, 'password' => $password], JSON_PRETTY_PRINT));
-echo "Demostración preparada en SQLite aislado. Credenciales efímeras en storage/app/design-preview/state.json.\n";
+echo 'Demostración preparada en SQLite aislado. Credenciales efímeras en '.storage_path('state.json').PHP_EOL;

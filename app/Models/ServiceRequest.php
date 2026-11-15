@@ -3,10 +3,20 @@
 namespace App\Models;
 
 use App\Casts\UtcDateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceRequest extends BusinessModel
 {
+    public function scopeVisibleTo(Builder $query, User $user): Builder
+    {
+        if (! $user->is_active || ! in_array($user->role, ['admin', 'gestor'], true)) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        return $user->role === 'admin' ? $query : $query->where('assigned_to', $user->id);
+    }
+
     protected $guarded = ['id'];
 
     protected function casts(): array

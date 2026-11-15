@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CommercialIndicators;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,19 +18,21 @@ class DashboardController extends Controller
         };
     }
 
-    public function admin(): View
+    public function admin(Request $request, CommercialIndicators $indicators): View
     {
         return view('panels.dashboard', [
             'panel' => 'Administración',
             'role' => 'Administrador',
+            'overview' => $indicators->overview($request->user(), $indicators->period()),
         ]);
     }
 
-    public function management(): View
+    public function management(Request $request, CommercialIndicators $indicators): View
     {
         return view('panels.dashboard', [
             'panel' => 'Gestión',
             'role' => auth()->user()->role === 'admin' ? 'Administrador' : 'Gestor',
+            'overview' => $indicators->overview($request->user(), $indicators->period()),
         ]);
     }
 }

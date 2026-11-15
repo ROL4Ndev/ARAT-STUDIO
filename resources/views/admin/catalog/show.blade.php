@@ -80,6 +80,10 @@
         </div>
     </article>
 
+    @if ($kind === 'projects')
+        @include('admin.projects-gallery', ['project' => $item])
+    @endif
+
     <section class="workspace-card mt-4" aria-labelledby="status-change-title">
         <h2 id="status-change-title">Cambiar estado</h2>
         <p>
