@@ -79,9 +79,6 @@ Route::prefix('gestion')->name('commercial.')->middleware(['auth', 'role:admin,g
     Route::get('/solicitudes/{serviceRequest}', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'show'])->name('requests.show');
     Route::patch('/solicitudes/{serviceRequest}/estado', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'transition'])->name('requests.transition');
     Route::get('/solicitudes/{serviceRequest}/archivo', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'attachment'])->name('requests.attachment');
-});
-
-Route::prefix('gestion')->name('commercial.')->middleware(['auth', 'role:admin,gestor'])->group(function () {
     Route::post('/solicitudes/{serviceRequest}/acceso-demo', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'prepareDemoAccess'])->name('requests.demo-access.prepare');
     Route::get('/solicitudes/{serviceRequest}/acceso-demo', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'showDemoAccess'])->name('requests.demo-access.show');
 });

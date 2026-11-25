@@ -182,14 +182,9 @@ class CatalogWorkflowService
         if (str_starts_with($source, 'img/') || Project::where('cover_image', $source)->exists() || ProjectImage::where('path', $source)->exists()) {
             return;
         }
-        // Un activo compartido de identidad sigue siendo público por ese uso.
-        if (in_array($source, ['img/LOGO.png', 'img/LOGO1.png'], true)) {
-            return;
-        }
         abort_if(str_contains($source, '..') || str_starts_with($source, '/'), 409, 'Ruta de portada inválida.');
-        $legacy = str_starts_with($source, 'img/');
-        $root = realpath($legacy ? public_path('img') : Storage::disk('public')->path(''));
-        $from = realpath($legacy ? public_path($source) : Storage::disk('public')->path($source));
+        $root = realpath(Storage::disk('public')->path(''));
+        $from = realpath(Storage::disk('public')->path($source));
         if (! $from) {
             return;
         }

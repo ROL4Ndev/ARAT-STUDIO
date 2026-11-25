@@ -28,7 +28,24 @@
 .site-navigation {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+}
+
+.site-footer__bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-top: 1px solid #ffffff30;
+    padding-top: 12px;
+}
+
+.site-footer__bottom > a {
+    color: #fff;
+    font-size: .875rem;
+    min-height: 44px;
+    padding-block: 12px;
 }
 
 .site-navigation[hidden] {
@@ -210,62 +227,9 @@
     font-size: .9375rem;
 }
 
-.home-hero__figure {
-    overflow: hidden;
-    position: relative;
-    min-width: 0;
-    margin: 24px 24px 24px 0;
-}
-
-.home-hero__figure img {
-    width: 100%;
-    height: 100%;
-    min-height: 560px;
-    object-fit: cover;
-    object-position: 48% center;
-}
-
-.home-hero__figure figcaption {
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
-    right: 24px;
-    padding: 16px 20px;
-    background: #ffffffed;
-    color: var(--ink);
-    font-size: .875rem;
-}
-
-.home-hero__figure figcaption a {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    text-decoration: none;
-}
-
-.home-hero__empty {
-    min-height: 400px;
-    display: grid;
-    place-items: center;
-    background: var(--accent);
-}
-
-.home-hero__empty img {
-    width: 200px;
-    min-height: 0;
-    height: auto;
-    object-fit: contain;
-}
-
 .studio-info__title {
     font-size: clamp(1.75rem,3vw,2.75rem);
     margin-bottom: 24px;
-}
-
-.home-about-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 80px;
 }
 
 .services-group-label {
@@ -274,74 +238,6 @@
     font-size: .8125rem;
     letter-spacing: .1em;
     text-transform: uppercase;
-}
-
-.service-card {
-    height: 100%;
-    padding: 28px 0;
-    border-top: 1px solid #a8b3b8;
-}
-
-.service-card__number {
-    display: block;
-    margin-bottom: 28px;
-    color: var(--muted);
-    font: .8125rem/1.4 ui-monospace,monospace;
-}
-
-.service-card__title {
-    font-size: 1.375rem;
-    margin-bottom: 16px;
-}
-
-.service-card__text {
-    color: var(--muted);
-    font-size: .9375rem;
-    margin-bottom: 0;
-}
-
-.director-card {
-    display: flex;
-    gap: 24px;
-    padding-block: 28px;
-    border-top: 1px solid var(--line);
-}
-
-.director-card__avatar {
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    width: 60px;
-    height: 60px;
-    color: #fff;
-    background: var(--accent);
-    font-size: .875rem;
-}
-
-.director-card__info {
-    min-width: 0;
-}
-
-.director-card__name {
-    font-size: 1.375rem;
-    margin-bottom: 8px;
-}
-
-.director-card__role, .director-card__studio {
-    color: var(--muted);
-    font-size: .875rem;
-}
-
-.director-card__specs {
-    padding-left: 18px;
-    color: var(--muted);
-}
-
-.director-card__pill {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    font-size: .875rem;
 }
 
 .project-card {
@@ -584,8 +480,6 @@
 }
 
 .site-footer__copy {
-    border-top: 1px solid #ffffff30;
-    padding-top: 24px;
     font-size: .8125rem;
 }
 
@@ -647,13 +541,6 @@
     .home-hero h1 {
         font-size: clamp(2.5rem, 4.7vw, 3.5rem);
     }
-    .home-hero__figure img {
-        min-height: 500px;
-    }
-    .home-about-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
 }
 
 @media (max-width:575.98px) {
@@ -669,51 +556,19 @@
         margin-block: 24px;
         max-width: 10ch;
     }
-    .home-hero__figure {
-        margin: 0 20px 24px;
-    }
-    .home-hero__figure img {
-        min-height: 0;
-        height: 340px;
-    }
-    .home-hero__figure figcaption {
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
-        padding: 12px;
-    }
     .home-hero-actions {
         gap: 16px;
     }
     .site-footer__content {
         grid-template-columns: 1fr;
     }
-    .director-card {
-        gap: 16px;
-    }
-    .director-card__avatar {
-        width: 44px;
-        height: 44px;
-    }
 }
 
 /* Una entrada breve; el contenido es visible incluso si falla JavaScript. */
 @media (prefers-reduced-motion: no-preference) {
-    .home-hero__figure > img {
-        animation: photograph-settle 9s ease-out both;
-    }
 
     .reveal-in {
         animation: section-appear 550ms ease-out both;
-    }
-}
-
-@keyframes photograph-settle {
-    from {
-        transform: scale(1.035);
-    }
-    to {
-        transform: scale(1);
     }
 }
 

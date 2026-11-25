@@ -28,8 +28,11 @@
         <server name="MAIL_MAILER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
+        <server name="APP_MAINTENANCE_DRIVER" value="cache"/>
+        <server name="APP_MAINTENANCE_STORE" value="array"/>
         <env name="APP_ENV" value="testing" force="true"/>
-        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="cache" force="true"/>
+        <env name="APP_MAINTENANCE_STORE" value="array" force="true"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array" force="true"/>

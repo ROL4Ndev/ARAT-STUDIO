@@ -72,16 +72,6 @@ function result(Process $p): array
 
     return $r;
 }
-class FixtureAccess
-{
-    use CommercialFixtures;
-
-    public function call(string $method, ...$args)
-    {
-        return $this->$method(...$args);
-    }
-}
-
 if (($argv[1] ?? '') === '--worker') {
     try {
         $data = json_decode(stream_get_contents(STDIN), true);
@@ -168,7 +158,15 @@ $database = 'arat_concurrency_'.gmdate('Ymd_His');
 DB::statement('CREATE DATABASE `'.$database.'` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 isolated($database);
 Artisan::call('migrate', ['--force' => true]);
-$fixtures = new FixtureAccess;
+$fixtures = new class
+{
+    use CommercialFixtures;
+
+    public function call(string $method, ...$args)
+    {
+        return $this->$method(...$args);
+    }
+};
 $fixtures->call('tariff');
 $a = User::factory()->create(['role' => 'gestor', 'email' => 'gestor-a@example.test', 'password' => Str::random(48)]);
 $b = User::factory()->create(['role' => 'gestor', 'email' => 'gestor-b@example.test', 'password' => Str::random(48)]);

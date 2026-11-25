@@ -10,6 +10,7 @@ return [
     'team' => [
         [
             'name' => 'Angelo Trinidad', 'initials' => 'AT',
+            'portrait' => 'media/studio/angelo-trinidad.webp',
             'qualification' => 'Arquitecto | Especialista BIM en Edificaciones',
             'role' => 'Director — ARAT STUDIO',
             'specialties' => ['Modelado BIM', 'Modelado 3D', 'Renderización fotorrealista', 'Dirección y desarrollo de proyectos arquitectónicos'],
@@ -17,10 +18,38 @@ return [
         ],
         [
             'name' => 'Luz Nicole Arana Peláez', 'initials' => 'LA',
+            'portrait' => 'media/studio/nicole-arana.webp',
             'qualification' => 'Bachiller en Arquitectura y Urbanismo',
             'role' => 'Directora — ARAT STUDIO',
             'specialties' => ['Producción de planos técnicos', 'Modelado 3D arquitectónico', 'Renderización y visualización arquitectónica', 'AutoCAD, Revit y SketchUp'],
             'whatsapp' => 'https://wa.me/51916487843',
+        ],
+    ],
+    'service_visuals' => [
+        'ARQUITECTURA' => [
+            'image' => 'media/studio/servicio-arquitectura.webp',
+            'alt' => 'Representación de la sala de ventas del Proyecto OPV',
+            'project_slug' => 'proyecto-opv',
+            'description' => 'Propuestas arquitectónicas para organizar espacios residenciales, comerciales e institucionales.',
+        ],
+        'INTERIORES' => [
+            'image' => 'media/studio/servicio-interiores.webp',
+            'alt' => 'Vista de la sala del Proyecto Sala T',
+            'project_slug' => 'proyecto-sala-t',
+            'description' => 'Planificación de espacios que conecta funcionalidad, materialidad y confort.',
+        ],
+        'BIM' => [
+            'image' => 'media/studio/servicio-modelado.webp',
+            'alt' => 'Modelo tridimensional de escritorio y armario del Proyecto AT',
+            'illustration_slug' => 'proyecto-at',
+            'description' => 'Modelado BIM para acompañar el desarrollo y la comunicación del proyecto. El alcance se define mediante evaluación comercial.',
+            'caption' => 'Modelo 3D del portafolio, como referencia visual. La imagen no acredita una metodología BIM.',
+        ],
+        'VISUALIZACION' => [
+            'image' => 'media/studio/servicio-visualizacion.webp',
+            'alt' => 'Visualización del comedor y la cocina del Departamento MR',
+            'project_slug' => 'departamento-mr',
+            'description' => 'Imágenes y representaciones tridimensionales para visualizar el proyecto antes de su ejecución.',
         ],
     ],
     'services' => [

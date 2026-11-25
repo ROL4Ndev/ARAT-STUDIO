@@ -118,7 +118,8 @@
                         <label class="form-check-label" for="is_active">Publicar proyecto activo (sin marcar queda como
                             borrador)</label>
                     </div>
-                    <div class="project-selection-fields">
+                    <fieldset class="project-selection-fields" id="seleccion-inicio">
+                        <legend>Selección en inicio</legend>
                         <input type="hidden" name="is_featured" value="0">
                         <label class="form-check-label" for="is_featured"><input id="is_featured" name="is_featured"
                                 type="checkbox" value="1" @checked(old('is_featured', $item->is_featured))> Destacar en la página de
@@ -131,7 +132,7 @@
                             value="{{ old('featured_order', $item->featured_order ?? 0) }}">
                         <p class="form-text">Los números menores aparecen primero; los empates se resuelven por registro.
                         </p>
-                    </div>
+                    </fieldset>
                 @endif
 
                 @if ($kind === 'services')

@@ -48,7 +48,7 @@ class CommercialIndicators
             'received' => (int) $counts->sum(),
             'attentionCount' => (clone $attention)->count(),
             'attentionRequests' => (clone $attention)->oldest('created_at')->limit(5)->get(['id', 'code', 'service', 'status', 'created_at']),
-            'recentRequests' => (clone $visible)->latest('id')->limit(6)->get(['id', 'code', 'service', 'status', 'created_at']),
+            'recentRequests' => (clone $visible)->latest('created_at')->latest('id')->limit(6)->get(['id', 'code', 'service', 'status', 'created_at']),
         ];
     }
 

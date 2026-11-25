@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\TariffParam;
+use App\Models\TariffGroup;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TariffParamSeeder extends Seeder
 {
@@ -16,14 +18,25 @@ class TariffParamSeeder extends Seeder
         ];
 
         foreach ($tariffs as $tariff) {
-            TariffParam::firstOrCreate(
-                ['lod_level' => $tariff['lod_level']],
-                [
+            DB::transaction(function () use ($tariff) {
+                $group = TariffGroup::firstOrCreate(['lod_level' => $tariff['lod_level']]);
+                $group = TariffGroup::whereKey($group->id)->lockForUpdate()->firstOrFail();
+                if ($group->active_tariff_id !== null || $group->versions()->exists()) {
+                    return;
+                }
+                $version = TariffParam::create([
+                    'tariff_group_id' => $group->id,
+                    'version' => 1,
+                    'lod_level' => $tariff['lod_level'],
                     'base_price_m2' => '100.00',
                     'lod_factor' => $tariff['lod_factor'],
                     'max_area_m2' => '500.00',
-                ]
-            );
+                    'status' => 'activa',
+                    'is_active' => true,
+                    'currency' => 'PEN',
+                ]);
+                $group->update(['active_tariff_id' => $version->id]);
+            });
         }
     }
 }

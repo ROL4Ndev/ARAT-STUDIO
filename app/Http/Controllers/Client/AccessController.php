@@ -18,7 +18,7 @@ class AccessController extends Controller
     {
         $access->request($request->validated('code'), $request->validated('email'));
 
-        return back()->with('status', 'Si los datos coinciden, se preparó un mensaje con acceso temporal. En desarrollo el transporte log no entrega correos reales.');
+        return back()->with('status', 'Si los datos coinciden, recibirás un mensaje con acceso temporal. Revisa también tu carpeta de correo no deseado.');
     }
 
     public function form(string $token)

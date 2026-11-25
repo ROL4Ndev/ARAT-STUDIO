@@ -3,11 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Project extends BusinessModel
 {
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_active', true)
+            ->whereRaw("TRIM(title) <> ''")
+            ->whereRaw("TRIM(description) <> ''")
+            ->whereRaw("TRIM(cover_image) <> ''")
+            ->whereHas('projectCategory', fn ($category) => $category->where('is_active', true));
+    }
+
     protected $attributes = ['lock_version' => 0, 'is_featured' => false, 'featured_order' => 0];
 
     protected $fillable = [

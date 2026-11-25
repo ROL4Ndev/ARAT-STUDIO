@@ -52,7 +52,7 @@ class PortfolioSelectionTest extends TestCase
         $this->assertCount(9, $first);
         $this->assertSame(13, $first->total());
         $this->assertCount(4, $this->get('/proyectos?page=2&category=arquitectura')->assertOk()->viewData('projects'));
-        $this->get('/')->assertOk()->assertSee('Próximamente compartiremos nuestros proyectos.')->assertSee(route('projects.index'));
+        $this->get('/')->assertOk()->assertSee('Explora nuestros proyectos')->assertSee(route('projects.index'));
     }
 
     public function test_featured_controls_require_admin_and_card_queries_do_not_grow_or_write_per_project(): void

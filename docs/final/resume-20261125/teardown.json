@@ -1,0 +1,14 @@
+﻿{
+    "date":  "2026-11-25",
+    "timezone":  "America/Lima",
+    "preview_pid":  22980,
+    "database_pid":  11308,
+    "preview_stopped":  true,
+    "database_stopped_gracefully":  true,
+    "listeners":  [
+
+                  ],
+    "queue_or_scheduler_started":  false,
+    "live_data_cleanup_repeated":  false,
+    "commit_push_or_deploy":  false
+}

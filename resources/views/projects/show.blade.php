@@ -57,6 +57,17 @@
                             data-gallery-next>Siguiente</button></div>
                 </dialog>
             @endif
+            @if ($related->isNotEmpty())
+                <section class="my-5" aria-labelledby="related-title">
+                    <p class="section-label">Sigue explorando</p>
+                    <h2 id="related-title" class="mb-4">Proyectos relacionados</h2>
+                    <div class="row g-4">
+                        @foreach ($related as $relatedProject)
+                            <div class="col-md-4">@include('layouts.components.project-card', ['project' => $relatedProject, 'headingLevel' => 3])</div>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
             <section class="next-action" aria-labelledby="project-next-title">
                 <h2 id="project-next-title">Demos forma a tu próximo espacio.</h2>
                 <p>Cuéntanos qué necesitas. El equipo revisará el alcance de tu proyecto y preparará una propuesta.</p>

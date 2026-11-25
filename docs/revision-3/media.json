@@ -1,0 +1,164 @@
+{
+  "encoder": "Chrome MediaRecorder H.264; captura de canvas sin pista de audio",
+  "videos": [
+    {
+      "name": "inicio-charlotte-may",
+      "source": "5823855-uhd_3840_2160_24fps.mp4",
+      "pexels": 5823855,
+      "original": {
+        "width": 3840,
+        "height": 2160,
+        "duration": 13.013333,
+        "bytes": 23751769,
+        "tracks": [
+          {
+            "type": "vide",
+            "codec": "avc1",
+            "frames": 312,
+            "seconds": 13.013,
+            "fps": 23.976023976023978
+          },
+          {
+            "type": "soun",
+            "codec": "mp4a",
+            "frames": 610,
+            "seconds": 13.013333333333334,
+            "fps": 46.875
+          }
+        ]
+      },
+      "web": {
+        "width": 1280,
+        "height": 720,
+        "bytes": 1159902,
+        "tracks": [
+          {
+            "type": "vide",
+            "codec": "avc1",
+            "frames": 247,
+            "seconds": 12.970366666666667,
+            "fps": 19.043409207141405
+          }
+        ],
+        "poster_bytes": 66354,
+        "duration": 12.970366666666667
+      }
+    },
+    {
+      "name": "estudio-arthouse",
+      "source": "8449347-uhd_3840_2160_25fps.mp4",
+      "pexels": 8449347,
+      "original": {
+        "width": 3840,
+        "height": 2160,
+        "duration": 10.281667,
+        "bytes": 26404653,
+        "tracks": [
+          {
+            "type": "vide",
+            "codec": "avc1",
+            "frames": 257,
+            "seconds": 10.28,
+            "fps": 25
+          },
+          {
+            "type": "soun",
+            "codec": "mp4a",
+            "frames": 482,
+            "seconds": 10.282666666666668,
+            "fps": 46.87499999999999
+          }
+        ]
+      },
+      "web": {
+        "width": 1280,
+        "height": 720,
+        "bytes": 1014593,
+        "tracks": [
+          {
+            "type": "vide",
+            "codec": "avc1",
+            "frames": 214,
+            "seconds": 10.2112,
+            "fps": 20.957380131620184
+          }
+        ],
+        "poster_bytes": 107772,
+        "duration": 10.2112
+      }
+    }
+  ],
+  "portraits": [
+    {
+      "name": "angelo-trinidad",
+      "source": "023e7c2f-909d-4493-a627-4dc7008cfccd.png",
+      "original": {
+        "width": 1122,
+        "height": 1402,
+        "bytes": 2328850
+      },
+      "web": {
+        "width": 800,
+        "height": 1000,
+        "bytes": 79744
+      }
+    },
+    {
+      "name": "nicole-arana",
+      "source": "f16c62f5-da71-453f-ad39-146bff6152e9.png",
+      "original": {
+        "width": 1122,
+        "height": 1402,
+        "bytes": 2125985
+      },
+      "web": {
+        "width": 800,
+        "height": 1000,
+        "bytes": 58634
+      }
+    }
+  ],
+  "web_assets": [
+    {
+      "file": "media/studio/angelo-trinidad.webp",
+      "bytes": 79744
+    },
+    {
+      "file": "media/studio/estudio-arthouse-poster.webp",
+      "bytes": 107772
+    },
+    {
+      "file": "media/studio/estudio-arthouse.mp4",
+      "bytes": 1014593
+    },
+    {
+      "file": "media/studio/inicio-charlotte-may-poster.webp",
+      "bytes": 66354
+    },
+    {
+      "file": "media/studio/inicio-charlotte-may.mp4",
+      "bytes": 1159902
+    },
+    {
+      "file": "media/studio/nicole-arana.webp",
+      "bytes": 58634
+    },
+    {
+      "file": "media/studio/servicio-arquitectura.webp",
+      "bytes": 103200
+    },
+    {
+      "file": "media/studio/servicio-interiores.webp",
+      "bytes": 73298
+    },
+    {
+      "file": "media/studio/servicio-modelado.webp",
+      "bytes": 21494
+    },
+    {
+      "file": "media/studio/servicio-visualizacion.webp",
+      "bytes": 78046
+    }
+  ],
+  "total_web_bytes": 2763037
+}

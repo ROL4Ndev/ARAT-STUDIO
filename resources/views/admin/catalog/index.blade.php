@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', $label.' | ARAT STUDIO')
+@section('title', $label . ' | ARAT STUDIO')
 @section('admin-title', $label)
 
 @section('admin-content')
@@ -8,12 +8,20 @@
 
     <div class="admin-toolbar">
         <p>Consulta, filtra y administra los registros de {{ mb_strtolower($label) }}.</p>
-        <a class="btn btn-dark admin-button" href="{{ route('admin.'.$kind.'.create') }}">Crear {{ mb_strtolower(rtrim($label, 's')) }}</a>
+        <a class="btn btn-dark admin-button" href="{{ route('admin.' . $kind . '.create') }}">Crear
+            {{ mb_strtolower(rtrim($label, 's')) }}</a>
     </div>
 
-    <form method="GET" action="{{ route('admin.'.$kind.'.index') }}" class="admin-search" aria-label="Filtros de {{ mb_strtolower($label) }}">
+    @if ($kind === 'projects')
+        <p class="admin-editorial-help">La publicación permite consultar el proyecto en el portafolio. Destacado lo
+            selecciona para inicio; el orden menor aparece primero. Las categorías inactivas ocultan sus proyectos.</p>
+    @endif
+
+    <form method="GET" action="{{ route('admin.' . $kind . '.index') }}" class="admin-search"
+        aria-label="Filtros de {{ mb_strtolower($label) }}">
         <label for="q" class="form-label">Buscar</label>
-        <input class="form-control" id="q" name="q" type="search" value="{{ request('q') }}" maxlength="150">
+        <input class="form-control" id="q" name="q" type="search" value="{{ request('q') }}"
+            maxlength="150">
 
         <label for="active" class="form-label">Estado de publicación</label>
         <select class="form-select" id="active" name="active">
@@ -48,7 +56,8 @@
                 @endforeach
             </select>
             <label for="version" class="form-label">Versión</label>
-            <input id="version" name="version" type="number" min="1" class="form-control" value="{{ request('version') }}">
+            <input id="version" name="version" type="number" min="1" class="form-control"
+                value="{{ request('version') }}">
         @endif
 
         @if ($kind === 'services')
@@ -62,7 +71,7 @@
         @endif
 
         <button class="btn btn-dark admin-button" type="submit">Aplicar filtros</button>
-        <a class="btn btn-outline-dark admin-button" href="{{ route('admin.'.$kind.'.index') }}">Limpiar filtros</a>
+        <a class="btn btn-outline-dark admin-button" href="{{ route('admin.' . $kind . '.index') }}">Limpiar filtros</a>
     </form>
 
     <p class="form-text d-md-none">Desliza la tabla para consultar todas las columnas y sus acciones.</p>
@@ -71,8 +80,12 @@
             <thead>
                 <tr>
                     <th scope="col">Registro</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Información</th>
+                    <th scope="col">{{ $kind === 'projects' ? 'Publicado' : 'Estado' }}</th>
+                    @if ($kind === 'projects')
+                        <th scope="col">Destacado en inicio</th>
+                        <th scope="col">Orden en inicio</th>
+                    @endif
+                    <th scope="col">{{ $kind === 'projects' ? 'Categoría' : 'Información' }}</th>
                     <th scope="col"><span class="visually-hidden">Acciones</span></th>
                 </tr>
             </thead>
@@ -80,27 +93,55 @@
                 @forelse ($items as $item)
                     @php($state = $item->status ?? ($item->is_active ? 'activo' : ($kind === 'projects' ? 'borrador' : 'inactivo')))
                     <tr>
-                        <th scope="row">{{ $item->title ?? $item->name ?? $item->lod_level }}</th>
-                        <td>@include('shared.status-label', ['value' => $state])</td>
+                        <th scope="row">{{ $item->title ?? ($item->name ?? $item->lod_level) }}</th>
+                        <td>
+                            @if ($kind === 'projects')
+                                <span
+                                    class="status-label {{ $item->is_active ? 'status-label--success' : 'status-label--muted' }}">{{ $item->is_active ? 'Sí' : 'No · borrador' }}</span>
+                                @if ($item->is_active && !$item->projectCategory?->is_active)
+                                    <small class="d-block">Oculto por categoría inactiva</small>
+                                @endif
+                            @else
+                                @include('shared.status-label', ['value' => $state])
+                            @endif
+                        </td>
+                        @if ($kind === 'projects')
+                            <td>{{ $item->is_featured ? 'Sí' : 'No' }}</td>
+                            <td>{{ $item->featured_order }}</td>
+                        @endif
                         <td>
                             @if ($kind === 'tariffs')
-                                Versión {{ $item->version }} · PEN {{ $item->base_price_m2 }} × {{ $item->lod_factor }} · límite {{ $item->max_area_m2 }} m²
+                                Versión {{ $item->version }} · PEN {{ $item->base_price_m2 }} × {{ $item->lod_factor }} ·
+                                límite {{ $item->max_area_m2 }} m²
                             @elseif ($kind === 'projects')
                                 {{ $item->projectCategory?->name ?? 'Sin categoría' }}
                             @elseif ($kind === 'services')
-                                {{ $item->code }} · {{ $item->estimation_mode === 'manual' ? 'evaluación manual' : 'área y LOD' }}
+                                {{ $item->code }} ·
+                                {{ $item->estimation_mode === 'manual' ? 'evaluación manual' : 'área y LOD' }}
                             @else
                                 {{ $item->slug }} · {{ $item->projects_count }} proyectos asociados
                             @endif
                         </td>
                         <td class="admin-table__actions">
-                            <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.'.$kind.'.show', $item->id) }}">Consultar {{ mb_strtolower(rtrim($label, 's')) }}</a>
-                            <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.'.$kind.'.edit', $item->id) }}">Editar {{ mb_strtolower(rtrim($label, 's')) }}</a>
+                            <a class="btn btn-outline-dark btn-sm"
+                                href="{{ route('admin.' . $kind . '.show', $item->id) }}">Consultar
+                                {{ mb_strtolower(rtrim($label, 's')) }}</a>
+                            <a class="btn btn-outline-dark btn-sm"
+                                href="{{ route('admin.' . $kind . '.edit', $item->id) }}">Editar
+                                {{ mb_strtolower(rtrim($label, 's')) }}</a>
+                            @if ($kind === 'projects')
+                                <a class="btn btn-outline-dark btn-sm"
+                                    href="{{ route('admin.projects.edit', $item->id) }}#seleccion-inicio">Editar
+                                    selección</a>
+                                <a class="btn btn-outline-dark btn-sm"
+                                    href="{{ route('admin.projects.show', $item->id) }}#galeria">Administrar galería</a>
+                            @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">No hay registros para estos filtros. Puedes limpiar los filtros o crear un registro.</td>
+                        <td colspan="{{ $kind === 'projects' ? 6 : 4 }}">No hay registros para estos filtros. Puedes
+                            limpiar los filtros o crear un registro.</td>
                     </tr>
                 @endforelse
             </tbody>

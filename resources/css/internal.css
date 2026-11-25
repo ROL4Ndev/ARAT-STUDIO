@@ -1,5 +1,26 @@
 /* ARAT STUDIO: estilos del panel interno. */
 
+.admin-editorial-help {
+    max-width: 90ch;
+    margin-bottom: 24px;
+    color: var(--muted);
+}
+
+.project-selection-fields {
+    padding: 24px;
+    margin-block: 24px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    scroll-margin-top: 100px;
+}
+
+.project-selection-fields legend {
+    float: none;
+    width: auto;
+    margin-bottom: 20px;
+    font: 500 1.2rem/1.4 var(--font-title);
+}
+
 .dashboard-link, .workspace-sidebar nav a {
     transition: background-color 150ms ease, border-color 150ms ease;
 }
@@ -236,7 +257,7 @@
     border-radius: 6px;
 }
 
-.admin-form .form-label, .admin-form__field {
+.admin-form .form-label {
     margin-top: 20px;
 }
 
@@ -253,11 +274,6 @@
     margin-block: 24px;
 }
 
-.admin-project-cover--large {
-    max-width: 100%;
-    max-height: 600px;
-}
-
 .admin-project-detail {
     padding: 32px;
     background: #fff;
@@ -272,10 +288,6 @@
 .internal .account-page {
     padding-top: 48px;
     background: transparent;
-}
-
-.dashboard-card {
-    max-width: none;
 }
 
 .dashboard-navigation {

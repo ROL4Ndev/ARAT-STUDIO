@@ -3,30 +3,22 @@
 namespace App\Http\Controllers\PublicSite;
 
 use App\Http\Controllers\Controller;
-use App\Models\OfferedService;
 use App\Models\Project;
+use App\Services\PublicServicePresentation;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(): View
+    public function index(PublicServicePresentation $presentation): View
     {
-        $projects = Project::query()
+        $projects = Project::published()
             ->with(['projectCategory', 'coverMedia'])
-            ->where('is_active', true)
             ->where('is_featured', true)
-            ->whereHas('projectCategory', fn ($q) => $q->where('is_active', true))
             ->orderBy('featured_order')
             ->orderBy('id')
             ->get();
 
-        $services = OfferedService::where('is_active', true)
-            ->orderBy('display_order')
-            ->orderBy('id')
-            ->get(['name', 'description', 'audience'])
-            ->groupBy(fn ($service) => $service->audience === 'estudiantes' ? 'Servicios para estudiantes' : 'Servicios generales')
-            ->map(fn ($items) => $items->map->only(['name', 'description'])->all())
-            ->all();
+        $services = $presentation->groups();
 
         return view('home', compact('projects', 'services'));
     }
@@ -36,13 +28,9 @@ class HomeController extends Controller
         return view('public.about');
     }
 
-    public function services(): View
+    public function services(PublicServicePresentation $presentation): View
     {
-        $services = OfferedService::where('is_active', true)
-            ->orderBy('display_order')
-            ->orderBy('id')
-            ->get()
-            ->groupBy(fn ($service) => $service->audience === 'estudiantes' ? 'Servicios para estudiantes' : 'Servicios generales');
+        $services = $presentation->groups();
 
         return view('public.services', compact('services'));
     }

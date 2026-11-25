@@ -17,16 +17,12 @@ class ProjectController extends Controller
 
         $categories = Category::query()
             ->where('is_active', true)
-            ->whereHas('projects', function ($query) {
-                $query->where('is_active', true);
-            })
+            ->whereHas('projects', fn ($query) => $query->published())
             ->orderBy('name')
             ->get();
 
-        $projects = Project::query()
+        $projects = Project::published()
             ->with(['projectCategory', 'coverMedia'])
-            ->where('is_active', true)
-            ->whereHas('projectCategory', fn ($q) => $q->where('is_active', true))
             ->when($selectedCategory !== '', function ($query) use ($selectedCategory) {
                 $query->whereHas('projectCategory', function ($categoryQuery) use ($selectedCategory) {
                     $categoryQuery->where('slug', $selectedCategory);
@@ -45,9 +41,12 @@ class ProjectController extends Controller
 
     public function show(Project $project): View
     {
+        abort_unless(Project::published()->whereKey($project->id)->exists(), 404);
         $project->load(['projectCategory', 'images' => fn ($query) => $query->where('is_active', true), 'coverMedia']);
-        abort_unless($project->is_active && $project->projectCategory?->is_active, 404);
+        $related = Project::published()->with(['projectCategory', 'coverMedia'])
+            ->where('category_id', $project->category_id)->whereKeyNot($project->id)
+            ->orderByDesc('is_featured')->orderBy('featured_order')->orderBy('id')->limit(3)->get();
 
-        return view('projects.show', compact('project'));
+        return view('projects.show', compact('project', 'related'));
     }
 }

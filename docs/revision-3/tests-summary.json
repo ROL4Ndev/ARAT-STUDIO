@@ -1,0 +1,10 @@
+{
+  "php": "Herd 8.5.12",
+  "database": "SQLite :memory:",
+  "tests": 114,
+  "assertions": 1063,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "time": 69.11878
+}

@@ -1,0 +1,11 @@
+{
+  "completed": true,
+  "browser": "158.0.8127.36",
+  "checks": [
+    "Validación del servidor, error junto al campo y foco de teclado",
+    "Solicitud → asignación → evaluación → observación → corrección verificada → aprobación → borrador → PDF → aceptación → cierre; reintento idempotente y decisión opuesta bloqueada",
+    "Vencimiento y consulta privada del PDF de una versión sustituida",
+    "Regreso al panel con sesión interna, menú con Escape y reflujo a 640 px"
+  ],
+  "errors": []
+}

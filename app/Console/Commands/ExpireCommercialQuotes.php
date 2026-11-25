@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class ExpireCommercialQuotes extends Command
 {
-    protected $signature = 'commercial:expire';
+    protected $signature = 'commercial:expire {--batch= : Limitar a un lote de demostración}';
 
     protected $description = 'Marca vencimientos sin sustituir la validación al responder.';
 
     public function handle(): int
     {
-        foreach (Quotation::where('status', 'emitida')->where('expires_at', '<=', now('UTC'))->pluck('id') as $id) {
+        foreach (Quotation::where('status', 'emitida')->where('expires_at', '<=', now('UTC'))
+            ->when($this->option('batch'), fn ($query, $batch) => $query->whereHas('serviceRequest', fn ($query) => $query->where('demo_batch', $batch)))
+            ->pluck('id') as $id) {
             DB::transaction(function () use ($id) {
                 $candidate = Quotation::findOrFail($id);
                 ServiceRequest::whereKey($candidate->service_request_id)->lockForUpdate()->firstOrFail();

@@ -1,0 +1,11 @@
+{
+    "existing_editorial_records_verified": 3,
+    "commercial_table_counts_unchanged": true,
+    "historical_pdfs_verified_against_stored_sha256": 4,
+    "import_repeated_without_new_projects_images_or_versions": true,
+    "duplicate_gallery_entries": 0,
+    "projects_total": 13,
+    "gallery_entries": 99,
+    "published": 13,
+    "featured_published": 0
+}

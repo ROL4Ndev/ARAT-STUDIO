@@ -14,6 +14,22 @@ class DashboardIndicatorsTest extends TestCase
 {
     use CommercialFixtures, RefreshDatabase;
 
+    public function test_recent_requests_and_queue_use_creation_dates_instead_of_insertion_order(): void
+    {
+        $this->tariff();
+        $admin = User::factory()->create(['role' => 'admin']);
+        $newer = $this->registerRequest();
+        $this->travelBack();
+        $this->travel(-10)->days();
+        $older = $this->registerRequest();
+        $this->travelBack();
+        $response = $this->actingAs($admin)->get('/gestion')->assertOk();
+        $this->assertSame($newer->id, $response->viewData('requests')->first()->id);
+        $this->assertSame($older->code, $response->viewData('unassigned')->first()->code);
+        $this->assertSame($newer->id, $response->viewData('overview')['recentRequests']->first()->id);
+        $this->assertSame($newer->code, $response->viewData('histories')->first()->serviceRequest->code);
+    }
+
     public function test_week_boundaries_state_counts_and_average_use_lima_and_authorized_scope(): void
     {
         Mail::fake();

@@ -8,7 +8,7 @@
             <div class="account-card">
                 <p class="section-label">Acceso de cliente</p>
                 <h1 id="access-title">Acceder a mi expediente</h1>
-                <p>No necesitas crear una cuenta. El código por sí solo no permite acceder: verifica el correo asociado a tu solicitud.</p>
+                <p>Ingresa tu código y el correo de tu solicitud para recibir un enlace de acceso.</p>
                 @include('shared.errors')
 
                 <form action="{{ route('client.access.request') }}" method="POST" class="account-form">
@@ -50,7 +50,6 @@
                 </form>
 
                 <p class="form-text mt-4 mb-0">El enlace vence en 15 minutos y solo puede usarse una vez. La sesión verificada dura 30 minutos y puedes cerrarla desde el expediente.</p>
-                @if (app()->environment('local'))<p class="form-text mt-2 mb-0">Demostración local: los correos pueden ser simulados.</p>@endif
             </div>
         </div>
     </section>

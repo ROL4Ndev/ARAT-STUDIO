@@ -1,0 +1,113 @@
+{
+  "checks": [
+    {
+      "path": "/",
+      "name": "inicio",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/nosotros",
+      "name": "nosotros",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/servicios",
+      "name": "servicios",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/proyectos",
+      "name": "portafolio",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/proyectos/proyecto-sala-t",
+      "name": "detalle",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/cotizador",
+      "name": "cotizador",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/solicitar-proyecto",
+      "name": "solicitud",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/acceder-expediente",
+      "name": "acceso",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/",
+      "name": "inicio-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/nosotros",
+      "name": "nosotros-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/servicios",
+      "name": "servicios-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/proyectos",
+      "name": "portafolio-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/cotizador",
+      "name": "cotizador-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/solicitar-proyecto",
+      "name": "solicitud-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/acceder-expediente",
+      "name": "acceso-movil",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/admin",
+      "name": "panel",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/gestion",
+      "name": "gestion",
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "path": "/admin/proyectos",
+      "name": "administracion",
+      "overflow": false,
+      "brokenImages": 0
+    }
+  ],
+  "errors": []
+}

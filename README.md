@@ -1,73 +1,166 @@
 # ARAT STUDIO
 
-Aplicación Laravel para presentar el estudio y gestionar solicitudes y
-cotizaciones. Usa PHP 8.5, MariaDB, Blade, Bootstrap y JavaScript; la interfaz
-está en español de Perú y presenta importes en PEN y fechas en America/Lima.
+Sitio del estudio y gestión de solicitudes, evaluaciones, cotizaciones versionadas y
+expedientes privados. Laravel 13, PHP 8.5, MariaDB, Blade y Vite. Bootstrap en la web
+pública; Tabler, que incluye Bootstrap, en el panel. Kodchasan se sirve localmente.
+Interfaz en español, moneda PEN y zona horaria America/Lima.
 
-## Clonar
+## Preparar la terminal en Windows
+
+Desde la raíz, ejecutar en cada terminal que vaya a usar PHP:
 
 ```powershell
-git clone https://github.com/ROL4Ndev/ARAT-STUDIO.git
-cd ARAT-STUDIO
+. .\tools\use-php.ps1
+php -v
+composer --version
 ```
 
-## Instalación y ejecución
+El helper busca PHP 8.5 de Herd y después el del PATH. Si hace falta, indicar la
+ruta con `-PhpBinary 'C:\ruta\php.exe'`. Solo cambia esa terminal: añade el INI
+local de cargas y hace que Composer y sus procesos hijos usen el PHP seleccionado.
+No modifica XAMPP ni el PATH del sistema. `tools/php/local.ini` conserva el INI
+instalado y sus extensiones; limita archivos a 50 MiB y peticiones a 64 MiB.
+Los avisos se registran sin impedir la respuesta HTTP 413.
 
-Requiere PHP 8.5, Composer, Node.js/npm y MariaDB (por ejemplo, MySQL de
-XAMPP). Con la base de datos activa, desde la raíz del proyecto:
+## Instalación nueva
+
+Requiere PHP 8.5, Composer, Node.js/npm y MariaDB. Clonar el repositorio y preparar
+`.env` desde `.env.example`. Configurar la base vacía, `APP_URL`,
+`APP_TIMEZONE=America/Lima`, `APP_LOCALE=es_PE`, `APP_FALLBACK_LOCALE=es`,
+`QUEUE_CONNECTION=database` y `MAIL_MAILER=log`.
 
 ```powershell
 composer install
 npm.cmd ci
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+php artisan usuarios:crear-interno
+php artisan storage:link
 npm.cmd run build
 ```
 
-En una instalación nueva, preparar `.env` desde `.env.example` y configurar
-la conexión con la base `arat_studios`, `APP_URL`,
-`APP_TIMEZONE=America/Lima`,
-`APP_LOCALE=es_PE`, `QUEUE_CONNECTION=database` y `MAIL_MAILER=log`.
-Generar `APP_KEY` solo si aún no existe. En una instalación existente,
-conservar `.env`, `APP_KEY` y credenciales. Respaldar antes de migrar; no usar
-`fresh`, `refresh`, `wipe` ni seeders sobre datos de trabajo.
-No publicar `.env`, credenciales ni logs.
+Generar la clave y ejecutar los seeders **solo en una instalación nueva**. Las
+tarifas iniciales quedan enlazadas a sus grupos y son demostrativas. El catálogo
+comercial activo es la fuente de servicios; no se publica un borrador por importarlo.
+`portfolio:inventario` revisa las carpetas y `portfolio:incorporar` muestra el plan
+antes de incorporar proyectos faltantes como borradores.
+
+## Actualizar una instalación existente
+
+Conservar `.env`, `APP_KEY`, cuentas, archivos y datos. Hacer un respaldo privado
+restaurable y detener cola/scheduler antes de cambios de datos. No usar `fresh`,
+`refresh`, `wipe`, regenerar la clave ni ejecutar seeders sobre la base de trabajo.
 
 ```powershell
+composer install
+npm.cmd ci
 php artisan migrate --pretend
 php artisan migrate
-php artisan storage:link
+php artisan optimize:clear
+npm.cmd run build
 ```
 
-Para operar localmente, abrir tres terminales:
+En esta instalación la migración de identificación de lotes ya está aplicada.
+Los proyectos, imágenes, categorías, servicios y tarifas previos se conservaron.
+
+## Arrancar y detener
+
+Si MariaDB no está iniciado, abrir una terminal adicional:
 
 ```powershell
-php artisan serve --host=127.0.0.1 --port=8000
+.\tools\start-database.ps1
+```
+
+El helper usa XAMPP, verifica que no exista otra instancia, escucha en localhost y
+usa índices de replicación propios en storage privado. Resuelve el arranque local
+sin modificar los índices dañados de XAMPP. Detener con **Ctrl+C en esa terminal**.
+Si el servicio ya estaba iniciado desde XAMPP, administrarlo desde su panel.
+
+Con MariaDB disponible, abrir tres terminales, preparar PHP en cada una y ejecutar:
+
+```powershell
+php artisan serve --host=127.0.0.1 --port=8000 --no-reload
+```
+
+```powershell
 php artisan queue:work --queue=default --tries=1 --timeout=180 --sleep=1
+```
+
+```powershell
 php artisan schedule:work
 ```
 
-Abrir http://127.0.0.1:8000. `MAIL_MAILER=log` simula el correo; no entrega
-mensajes reales. Los CSS y JavaScript compilados se sirven desde `public`.
-Las pruebas funcionales usan SQLite en memoria, no la base MySQL local.
+Abrir http://127.0.0.1:8000. Detener los tres procesos con **Ctrl+C en sus
+terminales**. `--no-reload` conserva el INI local en el proceso hijo de Laravel.
+Para editar frontend con recarga, `composer dev` inicia servidor, cola, scheduler y
+Vite; Ctrl+C detiene el grupo. El build normal ya usa el cargador de configuración
+compatible con las restricciones de esta carpeta en Windows.
 
-## Documentación y verificación
+`MAIL_MAILER=log` simula correos. Para mostrar un expediente ficticio, habilitar
+`CLIENT_ACCESS_DEMO_ENABLED=true` solo en local y usar «Preparar acceso de cliente
+para demostración» dentro del expediente. El enlace es privado, temporal y de un
+solo uso; abrirlo en otra sesión sin cuenta interna. No publicar logs ni enlaces.
 
-- [Entrega de diseño, pruebas y capturas actuales](docs/design/ENTREGA.md)
-- [Galería de antes y después](docs/design/index.html)
-- [Recorrido de exposición y límites](GUIA_EXPOSICION.md)
-- [Matriz de requisitos y evidencia](REVISION_INFORME_INTEGRAL.md)
-- [Resultados, pruebas y pendientes](VERIFICACION_ENTREGA.md)
+## Demostración y trabajos
 
-La suite se ejecuta con `php artisan test --compact`. La integración MariaDB
-requiere una conexión con permiso para crear una base de ensayo:
-`php tests/Integration/MariaDbConcurrency.php --run`.
+La base `arat_studios` contiene 15 solicitudes ficticias del lote `arat-2026-v1` y
+una solicitud de origen dudoso conservada. Las cuatro cuentas del equipo mantienen
+sus datos originales. Los nombres y necesidades del lote son ficticios: no son
+clientes, encargos ni ingresos reales. Sus correos usan example.com y el teléfono
+no es enrutable. Los avisos de preparación se procesaron con transporte `array`.
 
-En Windows verifica `php -v`: XAMPP puede dejar PHP 8.2 antes que Herd en
-el PATH. PHPUnit fuerza SQLite en memoria tanto en el entorno del proceso
-como en `$_SERVER`; las variables MySQL heredadas no deben usarse en pruebas.
-La interfaz compila Bootstrap para el sitio público y Tabler (que ya incluye
-Bootstrap) para el panel. No requiere cargar hojas de estilo desde un CDN.
+```powershell
+php artisan demo:prepare
+php artisan demo:prepare --batch=arat-2026-v1 --seed=20261124 --date=2026-11-24 --actor=1 --apply
+```
 
-El límite de archivos del servidor PHP integrado sigue pendiente para cargas
-superiores a 64 MiB: puede responder HTTP 200 antes de Laravel, no el 413
-esperado. No se han verificado producción ni SMTP real. Los resultados y el
-alcance completo están descritos en los informes enlazados.
+Sin `--apply` solo se muestra el plan. Para escribir exige entorno local y
+mantenimiento, con cola y scheduler detenidos. Un lote completo se conserva al
+repetirlo; uno incompleto se rechaza. No borra otros registros ni modifica tarifas.
+No hace falta volver a prepararlo para recorrer la demostración.
+
+```powershell
+php artisan commercial:recover
+php artisan commercial:retry ID
+php artisan commercial:expire
+```
+
+`ID` es el trabajo fallido. Con el worker detenido se puede usar
+`commercial:recover --inline`. La emisión conserva versiones, genera un PDF
+inmutable y admite reintento sobre la misma versión. La aceptación cierra el
+expediente; no añade pagos ni ejecución de obra.
+
+## Verificar
+
+```powershell
+php artisan test --compact
+php tests/Integration/MariaDbConcurrency.php --run
+npm.cmd run build
+php artisan view:cache
+php artisan view:clear
+composer validate --strict
+composer check-platform-reqs
+```
+
+PHPUnit exige SQLite `:memory:` y aísla también correo, sesión, caché y mantenimiento.
+La integración crea una base nueva `arat_concurrency_*` y archivos privados
+separados; requiere permiso de creación. Nunca reinicia `arat_studios`.
+
+La revisión de navegador usa `tools/preview/bootstrap.php`, SQLite y cuentas
+efímeras. No ejecuta altas ni decisiones de prueba sobre la demostración local.
+Los scripts de `tools/maintenance` documentan la intervención acotada de esta
+instalación: no forman parte del arranque ni se deben repetir como seeders.
+
+## Evidencia de entrega
+
+- [Revalidación después del apagado, 25 de noviembre](docs/final/REANUDACION-20261125.md)
+- [Informe final, datos, comprobaciones y recorrido](docs/final/ENTREGA.md)
+- [Capturas antes/después](docs/final/index.html)
+- [Fuentes y licencias de medios aprobados](docs/revision-3/README.md#fuentes-y-licencia)
+
+Los informes de `docs/design`, `docs/revision-2`, `docs/revision-3` y las guías de
+entregas anteriores se conservan como historial. El informe final distingue los
+resultados vigentes de sus límites históricos. No se han hecho commit, push ni
+despliegue. SMTP real, producción y dispositivos físicos quedan fuera de esta
+verificación local.

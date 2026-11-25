@@ -1,0 +1,26 @@
+{
+  "resources/css/app.css": {
+    "bytes": 254711,
+    "gzip_bytes": 36640
+  },
+  "resources/css/panel.css": {
+    "bytes": 700451,
+    "gzip_bytes": 89837
+  },
+  "resources/js/app.js": {
+    "bytes": 6187,
+    "gzip_bytes": 2476
+  },
+  "resources/js/dashboard.js": {
+    "bytes": 163210,
+    "gzip_bytes": 56821
+  },
+  "resources/js/gallery.js": {
+    "bytes": 1059,
+    "gzip_bytes": 480
+  },
+  "resources/js/studio-videos.js": {
+    "bytes": 4960,
+    "gzip_bytes": 1716
+  }
+}

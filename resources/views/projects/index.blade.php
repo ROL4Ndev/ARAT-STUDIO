@@ -18,36 +18,27 @@
                 </p>
             </header>
 
-            <form
-                action="{{ route('projects.index') }}"
-                method="GET"
-                class="portfolio-filters"
-            >
+            <form action="{{ route('projects.index') }}" method="GET" class="portfolio-filters" data-portfolio-filter>
                 <div class="portfolio-filters__field">
                     <label for="category" class="form-label">
                         Categoría
                     </label>
 
-                    <select
-                        id="category"
-                        name="category"
-                        class="form-select"
+                    <select id="category" name="category" class="form-select" aria-describedby="category-help"
                         @error('category')
                             aria-invalid="true"
                             aria-describedby="category-error"
-                        @enderror
-                    >
+                        @enderror>
                         <option value="">Todas las categorías</option>
 
                         @foreach ($categories as $category)
-                            <option
-                                value="{{ $category->slug }}"
-                                @selected($selectedCategory === $category->slug)
-                            >
+                            <option value="{{ $category->slug }}" @selected($selectedCategory === $category->slug)>
                                 {{ $category->name }}
                             </option>
                         @endforeach
                     </select>
+                    <p id="category-help" class="form-text mb-0" data-filter-help>Elige una categoría y pulsa Filtrar para
+                        consultar sus proyectos.</p>
 
                     @error('category')
                         <p id="category-error" class="text-danger mt-2 mb-0">
@@ -56,7 +47,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-dark">
+                <button type="submit" class="btn btn-dark" data-filter-submit>
                     Filtrar
                 </button>
 

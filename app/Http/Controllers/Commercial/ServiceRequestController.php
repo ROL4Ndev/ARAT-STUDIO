@@ -31,7 +31,7 @@ class ServiceRequestController extends Controller
         $data = $request->validated();
         $visible = ServiceRequest::visibleTo($request->user());
         $filtered = $this->filterRequests(clone $visible, $data);
-        $requests = (clone $filtered)->with(['currentQuotation', 'assignee'])->latest('id')->paginate(15)->withQueryString();
+        $requests = (clone $filtered)->with(['currentQuotation', 'assignee'])->latest('created_at')->latest('id')->paginate(15)->withQueryString();
         $unassigned = $this->unassignedQueue($data);
         $period = $indicators->period($data);
         $metrics = $indicators->commercialMetrics($request->user(), $period);
@@ -47,7 +47,7 @@ class ServiceRequestController extends Controller
         $queue = ServiceRequest::select(['code', 'service', 'project_type', 'created_at', 'status', 'lock_version'])
             ->whereNull('assigned_to')->whereIn('status', ['pendiente', 'evaluacion', 'observada', 'aprobado']);
 
-        return $this->filterRequests($queue, $filters, minimal: true)->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
+        return $this->filterRequests($queue, $filters, minimal: true)->oldest('created_at')->oldest('id')->paginate(10, ['*'], 'queue_page')->withQueryString();
     }
 
     private function filteredHistory(Builder $filtered, array $filters)
@@ -55,7 +55,7 @@ class ServiceRequestController extends Controller
         return ServiceRequestHistory::with('serviceRequest:id,code')
             ->whereIn('service_request_id', (clone $filtered)->select('id'))
             ->when($filters['history_action'] ?? null, fn ($query, $action) => $query->where('action', $action))
-            ->latest('id')->paginate(15, ['*'], 'history_page')->withQueryString();
+            ->latest('created_at')->latest('id')->paginate(15, ['*'], 'history_page')->withQueryString();
     }
 
     private function filterRequests(Builder $query, array $data, bool $minimal = false): Builder

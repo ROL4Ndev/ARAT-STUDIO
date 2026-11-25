@@ -74,7 +74,6 @@ class CommercialWorkflowService
                 }
                 if ($action === 'close') {
                     abort_if($r->quotations()->whereIn('status', ['borrador', 'preparando', 'aceptada'])->exists() || $r->quotations()->where('status', 'emitida')->where('expires_at', '>', now('UTC'))->exists(), 409, 'No se puede cerrar con propuesta vigente, preparación o aceptación.');
-                    $r->closure_outcome = 'sin_acuerdo';
                 }
                 if (in_array($action, ['cancel', 'close'])) {
                     $r->closed_at = now('UTC');

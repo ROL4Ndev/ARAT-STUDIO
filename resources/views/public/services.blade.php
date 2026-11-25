@@ -9,24 +9,25 @@
                 <span class="section-label">Qué ofrecemos</span>
                 <h1 id="services-title" class="section-title mt-2">Del diseño a la visualización.</h1>
             </header>
-            @forelse ($services as $group => $serviceItems)
-                <h2 class="services-group-label home-services-group">{{ $group }}</h2>
-                <div class="row g-4 mb-5">
-                    @foreach ($serviceItems as $service)
-                        <div class="col-md-6 col-xl-3">
-                            <article class="service-card">
-                                <span class="service-card__number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                <h3 class="service-card__title">{{ $service->name }}</h3>
-                                <p class="service-card__text">{{ $service->description }}</p>
-                                <a class="home-intro-link mt-3" href="{{ route('service-requests.create', ['service_id' => $service->id]) }}">Consultar este servicio <span aria-hidden="true">→</span></a>
-                            </article>
-                        </div>
-                    @endforeach
-                </div>
-            @empty
-                <p class="section-body">Estamos actualizando nuestro catálogo de servicios. Escríbenos para conversar sobre tu proyecto.</p>
-            @endforelse
-            <a class="btn btn-dark home-button" href="{{ route('service-requests.create') }}">Cuéntanos qué necesitas <span aria-hidden="true">→</span></a>
+            @include('public.partials.service-stories')
+        </div>
+    </section>
+    <section class="section-block" aria-labelledby="process-title">
+        <div class="container">
+            <p class="section-label">Cómo trabajamos</p>
+            <h2 id="process-title" class="section-title">De tu idea a una propuesta clara.</h2>
+            <ol class="process-steps">
+                <li><h3>Cuéntanos el proyecto</h3><p>Comparte tus necesidades, el área y las referencias disponibles en una solicitud.</p></li>
+                <li><h3>Evaluamos el alcance</h3><p>El equipo revisa la información y te pide una corrección si hace falta precisar algún detalle.</p></li>
+                <li><h3>Revisa la propuesta</h3><p>Consulta la cotización oficial en tu expediente y registra tu decisión sobre la versión vigente.</p></li>
+            </ol>
+            <a class="btn btn-dark" href="{{ route('service-requests.create') }}">Solicitar una evaluación</a>
+            <div class="service-faq mt-5" aria-labelledby="faq-title">
+                <h2 id="faq-title">Antes de empezar</h2>
+                <details><summary>¿La estimación es una cotización oficial?</summary><p>No. La estimación usa el área, el nivel de detalle y las tarifas disponibles. El equipo debe evaluar el alcance antes de emitir una propuesta oficial con su PDF y vigencia.</p></details>
+                <details><summary>¿Cómo consulto el avance o corrijo mi solicitud?</summary><p>En «Consultar mi expediente», ingresa tu código y el correo registrado. Desde el enlace temporal podrás ver el avance, responder observaciones y consultar tus documentos.</p></details>
+                <details><summary>¿Puedo consultar versiones anteriores?</summary><p>El expediente conserva las propuestas anteriores. Solo puedes responder a la versión vigente que no haya vencido.</p></details>
+            </div>
         </div>
     </section>
 @endsection

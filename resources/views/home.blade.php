@@ -3,11 +3,7 @@
 @section('title', 'ARAT STUDIO | Arquitectura y Diseño en Lima')
 
 @section('content')
-    <section
-        id="inicio"
-        class="home-hero"
-        aria-labelledby="home-title"
-    >
+    <section id="inicio" class="home-hero" aria-labelledby="home-title">
         <div class="home-hero__grid">
             <div class="home-hero__copy">
                 <p class="hero__eyebrow">Estudio de arquitectura · Lima, Perú</p>
@@ -15,56 +11,25 @@
                 <p>Arquitectura · Diseño · Visualización 3D</p>
                 <p>Transformamos tus ideas en espacios que conectan la forma, la luz y tu manera de vivir.</p>
                 <div class="home-hero-actions">
-                    <a href="{{ route('projects.index') }}" class="btn btn-dark">Explorar portafolio <span aria-hidden="true">→</span></a>
+                    <a href="{{ route('projects.index') }}" class="btn btn-dark">Explorar portafolio <span
+                            aria-hidden="true">→</span></a>
                     <a href="{{ route('service-requests.create') }}" class="home-intro-link">Hablemos de tu proyecto</a>
                 </div>
             </div>
-            @if ($projects->isNotEmpty())
-                <figure class="home-hero__figure">
-                    <img src="{{ $projects->first()->cover_image_url }}" alt="{{ $projects->first()->title }}: una mirada a nuestro trabajo" fetchpriority="high" width="1000" height="1000">
-                    <figcaption><a href="{{ route('projects.show', $projects->first()) }}"><span>{{ $projects->first()->title }} · {{ $projects->first()->projectCategory->name }}</span><span aria-hidden="true">↗</span></a></figcaption>
-                </figure>
-            @else
-                <div class="home-hero__empty"><img src="{{ asset('img/LOGO1.png') }}" alt="ARAT STUDIO" width="200" height="200"></div>
-            @endif
+            @include('public.partials.studio-film', [
+                'hero' => true,
+                'id' => 'home-interior-video',
+                'file' => 'inicio-charlotte-may',
+                'label' => 'interior referencial',
+                'posterAlt' => 'Interior referencial con mesa de comedor, luminarias y elementos de madera',
+            ])
+
         </div>
     </section>
 
-    <section
-        id="sobre"
-        class="section-block"
-        aria-labelledby="about-title"
-    >
-        <div class="container home-about-grid">
-            <div class="section-header">
-                <span class="section-label">Nuestro enfoque</span>
-                <h2 id="about-title" class="section-title mt-2">
-                    Sobre el estudio
-                </h2>
-            </div>
-
-            <div>
-                <div>
-                    <h3 class="studio-info__title mb-4">
-                        Diseño con propósito.<br>
-                        Arquitectura con precisión.
-                    </h3>
-
-                    <p class="section-body">
-                        ARAT STUDIO es un estudio de arquitectura y diseño
-                        con sede en Lima, Perú, enfocado en proyectos
-                        residenciales, comerciales e institucionales.
-                    </p>
-
-                    <p class="section-body">
-                        Nuestra práctica integra arquitectura, diseño
-                        de interiores, modelado BIM y renderización
-                        fotorrealista, acompañando cada proyecto desde
-                        el concepto hasta la comunicación visual.
-                    </p>
-                    <a href="#equipo" class="project-detail-link">Conoce al equipo <span aria-hidden="true">→</span></a>
-                </div>
-            </div>
+    <section id="sobre" class="section-block" aria-labelledby="about-title">
+        <div class="container">
+            @include('public.partials.studio-intro')
         </div>
     </section>
 
@@ -74,21 +39,19 @@
                 <span class="section-label">Qué ofrecemos</span>
                 <h2 id="services-title" class="section-title mt-2">Del diseño a la visualización.</h2>
             </header>
-            @foreach ($services as $group => $serviceItems)
-                <h3 class="services-group-label home-services-group">{{ $group }}</h3>
-                <div class="row g-4 mb-5">
-                    @foreach ($serviceItems as $service)
-                        <div class="col-md-6 col-xl-3">
-                            <article class="service-card {{ $loop->parent->last ? 'service-card--student' : '' }}">
-                                <span class="service-card__number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                <h4 class="service-card__title">{{ $service['name'] }}</h4>
-                                <p class="service-card__text">{{ $service['description'] }}</p>
-                            </article>
-                        </div>
-                    @endforeach
-                </div>
-            @endforeach
-            <a class="btn btn-dark home-button" href="{{ route('service-requests.create') }}">Cuéntanos qué necesitas <span aria-hidden="true">→</span></a>
+            <div class="service-overview">
+                @foreach ($services->flatten(1) as $service)
+                    <a class="service-overview__item" href="{{ route('services') }}#servicio-{{ $service['id'] }}">
+                        @if ($service['image'])
+                            <img src="{{ asset($service['image']) }}" alt="" width="160" height="120" loading="lazy">
+                        @endif
+                        <span><strong>{{ $service['name'] }}</strong><span>{{ $service['description'] }}</span></span>
+                        <span class="service-overview__link">Ver servicio</span>
+                    </a>
+                @endforeach
+            </div>
+            <a class="btn btn-dark home-button" href="{{ route('service-requests.create') }}">Cuéntanos qué necesitas <span
+                    aria-hidden="true">→</span></a>
         </div>
     </section>
 
@@ -98,80 +61,64 @@
                 <span class="section-label">Quiénes somos</span>
                 <h2 id="team-title" class="section-title mt-2">El equipo detrás del proyecto.</h2>
             </header>
-            <div class="row g-4">
-                @foreach (config('studio.team') as $member)
-                    <div class="col-lg-6">
-                        <article class="director-card">
-                            <div class="director-card__avatar" aria-hidden="true">{{ $member['initials'] }}</div>
-                            <div class="director-card__info">
-                                <h3 class="director-card__name">{{ $member['name'] }}</h3>
-                                <p class="director-card__role">{{ $member['qualification'] }}</p>
-                                <p class="director-card__studio">{{ $member['role'] }}</p>
-                                <ul class="director-card__specs">
-                                    @foreach ($member['specialties'] as $specialty)<li>{{ $specialty }}</li>@endforeach
-                                </ul>
-                                <a class="director-card__pill" href="{{ $member['whatsapp'] }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de {{ $member['name'] }} (abre otra pestaña)">Contactar por WhatsApp <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-                    </div>
-                @endforeach
-            </div>
+            @include('public.partials.team', ['compact' => true])
+            <a class="home-intro-link mt-4 d-inline-block" href="{{ route('about') }}#equipo">Conoce nuestra experiencia y especialidades</a>
         </div>
     </section>
 
-    <section
-    id="proyectos"
-    class="section-block section-block--gray"
-    aria-labelledby="projects-title"
->
-    <div class="container">
-        <div class="section-header mb-5">
-            <span class="section-label">Nuestro trabajo</span>
-            <h2 id="projects-title" class="section-title mt-2">
-                Proyectos destacados
-            </h2>
-        </div>
+    <section id="proyectos" class="section-block section-block--gray" aria-labelledby="projects-title">
+        <div class="container">
+            <div class="section-header mb-5">
+                <span class="section-label">Nuestro trabajo</span>
+                <h2 id="projects-title" class="section-title mt-2">
+                    Proyectos destacados
+                </h2>
+            </div>
 
-        <div class="row g-4">
-            @forelse ($projects as $project)
-                <div class="col-md-6 col-lg-4">
-                    @include('layouts.components.project-card', [
-                        'project' => $project,
-                        'headingLevel' => 3,
-                    ])
-                </div>
-            @empty
-                <div class="col-12">
-                    <p class="text-center">
-                        Próximamente compartiremos nuestros proyectos.
-                    </p>
-                    <p class="text-center">Mientras seleccionamos los destacados, puedes explorar el portafolio completo.</p>
-                </div>
-            @endforelse
-        </div>
+            <div class="row g-4">
+                @forelse ($projects as $project)
+                    <div class="col-md-6 col-lg-4">
+                        @include('layouts.components.project-card', [
+                            'project' => $project,
+                            'headingLevel' => 3,
+                        ])
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <p class="text-center">Explora nuestros proyectos de arquitectura, interiores y visualización.</p>
+                    </div>
+                @endforelse
+            </div>
 
-        <div class="text-center mt-5">
-            <a href="{{ route('projects.index') }}" class="btn btn-outline-dark">
-                Ver todo el portafolio
-            </a>
+            <div class="text-center mt-5">
+                <a href="{{ route('projects.index') }}" class="btn btn-outline-dark">
+                    Ver todo el portafolio
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <section id="contacto" class="section-block section-block--dark home-contact" aria-labelledby="contact-title">
         <div class="container">
             <div class="row gx-4 gy-5 align-items-start">
                 <div class="col-lg-6">
                     <span class="section-label">Hablemos</span>
-                    <h2 id="contact-title" class="section-title section-title--light mt-3">¿Tienes un proyecto<br>en mente?</h2>
-                    <p class="section-body mt-4">Escríbenos o registra tu solicitud para que podamos evaluar el alcance de tu proyecto.</p>
-                    <a href="{{ route('service-requests.create') }}" class="btn btn-light home-button">Solicitar proyecto <span aria-hidden="true">→</span></a>
+                    <h2 id="contact-title" class="section-title section-title--light mt-3">¿Tienes un proyecto<br>en mente?
+                    </h2>
+                    <p class="section-body mt-4">Escríbenos o registra tu solicitud para que podamos evaluar el alcance de
+                        tu proyecto.</p>
+                    <a href="{{ route('service-requests.create') }}" class="btn btn-light home-button">Solicitar proyecto
+                        <span aria-hidden="true">→</span></a>
                 </div>
                 <div class="col-lg-6">
                     <address class="home-contact-details">
-                        <a href="mailto:{{ config('studio.email') }}"><span>Correo electrónico</span><strong>{{ config('studio.email') }}</strong></a>
-                        <a href="tel:{{ config('studio.phone_link') }}"><span>Teléfono</span><strong>{{ config('studio.phone') }}</strong></a>
-                        <a href="{{ config('studio.whatsapp') }}" target="_blank" rel="noopener noreferrer"><span>WhatsApp · abre otra pestaña</span><strong>Conversa con el estudio <span aria-hidden="true">↗</span></strong></a>
+                        <a href="mailto:{{ config('studio.email') }}"><span>Correo
+                                electrónico</span><strong>{{ config('studio.email') }}</strong></a>
+                        <a
+                            href="tel:{{ config('studio.phone_link') }}"><span>Teléfono</span><strong>{{ config('studio.phone') }}</strong></a>
+                        <a href="{{ config('studio.whatsapp') }}" target="_blank" rel="noopener noreferrer"><span>WhatsApp ·
+                                abre otra pestaña</span><strong>Conversa con el estudio <span
+                                    aria-hidden="true">↗</span></strong></a>
                         <p class="mb-0 mt-4">Lima, Perú</p>
                     </address>
                 </div>

@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-25",
+  "timezone": "America/Lima",
+  "php": "8.5.12",
+  "phpunit": {
+    "tests": 118,
+    "assertions": 1251,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "concurrency": {
+    "status": "passed",
+    "database": "arat_concurrency_20261125_200130",
+    "checks": [
+      "atomic_claim",
+      "idempotent_draft",
+      "submission_identical",
+      "submission_different",
+      "accept_first",
+      "emit_first",
+      "atomic_tariff_switch",
+      "disable_vs_claim",
+      "disable_vs_assign",
+      "mariadb_evaluation_aggregate"
+    ]
+  },
+  "browser": {
+    "completed": true,
+    "browser": "158.0.8127.38",
+    "checks": [
+      "Validación del servidor, error junto al campo y foco de teclado",
+      "Solicitud → asignación → evaluación → observación → corrección verificada → aprobación → borrador → PDF → aceptación → cierre; reintento idempotente y decisión opuesta bloqueada",
+      "Vencimiento y consulta privada del PDF de una versión sustituida",
+      "Regreso al panel con sesión interna, menú con Escape y reflujo a 640 px"
+    ],
+    "errors": []
+  },
+  "build": "passed",
+  "composer_validate": "passed",
+  "composer_platform": "passed",
+  "php_lint": {
+    "files": 182,
+    "errors": 0
+  },
+  "blade_cache": "passed_then_cleared",
+  "diff_check": "passed",
+  "live_data": {
+    "verified": true,
+    "table_count_changes_since_previous_delivery": [],
+    "counts": {
+      "audit_events": 148,
+      "cache": 16,
+      "cache_locks": 0,
+      "categories": 5,
+      "client_access_tokens": 4,
+      "client_grants": 3,
+      "failed_jobs": 0,
+      "job_batches": 0,
+      "jobs": 0,
+      "migrations": 17,
+      "notification_attempts": 27,
+      "notification_records": 31,
+      "password_reset_tokens": 0,
+      "project_cover_histories": 5,
+      "project_images": 99,
+      "projects": 13,
+      "quotations": 9,
+      "request_files": 0,
+      "request_revisions": 17,
+      "service_request_histories": 67,
+      "service_requests": 16,
+      "services": 12,
+      "sessions": 2,
+      "tariff_groups": 3,
+      "tariff_params": 3,
+      "technical_evaluations": 8,
+      "users": 4,
+      "work_intents": 39
+    },
+    "team_preserved": 4,
+    "demo_requests": 15,
+    "retained_uncertain_requests": 1,
+    "pdfs_verified": 8,
+    "visual_files_unchanged": 112,
+    "foreign_key_orphans": 0
+  },
+  "backup": {
+    "sql_sha256_matches": true,
+    "zip_sha256_matches": true,
+    "previous_restore_verified": true,
+    "restore_repeated_today": false
+  }
+}

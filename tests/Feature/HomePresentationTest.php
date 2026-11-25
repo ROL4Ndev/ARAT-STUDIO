@@ -29,12 +29,12 @@ class HomePresentationTest extends TestCase
 
     public function test_empty_home_and_session_navigation(): void
     {
-        $this->get('/')->assertOk()->assertSee('Próximamente compartiremos nuestros proyectos.')->assertSee('Ingresar')->assertDontSee('Cerrar sesión');
+        $this->get('/')->assertOk()->assertSee('Explora nuestros proyectos')->assertSee('Acceso al equipo')->assertSee('Consultar mi expediente')->assertDontSee('Cerrar sesión');
         $user = User::factory()->create();
         $user->forceFill(['role' => 'gestor'])->save();
-        $this->actingAs($user)->get('/')->assertOk()->assertSee('Mi perfil')->assertSee('Cerrar sesión')->assertSee(route('management.dashboard'))->assertDontSee(route('admin.dashboard'));
+        $this->actingAs($user)->get('/')->assertOk()->assertSee('Mi perfil')->assertSee('Cerrar sesión')->assertSee(route('panel'))->assertDontSee(route('admin.dashboard'));
         $user->forceFill(['role' => 'admin'])->save();
-        $this->get('/')->assertOk()->assertSee(route('admin.dashboard'))->assertSee(route('management.dashboard'));
+        $this->get('/')->assertOk()->assertSee(route('panel'))->assertSee('Volver al panel');
     }
 
     public function test_public_pages_reuse_navigation_configuration_and_active_service_catalog(): void
@@ -95,19 +95,21 @@ class HomePresentationTest extends TestCase
         $this->assertSame(1, $xpath->query('//nav[@aria-label="Navegación principal"]')->length);
         $this->assertSame(0, $xpath->query('//nav[contains(@class,"home-section-navigation")]')->length);
         $this->assertSame(3, $xpath->query('//*[@id="site-navigation"]/details[summary="Estudio"]//a')->length);
-        $this->assertSame(2, $xpath->query('//*[@id="site-navigation"]/details[summary="Acceso"]//a')->length);
+        $this->assertSame(0, $xpath->query('//*[@id="site-navigation"]//a[@href="'.route('login').'"]')->length);
+        $this->assertSame(1, $xpath->query('//footer//a[@href="'.route('login').'"][text()="Acceso al equipo"]')->length);
+        $this->assertSame(1, $xpath->query('//*[@id="site-navigation"]/a[text()="Consultar mi expediente"]')->length);
         $this->assertSame(1, $xpath->query('//*[@id="site-navigation"]/a[contains(@class,"site-navigation__primary")]')->length);
 
         foreach (['admin', 'gestor', null] as $role) {
             $user = User::factory()->create(['role' => $role]);
             $response = $this->actingAs($user)->get('/')->assertOk()
                 ->assertSeeText('Mi cuenta')->assertSeeText('Mi perfil')->assertSeeText('Cerrar sesión')
-                ->assertDontSee(route('client.access'))->assertDontSee(route('login'));
+                ->assertSee(route('client.access'));
             if ($role !== 'admin') {
                 $response->assertDontSee(route('admin.dashboard'));
             }
             if ($role === null) {
-                $response->assertDontSee(route('management.dashboard'));
+                $response->assertDontSee(route('panel'));
             }
         }
     }

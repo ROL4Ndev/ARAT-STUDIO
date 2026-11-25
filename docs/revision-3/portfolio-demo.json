@@ -1,0 +1,25 @@
+{
+    "environment": "SQLite aislado",
+    "previous_projects": 3,
+    "incorporated_projects": 10,
+    "prepared_titles": [
+        "Aldea Infantil para NNA",
+        "Centro Cultural",
+        "Centro de Integración Residencial",
+        "Dormitorio Luna",
+        "Dormitorio SR",
+        "Edificio Multifamiliar",
+        "Hogar de Refugio",
+        "Hospital de Megantoni",
+        "Proyecto AT",
+        "Proyecto PET"
+    ],
+    "projects_total": 13,
+    "published": 13,
+    "drafts_or_hidden": 0,
+    "featured_published": 3,
+    "gallery_entries": 99,
+    "pending_titles": [],
+    "existing_editorial_content_preserved": true,
+    "commercial_table_fingerprints_unchanged": true
+}

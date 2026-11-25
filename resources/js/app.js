@@ -2,6 +2,15 @@ import '../../public/js/navigation.js';
 import '../../public/js/interface.js';
 
 if (document.querySelector('[data-gallery-image]')) import('./gallery.js');
+if (document.querySelector('[data-studio-film]')) import('./studio-videos.js');
+
+const portfolioFilter = document.querySelector('[data-portfolio-filter]');
+if (portfolioFilter) {
+    const category = portfolioFilter.querySelector('[name="category"]');
+    category.addEventListener('change', () => portfolioFilter.requestSubmit());
+    portfolioFilter.querySelector('[data-filter-submit]').hidden = true;
+    portfolioFilter.querySelector('[data-filter-help]').textContent = 'Al cambiar la categoría se actualizará la página y volverás a la primera página de resultados.';
+}
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 if ('IntersectionObserver' in window && !reducedMotion.matches) {

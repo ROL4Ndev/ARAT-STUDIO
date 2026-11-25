@@ -1,0 +1,9 @@
+{
+  "project_originals_verified_sha256": 100,
+  "desktop_sources_verified_unchanged": 4,
+  "versionable_files_checked": 67,
+  "forbidden_artifacts_or_secret_patterns": [],
+  "test_case_guard_unchanged": true,
+  "source_resources_preserved_in_desktop_and_ignored_storage": true,
+  "limitation": "El escaneo por nombres y patrones complementa la revisión de cambios; no detecta cualquier secreto posible."
+}

@@ -1,0 +1,130 @@
+{
+  "browser": "157.0.8103.51",
+  "checks": [
+    {
+      "name": "01-inicio-escritorio",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "MP4 reales decodificados, pausa/reanudación, un video activo y retirada de fuente al salir",
+      "dimensions": {
+        "width": 1280,
+        "height": 720,
+        "duration": 6.007533,
+        "muted": true
+      },
+      "passed": true
+    },
+    {
+      "name": "02-nosotros-escritorio",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "03-servicios-escritorio",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "04-portafolio-filtrado",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Filtro GET automático, reinicio de página y navegación atrás/adelante",
+      "passed": true
+    },
+    {
+      "name": "05-portafolio-todos",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Selector de categoría operado con teclado y control de pausa con Espacio",
+      "passed": true
+    },
+    {
+      "name": "06-inicio-movil",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "06-nosotros-movil",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "06-servicios-movil",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "06-portafolio-movil",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "07-administracion-proyectos",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "15-destacados-seleccionados-en-ensayo",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "08-editar-seleccion",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "09-galeria-administrativa",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Selección y orden mediante formularios reales; galería conservada; datos exclusivamente de ensayo",
+      "passed": true
+    },
+    {
+      "name": "10-movimiento-reducido",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "11-filtro-sin-javascript",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "12-inicio-sin-javascript",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Movimiento reducido y ausencia de JS conservan posters sin descargar MP4; filtro GET funcional",
+      "passed": true
+    },
+    {
+      "name": "13-autoplay-bloqueado",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Bloqueo de autoplay simulado: poster y reproducción manual del MP4 real",
+      "passed": true
+    },
+    {
+      "name": "14-video-no-disponible",
+      "brokenImages": 0,
+      "overflow": false
+    },
+    {
+      "name": "Fallo HTTP 404 inyectado: poster real, mensaje accesible y reintento satisfactorio",
+      "passed": true
+    }
+  ],
+  "errors": []
+}
