@@ -5,6 +5,10 @@ expedientes privados. Laravel 13, PHP 8.5, MariaDB, Blade y Vite. Bootstrap en l
 pública; Tabler, que incluye Bootstrap, en el panel. Kodchasan se sirve localmente.
 Interfaz en español, moneda PEN y zona horaria America/Lima.
 
+El expediente incorpora entregables versionados después de una cotización
+aceptada, con revisión y conformidad del cliente. El cierre comercial se conserva.
+[Guía de la tercera presentación, escenarios y evidencias](docs/tercera-presentacion/README.md).
+
 ## Preparar la terminal en Windows
 
 Desde la raíz, ejecutar en cada terminal que vaya a usar PHP:

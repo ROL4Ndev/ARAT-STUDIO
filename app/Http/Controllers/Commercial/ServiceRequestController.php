@@ -76,6 +76,7 @@ class ServiceRequestController extends Controller
     public function show(ServiceRequest $serviceRequest)
     {
         Gate::authorize('view', $serviceRequest);
+        $serviceRequest->load(['deliverables.latestVersion', 'deliverables.quotation']);
         $serviceRequest->load(['assignee', 'currentRevision', 'currentQuotation', 'files', 'quotations' => fn ($q) => $q->orderByDesc('version'), 'histories' => fn ($q) => $q->orderBy('id'), 'histories.user', 'evaluations.user']);
         $responsibles = User::where('is_active', true)->whereIn('role', ['admin', 'gestor'])->orderBy('name')->get();
         $notices = NotificationRecord::with('deliveries')->where(function ($q) use ($serviceRequest) {

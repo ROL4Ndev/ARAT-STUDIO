@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Formulario a 390 px: secuencia de Tab, foco visible y sin desbordamiento horizontal",
+    "Formulario renderizado por Blade, campos y acción de guardado disponibles sin JavaScript a 360 px"
+  ],
+  "errors": []
+}

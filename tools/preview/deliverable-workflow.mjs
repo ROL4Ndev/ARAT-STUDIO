@@ -1,0 +1,148 @@
+import { chromium } from 'playwright-core';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+
+const base = 'http://127.0.0.1:8765';
+const output = 'docs/tercera-presentacion';
+const fixture = JSON.parse(await readFile('storage/app/design-preview-final/document-state.json', 'utf8'));
+const administrator = JSON.parse(await readFile('storage/app/design-preview-final/state.json', 'utf8'));
+await mkdir(`${output}/capturas`, { recursive: true });
+await mkdir(`${output}/archivos`, { recursive: true });
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
+const contexts = await Promise.all(Array.from({ length: 4 }, () => browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'es-PE', reducedMotion: 'reduce' })));
+const [manager, client, admin, outsider] = await Promise.all(contexts.map(c => c.newPage()));
+const checks = [], errors = [], captures = [];
+let confirmations = 0, completed = false;
+for (const page of [manager, client, admin, outsider]) {
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('dialog', async dialog => { confirmations++; await dialog.accept(); });
+}
+const submit = async (page, name, scope = page) => { await scope.getByRole('button', { name, exact: true }).click(); await page.waitForLoadState('networkidle'); };
+const login = async (page, email, password) => {
+    assert.equal((await page.goto(base + '/ingresar', { waitUntil: 'networkidle' })).status(), 200);
+    await page.locator('#email').fill(email); await page.locator('#password').fill(password);
+    await submit(page, 'Ingresar');
+};
+const shot = async (page, name, section) => {
+    await page.evaluate(async () => { await document.fonts.ready; });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, name);
+    if (section) await page.locator(section).screenshot({ path: `${output}/capturas/${name}.png` });
+    else await page.screenshot({ path: `${output}/capturas/${name}.png`, fullPage: true });
+    captures.push(name);
+};
+const formValues = async form => form.evaluate(node => Object.fromEntries(new FormData(node)));
+const download = async (page, link, name) => {
+    const promise = page.waitForEvent('download'); await link.click();
+    const file = await promise;
+    await file.saveAs(`${output}/archivos/${name}.pdf`);
+    const bytes = await readFile(`${output}/archivos/${name}.pdf`);
+    assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+    assert.ok(bytes.subarray(-1024).toString().includes('%%EOF'));
+    return createHash('sha256').update(bytes).digest('hex');
+};
+try {
+    await login(manager, fixture.manager_email, fixture.password);
+    await manager.locator('#workspace-navigation').getByRole('link', { name: 'Gestión comercial', exact: true }).click();
+    await manager.getByRole('region', { name: 'Solicitudes recientes' }).getByRole('link', { name: fixture.request, exact: true }).click();
+    await manager.getByRole('link', { name: 'Preparar entregable', exact: true }).click();
+    await manager.locator('#delivery-title').fill('Propuesta de distribución · revisión académica');
+    await manager.locator('#delivery-description').fill('Primera versión académica para revisar la organización de ambientes y sus anotaciones.');
+    await manager.locator('#delivery-note').fill('NOTA INTERNA DEL ENSAYO: verificar rótulos antes del envío.');
+    await manager.locator('#delivery-file').setInputFiles('storage/app/design-preview-final/document-example-v1.pdf');
+    await submit(manager, 'Guardar borrador');
+    await manager.waitForURL('**/gestion/entregables/ENT-*');
+    const deliveryUrl = manager.url();
+    const code = new URL(deliveryUrl).pathname.split('/').pop();
+    await shot(manager, '01-gestor-borrador');
+    await manager.setViewportSize({ width: 360, height: 844 }); await shot(manager, '02-gestor-borrador-360');
+    await manager.setViewportSize({ width: 1440, height: 1000 });
+    await manager.getByRole('link', { name: 'Preparar acceso de demostración del cliente' }).click();
+    await manager.locator('#demo-client-access > summary').click();
+    await submit(manager, 'Preparar acceso de cliente para demostración');
+    const access = await manager.locator('#demo-access-link').inputValue();
+    await client.goto(access, { waitUntil: 'networkidle' });
+    await submit(client, 'Verificar y abrir expediente');
+    assert.equal(await client.locator(`article[aria-labelledby="delivery-${code}"]`).count(), 0);
+    assert.equal((await contexts[1].request.get(`${base}/mi-solicitud/entregables/${code}/versiones/1/archivo`)).status(), 403);
+    checks.push('Borrador y archivo ocultos al cliente después del cierre comercial por aceptación');
+    await manager.getByRole('link', { name: `Volver al expediente ${fixture.request}`, exact: true }).click();
+    await manager.getByRole('link', { name: 'Preparar archivo y envío', exact: true }).click();
+    await submit(manager, 'Enviar a revisión');
+    await shot(manager, '03-gestor-enviado');
+    await client.reload({ waitUntil: 'networkidle' });
+    const delivery = client.locator(`article[aria-labelledby="delivery-${code}"]`);
+    await delivery.waitFor();
+    assert.equal((await client.locator('body').innerText()).includes('NOTA INTERNA DEL ENSAYO'), false);
+    assert.equal(await client.locator('#corregir-solicitud').count(), 0);
+    await shot(client, '04-cliente-revision-v1', '#entregables');
+    const oldDownload = delivery.getByRole('link', { name: /Descargar .*versión 1/ });
+    const hashV1 = await download(client, oldDownload, 'entrega-version-1');
+    await delivery.getByText('Observar esta versión', { exact: true }).click();
+    const observe = delivery.locator('form').filter({ has: client.locator('[name="decision"][value="observado"]') });
+    await observe.evaluate(form => form.noValidate = true);
+    await submit(client, 'Observar', delivery);
+    await client.locator('[data-validation-summary]').waitFor();
+    await shot(client, '05-cliente-validacion', '#entregables');
+    await client.locator(`#observe-${code}`).fill('Aclara las anotaciones y las medidas de referencia del ambiente de trabajo.');
+    const observationForm = client.locator(`article[aria-labelledby="delivery-${code}"] form`).filter({ has: client.locator('[name="decision"][value="observado"]') });
+    const oldAction = await observationForm.getAttribute('action');
+    const oldResponse = await formValues(observationForm);
+    await submit(client, 'Observar', client.locator(`article[aria-labelledby="delivery-${code}"]`));
+    await shot(client, '06-cliente-observado', '#entregables');
+    await manager.goto(deliveryUrl, { waitUntil: 'networkidle' });
+    await shot(manager, '07-gestor-observaciones');
+    await manager.locator('#delivery-title').fill('Propuesta de distribución ajustada · revisión académica');
+    await manager.locator('#delivery-description').fill('Segunda versión académica: anotaciones aclaradas según la revisión del cliente.');
+    await manager.locator('#delivery-file').setInputFiles('storage/app/design-preview-final/document-example-v2.pdf');
+    await submit(manager, 'Guardar borrador');
+    await shot(manager, '08-gestor-borrador-v2');
+    await client.reload({ waitUntil: 'networkidle' });
+    assert.equal(await client.locator(`article[aria-labelledby="delivery-${code}"]`).getByRole('heading', { name: 'Propuesta de distribución ajustada · revisión académica', exact: true }).count(), 0);
+    await submit(manager, 'Enviar a revisión');
+    await client.reload({ waitUntil: 'networkidle' });
+    await shot(client, '09-cliente-revision-v2', '#entregables');
+    assert.equal((await contexts[1].request.post(oldAction, { form: oldResponse, maxRedirects: 0 })).status(), 409);
+    assert.equal(await download(client, client.locator(`article[aria-labelledby="delivery-${code}"]`).getByRole('link', { name: /Descargar .*versión 1/ }), 'version-1-conservada'), hashV1);
+    checks.push('Gestor envía v1; cliente observa con comentario obligatorio; gestor envía v2; archivo anterior conservado y respuesta antigua bloqueada');
+    await client.locator(`#confirm-${code}`).check();
+    const conformForm = client.locator(`article[aria-labelledby="delivery-${code}"] form`).filter({ has: client.locator('[name="decision"][value="conforme"]') });
+    const conformAction = await conformForm.getAttribute('action'), conformFields = await formValues(conformForm);
+    await submit(client, 'Dar conformidad', client.locator(`article[aria-labelledby="delivery-${code}"]`));
+    assert.equal((await contexts[1].request.post(conformAction, { form: conformFields, maxRedirects: 0 })).status(), 302);
+    assert.equal((await contexts[1].request.post(conformAction, { form: { ...conformFields, decision: 'observado', comment: 'Otra decisión incompatible.' }, maxRedirects: 0 })).status(), 409);
+    await shot(client, '10-cliente-conforme', '#entregables');
+    for (const width of [390, 360, 768]) {
+        await client.setViewportSize({ width, height: 844 });
+        await shot(client, `11-cliente-conforme-${width}`, '#entregables');
+    }
+    await client.setViewportSize({ width: 1440, height: 1000 });
+    const hashV2 = await download(client, client.locator(`article[aria-labelledby="delivery-${code}"]`).getByRole('link', { name: /Descargar .*versión 2/ }), 'entrega-version-2');
+    assert.notEqual(hashV1, hashV2);
+    await manager.reload({ waitUntil: 'networkidle' });
+    await manager.getByRole('heading', { name: 'Conformidad registrada', exact: true }).waitFor();
+    assert.equal(await manager.getByRole('button', { name: 'Guardar borrador', exact: true }).count(), 0);
+    await shot(manager, '12-gestor-conformidad');
+    checks.push('Conformidad confirmada, repetición idéntica sin duplicados, decisión contraria bloqueada y entregable finalizado');
+    await login(admin, administrator.email, administrator.password);
+    assert.equal((await admin.goto(deliveryUrl, { waitUntil: 'networkidle' })).status(), 200);
+    await shot(admin, '13-administrador');
+    for (const [label, path] of [['Proyectos', '/admin/proyectos'], ['Categorías', '/admin/categorias'], ['Servicios', '/admin/servicios'], ['Tarifas', '/admin/tarifas']]) {
+        const link = admin.locator('#workspace-navigation').getByRole('link', { name: label, exact: true });
+        await link.click(); await admin.waitForLoadState('networkidle');
+        assert.equal(new URL(admin.url()).pathname, path);
+        await shot(admin, `14-catalogo-${label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`);
+    }
+    await login(outsider, fixture.other_email, fixture.password);
+    assert.equal((await outsider.goto(deliveryUrl, { waitUntil: 'networkidle' })).status(), 403);
+    await shot(outsider, '15-gestor-ajeno-denegado');
+    assert.equal((await contexts[0].request.get(`${base}/mi-solicitud/entregables/${code}/versiones/2/archivo`)).status(), 403);
+    checks.push('Administrador autorizado; cuatro catálogos accesibles; gestor ajeno y sesión interna actuando como cliente denegados');
+    assert.ok(confirmations >= 3);
+    assert.deepEqual(errors, []);
+    completed = true;
+} finally {
+    await writeFile(`${output}/browser.json`, JSON.stringify({ completed, browser: await browser.version(), checks, captures, confirmations, errors }, null, 2));
+    console.log(JSON.stringify({ completed, checks: checks.length, captures: captures.length, errors }));
+    await browser.close();
+}

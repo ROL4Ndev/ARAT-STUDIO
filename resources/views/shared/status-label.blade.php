@@ -4,6 +4,9 @@
         'activo', 'active' => 'Activo',
         'inactivo', 'inactive' => 'Inactivo',
         'borrador', 'draft' => 'Borrador',
+        'en_revision' => 'En revisión',
+        'observado' => 'Observado',
+        'conforme' => 'Conforme',
         'activa', 'active_tariff' => 'Activa',
         'inactiva', 'inactive_tariff' => 'Inactiva',
         'pendiente', 'pending' => 'Pendiente',
@@ -32,9 +35,9 @@
     };
     $statusTone = match ($statusValue) {
         'activo', 'active', 'activa', 'active_tariff', 'aprobado', 'emitida',
-        'issued', 'aceptada', 'accepted', 'ready', 'lista', 'sent', 'done' => 'success',
+        'issued', 'aceptada', 'accepted', 'ready', 'lista', 'sent', 'done', 'conforme' => 'success',
         'failed', 'fallida', 'rechazado', 'rechazada', 'cancelado', 'cancelled', 'vencida', 'expired' => 'error',
-        'pendiente', 'pending', 'evaluacion', 'observada', 'preparando', 'processing', 'unknown' => 'attention',
+        'pendiente', 'pending', 'evaluacion', 'observada', 'preparando', 'processing', 'unknown', 'observado', 'en_revision' => 'attention',
         default => 'muted',
     };
 @endphp

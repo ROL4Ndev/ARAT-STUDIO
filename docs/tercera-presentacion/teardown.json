@@ -1,0 +1,14 @@
+﻿{
+    "date":  "2026-11-25",
+    "timezone":  "America/Lima",
+    "preview_pid":  28572,
+    "preview_stopped":  true,
+    "original_server_port":  8000,
+    "original_server_left_running":  true,
+    "original_database_port":  3306,
+    "original_database_left_running":  true,
+    "live_http_status":  200,
+    "maintenance":  false,
+    "own_queue_or_scheduler":  false,
+    "commit_push_deploy":  false
+}

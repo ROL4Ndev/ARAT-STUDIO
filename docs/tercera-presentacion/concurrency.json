@@ -1,0 +1,68 @@
+{
+    "database": "arat_delivery_concurrency_20261126_042300",
+    "status": "passed",
+    "checks": {
+        "identical_create": [
+            {
+                "status": "ok",
+                "id": 1
+            },
+            {
+                "status": "ok",
+                "id": 1
+            }
+        ],
+        "identical_send": [
+            {
+                "status": "ok",
+                "id": 1
+            },
+            {
+                "status": "ok",
+                "id": 1
+            }
+        ],
+        "opposite_responses": [
+            {
+                "status": "ok",
+                "id": 1
+            },
+            {
+                "status": "conflict",
+                "code": 409
+            }
+        ],
+        "identical_version": [
+            {
+                "status": "ok",
+                "id": 3
+            },
+            {
+                "status": "ok",
+                "id": 3
+            }
+        ],
+        "competing_versions": [
+            {
+                "status": "ok",
+                "id": 5
+            },
+            {
+                "status": "conflict",
+                "code": 409
+            }
+        ],
+        "conformity_vs_new_version": [
+            {
+                "status": "ok",
+                "id": 6
+            },
+            {
+                "status": "conflict",
+                "code": 409
+            }
+        ]
+    },
+    "commercial_closure_unchanged": true,
+    "versions": 6
+}

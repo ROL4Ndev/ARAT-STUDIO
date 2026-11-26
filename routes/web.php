@@ -22,6 +22,8 @@ Route::post('/acceder-expediente', [AccessController::class, 'request'])->middle
 Route::get('/acceso-expediente/{token}', [AccessController::class, 'form'])->where('token', '[a-f0-9]{64}')->name('client.access.form');
 Route::post('/acceso-expediente/{token}', [AccessController::class, 'consume'])->where('token', '[a-f0-9]{64}')->middleware('throttle:6,1,client-consume:')->name('client.access.consume');
 Route::prefix('mi-solicitud')->name('client.')->middleware(EnsureClientGrant::class)->group(function () {
+    Route::post('/entregables/{deliverable}/versiones/{number}/responder', [App\Http\Controllers\Client\DeliverableController::class, 'respond'])->whereNumber('number')->name('deliverables.respond');
+    Route::get('/entregables/{deliverable}/versiones/{number}/archivo', App\Http\Controllers\DeliverableFileController::class)->whereNumber('number')->name('deliverables.download');
     Route::get('/', [DossierController::class, 'show'])->name('dossier');
     Route::post('/corregir', [DossierController::class, 'correct'])->middleware('throttle:6,1,client-correction:')->name('correct');
     Route::post('/cancelar', [DossierController::class, 'cancel'])->name('cancel');
@@ -68,6 +70,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('gestion')->name('commercial.')->middleware(['auth', 'role:admin,gestor'])->group(function () {
+    Route::get('/solicitudes/{serviceRequest}/entregables/crear', [App\Http\Controllers\Commercial\DeliverableController::class, 'create'])->name('deliverables.create');
+    Route::post('/solicitudes/{serviceRequest}/entregables', [App\Http\Controllers\Commercial\DeliverableController::class, 'store'])->name('deliverables.store');
+    Route::get('/entregables/{deliverable}', [App\Http\Controllers\Commercial\DeliverableController::class, 'show'])->name('deliverables.show');
+    Route::post('/entregables/{deliverable}/borrador', [App\Http\Controllers\Commercial\DeliverableController::class, 'save'])->name('deliverables.save');
+    Route::post('/entregables/{deliverable}/versiones/{number}/enviar', [App\Http\Controllers\Commercial\DeliverableController::class, 'send'])->whereNumber('number')->name('deliverables.send');
+    Route::get('/entregables/{deliverable}/versiones/{number}/archivo', App\Http\Controllers\DeliverableFileController::class)->whereNumber('number')->name('deliverables.download');
     Route::post('/solicitudes/{serviceRequest}/corregir', [App\Http\Controllers\Commercial\ServiceRequestController::class, 'correct'])->name('requests.correct');
     Route::put('/cotizaciones/{quotation}', [QuotationController::class, 'update'])->name('quotations.update');
     Route::post('/cotizaciones/{quotation}/emitir', [QuotationController::class, 'prepare'])->name('quotations.prepare');

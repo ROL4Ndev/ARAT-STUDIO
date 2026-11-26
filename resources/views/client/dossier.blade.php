@@ -19,6 +19,9 @@
                     @csrf
                     <button class="btn btn-outline-light" type="submit">Cerrar acceso verificado</button>
                 </form>
+                <nav class="d-flex flex-wrap gap-3" aria-label="Secciones del expediente del cliente">
+                    <a href="#cotizaciones">Cotizaciones</a><a href="#entregables">Entregables</a>
+                </nav>
             </div>
         </header>
 
@@ -103,6 +106,8 @@
                         <div class="empty-state">Todavía no hay cotizaciones emitidas disponibles. Te avisaremos cuando tu propuesta esté lista.</div>
                     @endforelse
                 </section>
+
+                @include('deliverables.client-list')
 
                 <section class="workspace-card mb-4" aria-labelledby="public-history-title">
                     <h2 id="public-history-title">Historial público</h2>

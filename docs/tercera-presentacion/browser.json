@@ -1,0 +1,34 @@
+{
+  "completed": true,
+  "browser": "158.0.8127.38",
+  "checks": [
+    "Borrador y archivo ocultos al cliente después del cierre comercial por aceptación",
+    "Gestor envía v1; cliente observa con comentario obligatorio; gestor envía v2; archivo anterior conservado y respuesta antigua bloqueada",
+    "Conformidad confirmada, repetición idéntica sin duplicados, decisión contraria bloqueada y entregable finalizado",
+    "Administrador autorizado; cuatro catálogos accesibles; gestor ajeno y sesión interna actuando como cliente denegados"
+  ],
+  "captures": [
+    "01-gestor-borrador",
+    "02-gestor-borrador-360",
+    "03-gestor-enviado",
+    "04-cliente-revision-v1",
+    "05-cliente-validacion",
+    "06-cliente-observado",
+    "07-gestor-observaciones",
+    "08-gestor-borrador-v2",
+    "09-cliente-revision-v2",
+    "10-cliente-conforme",
+    "11-cliente-conforme-390",
+    "11-cliente-conforme-360",
+    "11-cliente-conforme-768",
+    "12-gestor-conformidad",
+    "13-administrador",
+    "14-catalogo-proyectos",
+    "14-catalogo-categorias",
+    "14-catalogo-servicios",
+    "14-catalogo-tarifas",
+    "15-gestor-ajeno-denegado"
+  ],
+  "confirmations": 3,
+  "errors": []
+}

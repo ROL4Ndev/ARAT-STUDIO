@@ -1,0 +1,102 @@
+{
+    "database": "arat_concurrency_20261126_042241",
+    "results": {
+        "atomic_claim": [
+            {
+                "status": "conflict",
+                "code": 409
+            },
+            {
+                "status": "ok",
+                "resource": 1
+            }
+        ],
+        "idempotent_draft": [
+            {
+                "status": "ok",
+                "resource": 1
+            },
+            {
+                "status": "ok",
+                "resource": 1
+            }
+        ],
+        "submission_identical": [
+            {
+                "status": "ok",
+                "resource": 2
+            },
+            {
+                "status": "ok",
+                "resource": 2
+            }
+        ],
+        "submission_different": [
+            {
+                "status": "conflict",
+                "code": 409
+            },
+            {
+                "status": "ok",
+                "resource": 4
+            }
+        ],
+        "accept_first": {
+            "accept": {
+                "status": "ok",
+                "resource": 2
+            },
+            "pdf": {
+                "status": "ok",
+                "resource": 7
+            },
+            "v1": "aceptada",
+            "v2": "anulada"
+        },
+        "emit_first": {
+            "accept": {
+                "status": "conflict",
+                "code": 409
+            },
+            "pdf": {
+                "status": "ok",
+                "resource": 11
+            },
+            "v1": "sustituida",
+            "v2": "emitida"
+        },
+        "atomic_tariff_switch": [
+            {
+                "status": "ok",
+                "resource": 2
+            },
+            {
+                "status": "conflict",
+                "code": 409
+            }
+        ],
+        "disable_vs_claim": [
+            {
+                "status": "ok",
+                "resource": 4
+            },
+            {
+                "status": "conflict",
+                "code": 403
+            }
+        ],
+        "disable_vs_assign": [
+            {
+                "status": "ok",
+                "resource": 5
+            },
+            {
+                "status": "conflict",
+                "code": 409
+            }
+        ],
+        "mariadb_evaluation_aggregate": {
+            "minutes": 45
+        }
+    }
+}

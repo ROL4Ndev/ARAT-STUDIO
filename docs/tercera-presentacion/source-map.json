@@ -1,0 +1,288 @@
+[
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Http/Controllers/Commercial/DeliverableController.php",
+        "method": "create",
+        "line": 17,
+        "end_line": 24,
+        "sha256": "c84ef302aa259482619b2a59c47efc799681b11d358baabeca6b3faea45d5e41"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Http/Controllers/Commercial/DeliverableController.php",
+        "method": "store",
+        "line": 26,
+        "end_line": 38,
+        "sha256": "c84ef302aa259482619b2a59c47efc799681b11d358baabeca6b3faea45d5e41"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Http/Requests/Commercial/DeliverableDraftRequest.php",
+        "method": "authorize",
+        "line": 11,
+        "end_line": 16,
+        "sha256": "dd6a00c3670dfe5deefafcd3e054283a0de14f06b6b4f682563e3b1d0e24d180"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Http/Requests/Commercial/DeliverableDraftRequest.php",
+        "method": "rules",
+        "line": 23,
+        "end_line": 30,
+        "sha256": "dd6a00c3670dfe5deefafcd3e054283a0de14f06b6b4f682563e3b1d0e24d180"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "create",
+        "line": 24,
+        "end_line": 62,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Models/ServiceRequest.php",
+        "method": "deliverables",
+        "line": 11,
+        "end_line": 14,
+        "sha256": "1228e004648497918db5dc9fb65e9590ee20558bd978440daf0b793bdbf4cab9"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "app/Console/Commands/PrepareDeliverableDemo.php",
+        "method": "handle",
+        "line": 30,
+        "end_line": 83,
+        "sha256": "a2bb0b5b6d41657c8985305e061cc96e7e0f45a47ef2f307bbd18a1c69bca6fe"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "resources/views/deliverables/form.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "83eafbdd9c65735fd1feb8eb0944a430a8517f5c4e6ed61343d6cd75706d7fd8"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "resources/views/deliverables/fields.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "65606fa1cae7c719ba51644f7ab7c24a891aeef9791deca9e4afd85b0ed2e6c5"
+    },
+    {
+        "presenter": "Rolando Sanchez",
+        "file": "database/migrations/2026_11_25_220000_create_deliverables.php",
+        "method": null,
+        "line": 1,
+        "sha256": "689efedfabb25c0a3494071b6315e1773b51fabbe63cde431c6dc245c053cbf4"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "attachment",
+        "line": 212,
+        "end_line": 232,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "verifyFile",
+        "line": 249,
+        "end_line": 256,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "discardUnreferenced",
+        "line": 239,
+        "end_line": 247,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Http/Controllers/DeliverableFileController.php",
+        "method": "__invoke",
+        "line": 15,
+        "end_line": 29,
+        "sha256": "dfbcba7ea5321a98b47acf2c6beac99fd0fe2caeff12b52de1c317a11d3d3f63"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Policies/DeliverablePolicy.php",
+        "method": "view",
+        "line": 13,
+        "end_line": 19,
+        "sha256": "9234055d02ec2b271be7f18ea6b4d2ecf63f3020e520ac6970b7af2042144c88"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "app/Policies/DeliverablePolicy.php",
+        "method": "clientView",
+        "line": 26,
+        "end_line": 30,
+        "sha256": "9234055d02ec2b271be7f18ea6b4d2ecf63f3020e520ac6970b7af2042144c88"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "resources/views/deliverables/fields.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "65606fa1cae7c719ba51644f7ab7c24a891aeef9791deca9e4afd85b0ed2e6c5"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "resources/views/deliverables/show.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "860a2635127d5d6536e6d9a8f6e0645433dfd6edf4b392d3182e5fb752eb2176"
+    },
+    {
+        "presenter": "Christian Roque",
+        "file": "config/filesystems.php",
+        "method": null,
+        "line": 1,
+        "sha256": "93c0eedfa5b31049f424737b800eae2ba9720e235b3bafa208fb7991929d8a45"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "saveDraft",
+        "line": 64,
+        "end_line": 114,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "send",
+        "line": 116,
+        "end_line": 133,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "expected",
+        "line": 188,
+        "end_line": 191,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "locked",
+        "line": 180,
+        "end_line": 186,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Http/Controllers/Commercial/DeliverableController.php",
+        "method": "save",
+        "line": 49,
+        "end_line": 61,
+        "sha256": "c84ef302aa259482619b2a59c47efc799681b11d358baabeca6b3faea45d5e41"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Http/Controllers/Commercial/DeliverableController.php",
+        "method": "send",
+        "line": 63,
+        "end_line": 75,
+        "sha256": "c84ef302aa259482619b2a59c47efc799681b11d358baabeca6b3faea45d5e41"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "app/Models/DeliverableVersion.php",
+        "method": "booted",
+        "line": 10,
+        "end_line": 24,
+        "sha256": "3cad8f87f7e017adf3429083a6ca377629107151e3738200f241aeb3db06d629"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "resources/views/deliverables/show.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "860a2635127d5d6536e6d9a8f6e0645433dfd6edf4b392d3182e5fb752eb2176"
+    },
+    {
+        "presenter": "Alejandro Nolasco",
+        "file": "tests/Integration/DeliverableConcurrency.php",
+        "method": null,
+        "line": 1,
+        "sha256": "a343b84a9817539438982683a1201ac6e2e7cf29d2ab067ed1b54f270f6faa88"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Http/Requests/Client/DeliverableResponseRequest.php",
+        "method": "rules",
+        "line": 16,
+        "end_line": 22,
+        "sha256": "4b2fddc23ee2c4419271c2bc709db73c774677d973182b3f0b41ac43c1279956"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Http/Requests/Client/DeliverableResponseRequest.php",
+        "method": "getRedirectUrl",
+        "line": 24,
+        "end_line": 27,
+        "sha256": "4b2fddc23ee2c4419271c2bc709db73c774677d973182b3f0b41ac43c1279956"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Services/DeliverableWorkflowService.php",
+        "method": "respond",
+        "line": 135,
+        "end_line": 169,
+        "sha256": "9baf870c77a0c50628e1736f041eeb791ac3b05c6dab24c37aa1d5b35cba2f5f"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Http/Controllers/Client/DeliverableController.php",
+        "method": "respond",
+        "line": 12,
+        "end_line": 24,
+        "sha256": "5ba14de47bd7138e77aa4b464358b38987a42c9dc4f7de6c53df844b32dd2bd4"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Http/Controllers/Client/DossierController.php",
+        "method": "show",
+        "line": 23,
+        "end_line": 32,
+        "sha256": "f6d39d181e8e8256c86261742b600a9b855046287d804faac265a3b28a47e95b"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Http/Middleware/EnsureClientGrant.php",
+        "method": "handle",
+        "line": 11,
+        "end_line": 19,
+        "sha256": "419db0339c000efbef648ceb0dfadcb2de6d59470815693926d212825d93902d"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "app/Services/ClientAccessService.php",
+        "method": "grant",
+        "line": 81,
+        "end_line": 91,
+        "sha256": "e0f395f758cf55e2f73bf815c1aa6d5f89b8fc1128c183b0e0b732fb1b201d8e"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "resources/views/deliverables/client-list.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "3d76c73cbd58da3980209d8ff6ed6c1f7420b60e539e9ac6d7238a97a5ff373b"
+    },
+    {
+        "presenter": "Guyin Palacios",
+        "file": "resources/views/client/dossier.blade.php",
+        "method": null,
+        "line": 1,
+        "sha256": "53a7fb10a5e396cd12986556638072dac2091ed496cea72c5542b11089b9a7a7"
+    }
+]

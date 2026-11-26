@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             Gate::policy($model, CatalogPolicy::class);
         }
         Gate::policy(ServiceRequest::class, ServiceRequestPolicy::class);
+        Gate::policy(\App\Models\Deliverable::class, \App\Policies\DeliverablePolicy::class);
         Gate::policy(Quotation::class, QuotationPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
         Paginator::useBootstrapFive();

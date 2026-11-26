@@ -1,0 +1,67 @@
+{
+    "verified": true,
+    "original_rows_unchanged": 532,
+    "original_files_unchanged": 239,
+    "team_accounts": 4,
+    "faker_requests": 15,
+    "requests": 16,
+    "projects": 13,
+    "gallery_images": 99,
+    "backup_directory": "storage\/app\/private\/third-presentation\/20261126_041048",
+    "restore_verified": true,
+    "restore_database": "arat_delivery_restore_20261126_041053",
+    "demo_repeat_unchanged": true,
+    "foreign_key_orphans": 0,
+    "deliverables": [
+        {
+            "code": "ENT-01M8B0VV0VV9Z773WXRCJCNTKX",
+            "title": "Propuesta de distribución · demostración académica",
+            "status": "en_revision",
+            "latest_version": 1,
+            "request": "SOL-01M88C7CH75DR20MWSWAVTFV46",
+            "quotation": "COT-01M88C7CKP38VV8QJEDJA8C3NF"
+        },
+        {
+            "code": "ENT-01M8B0VVCQTVMXXHMG6ZGHYDNK",
+            "title": "Planos arquitectónicos · demostración académica",
+            "status": "en_revision",
+            "latest_version": 2,
+            "request": "SOL-01M88C7CH75DR20MWSWAVTFV46",
+            "quotation": "COT-01M88C7CKP38VV8QJEDJA8C3NF"
+        },
+        {
+            "code": "ENT-01M8B0VW0HZMWPJMK83Z7NSNHQ",
+            "title": "Informe de diseño · demostración académica",
+            "status": "conforme",
+            "latest_version": 1,
+            "request": "SOL-01M88C7CH75DR20MWSWAVTFV46",
+            "quotation": "COT-01M88C7CKP38VV8QJEDJA8C3NF"
+        }
+    ],
+    "version_files": [
+        {
+            "deliverable": "ENT-01M8B0VV0VV9Z773WXRCJCNTKX",
+            "number": 1,
+            "bytes": 20398,
+            "sha256": "33da7628bf3e3b17f37c970d8f5544a13863eecad579980769462061f6559b06"
+        },
+        {
+            "deliverable": "ENT-01M8B0VVCQTVMXXHMG6ZGHYDNK",
+            "number": 1,
+            "bytes": 20415,
+            "sha256": "a2becaa1e8b22c55e24b76372210c64bd4970f6ea206656fa0398097ac390c1c"
+        },
+        {
+            "deliverable": "ENT-01M8B0VVCQTVMXXHMG6ZGHYDNK",
+            "number": 2,
+            "bytes": 20585,
+            "sha256": "5b073247da91782aa045d9cbf314407d16683e093fc532690aa2c444d0b84358"
+        },
+        {
+            "deliverable": "ENT-01M8B0VW0HZMWPJMK83Z7NSNHQ",
+            "number": 1,
+            "bytes": 20621,
+            "sha256": "0da44daae70d078d6ac8428d49a4b0faabefe7c72760d54ee2994474ebcb0a8e"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "file": "entrega-version-2.pdf",
+      "bytes": 20603,
+      "loadedInChrome": true,
+      "capture": "16-pdf-abierto.png"
+    },
+    {
+      "file": "escenario-pendiente-v1.pdf",
+      "bytes": 20398,
+      "loadedInChrome": true,
+      "capture": "19-pdf-pendiente.png"
+    },
+    {
+      "file": "escenario-revision-v1.pdf",
+      "bytes": 20415,
+      "loadedInChrome": true,
+      "capture": "20-pdf-revision-v1.png"
+    },
+    {
+      "file": "escenario-revision-v2.pdf",
+      "bytes": 20585,
+      "loadedInChrome": true,
+      "capture": "21-pdf-revision-v2.png"
+    },
+    {
+      "file": "escenario-conforme-v1.pdf",
+      "bytes": 20621,
+      "loadedInChrome": true,
+      "capture": "22-pdf-conforme.png"
+    }
+  ]
+}

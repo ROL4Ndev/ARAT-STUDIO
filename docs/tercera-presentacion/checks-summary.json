@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-25",
+  "timezone": "America/Lima",
+  "base": "7436dd5",
+  "branch": "main",
+  "phpunit": {
+    "tests": 132,
+    "assertions": 1395,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "newFeatureTests": 13,
+  "mariadbDocumentRaces": 6,
+  "mariadbCommercialChecks": 10,
+  "build": "passed",
+  "phpLint": {
+    "files": 201,
+    "errors": 0
+  },
+  "blade": "compiled_and_cleared",
+  "newRoutes": 8,
+  "migration": "2026_11_25_220000_create_deliverables",
+  "browser": {
+    "completed": true,
+    "version": "158.0.8127.38",
+    "checks": [
+      "Borrador y archivo ocultos al cliente después del cierre comercial por aceptación",
+      "Gestor envía v1; cliente observa con comentario obligatorio; gestor envía v2; archivo anterior conservado y respuesta antigua bloqueada",
+      "Conformidad confirmada, repetición idéntica sin duplicados, decisión contraria bloqueada y entregable finalizado",
+      "Administrador autorizado; cuatro catálogos accesibles; gestor ajeno y sesión interna actuando como cliente denegados"
+    ],
+    "workflowCaptures": 20,
+    "confirmations": 3
+  },
+  "accessibility": {
+    "checks": [
+      "Formulario a 390 px: secuencia de Tab, foco visible y sin desbordamiento horizontal",
+      "Formulario renderizado por Blade, campos y acción de guardado disponibles sin JavaScript a 360 px"
+    ],
+    "errors": []
+  },
+  "nativePdfViews": 5,
+  "captures": 27,
+  "preservedRows": 532,
+  "preservedFiles": 239,
+  "demoDeliverables": 3,
+  "demoVersions": 4,
+  "demoIdempotent": true,
+  "sourceReferences": 37,
+  "serverErrors": {
+    "PHP Fatal": 0,
+    "PHP Warning": 0,
+    "PHP Notice": 0,
+    "Uncaught": 0,
+    "SQLSTATE": 0
+  },
+  "teardown": {
+    "date": "2026-11-25",
+    "timezone": "America/Lima",
+    "preview_pid": 28572,
+    "preview_stopped": true,
+    "original_server_port": 8000,
+    "original_server_left_running": true,
+    "original_database_port": 3306,
+    "original_database_left_running": true,
+    "live_http_status": 200,
+    "maintenance": false,
+    "own_queue_or_scheduler": false,
+    "commit_push_deploy": false
+  }
+}

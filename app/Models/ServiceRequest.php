@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceRequest extends BusinessModel
 {
+    public function deliverables(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Deliverable::class, Quotation::class, 'service_request_id', 'quotation_id');
+    }
+
     public function scopeVisibleTo(Builder $query, User $user): Builder
     {
         if (! $user->is_active || ! in_array($user->role, ['admin', 'gestor'], true)) {

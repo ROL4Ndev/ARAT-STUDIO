@@ -18,6 +18,7 @@
                     <a href="#evaluacion">Evaluación</a>
                     <a href="#archivos">Archivos</a>
                     <a href="#cotizaciones">Cotizaciones</a>
+                    <a href="#entregables">Entregables</a>
                     <a href="#historial">Historial</a>
                 </nav>
             </div>
@@ -62,7 +63,7 @@
 
                     @if (config('app.env') === 'local' && config('client_access.demo_enabled'))
                         @can('operate', $serviceRequest)
-                            <details class="secondary-details"><summary>Demostración local del acceso del cliente</summary>
+                            <details id="demo-client-access" class="secondary-details"><summary>Demostración local del acceso del cliente</summary>
                             <form method="POST" action="{{ route('commercial.requests.demo-access.prepare', $serviceRequest) }}">
                                 @csrf
                                 <button class="btn btn-outline-dark mt-3" type="submit" data-loading-label="Preparando acceso…">Preparar acceso de cliente para demostración</button>
@@ -204,6 +205,8 @@
                 <section id="cotizaciones" aria-label="Cotizaciones">
                     @include('commercial.quotation-form')
                 </section>
+
+                @include('deliverables.internal-list')
 
                 <section class="workspace-card mb-4" aria-labelledby="notifications-title">
                     <h2 id="notifications-title">Notificaciones del expediente</h2>

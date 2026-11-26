@@ -24,9 +24,11 @@ class DossierController extends Controller
     {
         $grant = $request->attributes->get('clientGrant');
         $dossier = $grant->serviceRequest;
+        $deliverables = $dossier->deliverables()->whereHas('versions', fn ($q) => $q->whereNotNull('sent_at'))
+            ->with(['quotation', 'versions' => fn ($q) => $q->whereNotNull('sent_at')->reorder()->orderByDesc('number')])->orderBy('deliverables.id')->get();
         $dossier->load(['currentRevision', 'files', 'histories' => fn ($q) => $q->where('is_public', true)->orderBy('id'), 'quotations' => fn ($q) => $q->whereNotNull('issued_at')->where('pdf_status', 'ready')->orderByDesc('version')]);
 
-        return view('client.dossier', compact('dossier', 'grant'));
+        return view('client.dossier', compact('dossier', 'grant', 'deliverables'));
     }
 
     public function correct(CorrectionRequest $request, ClientRevisionService $revisions)
