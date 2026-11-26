@@ -1,0 +1,65 @@
+{
+  "checks": [
+    "Movimiento reducido: contenido visible y sin entradas animadas",
+    "Primer Tab muestra Saltar al contenido y Enter enfoca el contenido",
+    "Menú móvil a 360 px: teclado, submenú, Escape y devolución del foco",
+    "Acordeón de servicios abre y cierra con Espacio",
+    "Galería a 360 px: imagen siguiente, Escape y restauración del foco",
+    "Nosotros sin JavaScript: título, equipo, enlaces y poster disponibles; sin descarga MP4"
+  ],
+  "errors": [],
+  "contrast": [
+    {
+      "route": "/nosotros",
+      "samples": 61,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/",
+      "samples": 80,
+      "minimumRatio": 5.54,
+      "failures": []
+    },
+    {
+      "route": "/servicios",
+      "samples": 58,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/proyectos",
+      "samples": 65,
+      "minimumRatio": 4.52,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "samples": 51,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/cotizador",
+      "samples": 34,
+      "minimumRatio": 5.54,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "samples": 58,
+      "minimumRatio": 5.54,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/acceder-expediente",
+      "samples": 27,
+      "minimumRatio": 6.26,
+      "failures": [],
+      "controlBorder": 3.87
+    }
+  ]
+}

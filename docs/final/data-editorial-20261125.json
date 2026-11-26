@@ -1,0 +1,1460 @@
+{
+    "database": "arat_studios",
+    "verified": true,
+    "team_preserved": 4,
+    "counts_before": {
+        "audit_events": 67,
+        "cache": 16,
+        "cache_locks": 0,
+        "categories": 5,
+        "client_access_tokens": 8,
+        "client_grants": 0,
+        "failed_jobs": 0,
+        "job_batches": 0,
+        "jobs": 0,
+        "migrations": 16,
+        "notification_attempts": 11,
+        "notification_records": 12,
+        "password_reset_tokens": 0,
+        "project_cover_histories": 5,
+        "project_images": 99,
+        "projects": 13,
+        "quotations": 5,
+        "request_files": 8,
+        "request_revisions": 9,
+        "service_request_histories": 33,
+        "service_requests": 9,
+        "services": 12,
+        "sessions": 2,
+        "tariff_groups": 3,
+        "tariff_params": 3,
+        "technical_evaluations": 2,
+        "users": 9,
+        "work_intents": 14
+    },
+    "counts_after": {
+        "audit_events": 149,
+        "cache": 16,
+        "cache_locks": 1,
+        "categories": 5,
+        "client_access_tokens": 4,
+        "client_grants": 3,
+        "failed_jobs": 0,
+        "job_batches": 0,
+        "jobs": 0,
+        "migrations": 17,
+        "notification_attempts": 28,
+        "notification_records": 31,
+        "password_reset_tokens": 0,
+        "project_cover_histories": 5,
+        "project_images": 99,
+        "projects": 13,
+        "quotations": 9,
+        "request_files": 0,
+        "request_revisions": 17,
+        "service_request_histories": 67,
+        "service_requests": 16,
+        "services": 12,
+        "sessions": 4,
+        "tariff_groups": 3,
+        "tariff_params": 3,
+        "technical_evaluations": 8,
+        "users": 4,
+        "work_intents": 39
+    },
+    "demo_requests": 15,
+    "retained_uncertain_requests": 1,
+    "pdfs_verified": 8,
+    "visual_files_unchanged": 112,
+    "incomplete_published_projects": 0,
+    "foreign_key_orphans": 0,
+    "demo_idempotence_verified_in_restore": true,
+    "portfolio_inventory": {
+        "generated_at": "2026-11-25T15:59:40-05:00",
+        "database_status": "consultada_sin_escrituras",
+        "folder_count": 13,
+        "image_count": 100,
+        "groups": [
+            {
+                "folder": "Aldea Infantil para NNA",
+                "proposed_title": "Aldea Infantil para NNA",
+                "proposed_slug": "aldea-infantil-para-nna",
+                "images": [
+                    {
+                        "path": "img/Aldea Infantil para NNA/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 180536,
+                        "sha256": "da1cacae531af25cbf8e351c470400130102bfb8817b721a19d01e3c6b762917"
+                    },
+                    {
+                        "path": "img/Aldea Infantil para NNA/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 154516,
+                        "sha256": "de25aa16e72633d2e822001155e16486dc5fc40c93f30ed6b031a146daf2e7ee"
+                    },
+                    {
+                        "path": "img/Aldea Infantil para NNA/3.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 167910,
+                        "sha256": "dfb7d5046ca2b28423f79c5df0f344dc12e30ec48441ef124b05330dcbec3b7c"
+                    },
+                    {
+                        "path": "img/Aldea Infantil para NNA/4.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 149852,
+                        "sha256": "29f3f6567efd96c34a9bfe855ac49394e9f651cf7be148c540d8635cc5d32e8b"
+                    },
+                    {
+                        "path": "img/Aldea Infantil para NNA/5.webp",
+                        "width": 1400,
+                        "height": 1982,
+                        "bytes": 768388,
+                        "sha256": "7b198e0443968b6c0c6c133e1bb8526d84a1844d7482d2277d3aaea9ebb8dcff"
+                    },
+                    {
+                        "path": "img/Aldea Infantil para NNA/6.webp",
+                        "width": 1400,
+                        "height": 1982,
+                        "bytes": 589552,
+                        "sha256": "942a22beeec92d1d82a4b8d346b7aabd7fd7ce994c607dcf08751972f3589da0"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 4,
+                        "title": "Aldea Infantil para NNA",
+                        "slug": "aldea-infantil-para-nna",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Centro Cultural",
+                "proposed_title": "Centro Cultural",
+                "proposed_slug": "centro-cultural",
+                "images": [
+                    {
+                        "path": "img/Centro Cultural/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 188450,
+                        "sha256": "1b0edbeaa4bb1657aff2c57283fd9b5f52e4492292cb430ac1db9e7b81ca6f1e"
+                    },
+                    {
+                        "path": "img/Centro Cultural/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 156860,
+                        "sha256": "a2fdd8ab73dfdad5e68624f3274abd9bfcb5967a305d86abebb19d02ae68c753"
+                    },
+                    {
+                        "path": "img/Centro Cultural/3.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 181444,
+                        "sha256": "93e3190b73c727c65dc688482e4174949a1686292e0ba8edbe991228f3ed9bca"
+                    },
+                    {
+                        "path": "img/Centro Cultural/4.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 157026,
+                        "sha256": "99c6359b880d5e38ffea2682385e0cf3ede20fca0813dfd06fe2a8862feef311"
+                    },
+                    {
+                        "path": "img/Centro Cultural/5.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 174294,
+                        "sha256": "0de4ec463b7984bfe04b33d5381e0fea5fbb654a0513a96c5ab247c7e4f5a336"
+                    },
+                    {
+                        "path": "img/Centro Cultural/6.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 151700,
+                        "sha256": "97bd53b498d8db43b7d6a395300ecee56a6c93b6b0a60f4d16bf029f63ee9389"
+                    },
+                    {
+                        "path": "img/Centro Cultural/7.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 718000,
+                        "sha256": "667443f057f92240a6a1e3f1392b0efc6219df05a16f13889b70a929124be705"
+                    },
+                    {
+                        "path": "img/Centro Cultural/8.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 669012,
+                        "sha256": "05670615edc3bfa7b16b76b2e1b45b59746f11a028abaeeca792af8ec9e7e85f"
+                    },
+                    {
+                        "path": "img/Centro Cultural/9.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 625502,
+                        "sha256": "b3d6e6d70752f0f7851a7e88d120c1754e6cc4748c9de607c4f4ac323daa6f78"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 5,
+                        "title": "Centro Cultural",
+                        "slug": "centro-cultural",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Centro de Int. Residencial",
+                "proposed_title": "Centro de Int. Residencial",
+                "proposed_slug": "centro-de-int-residencial",
+                "images": [
+                    {
+                        "path": "img/Centro de Int. Residencial/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 179660,
+                        "sha256": "18be6e595efc846bb6796ca1de8534b33099e6e4be4ecc1b2bee48b95cc31e55"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 152564,
+                        "sha256": "6b1ef133be930dab1d2abc5f2f188a34b4c6f60c8fbeaa1ca892d02284ec1153"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/3.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 163206,
+                        "sha256": "e0840adbeae0021c246c12eb8cea215ed48406293c37da1ddf58b2a5dfb089ae"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/4.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 163206,
+                        "sha256": "e0840adbeae0021c246c12eb8cea215ed48406293c37da1ddf58b2a5dfb089ae"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/5.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 173214,
+                        "sha256": "7e179852aec2cecc9c2bbe377d4366a46fd015d2814caaecb29bf47f1cc20fbc"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/6.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 150232,
+                        "sha256": "dfa244513579bacc09a8431df5d9547b95be393ec7f5c1b68dc9b39a66aa9ccf"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/7.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 662952,
+                        "sha256": "57ecd0c2d09c2325e3c5474c235b658defe02eaabba4c2d68015acfd4adf393c"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/8.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 778932,
+                        "sha256": "919d54ce91a1e21894716d174f7334b1f9feab7b70666a8680ecfd1e013a3886"
+                    },
+                    {
+                        "path": "img/Centro de Int. Residencial/9.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 685570,
+                        "sha256": "21f047537e45ff2b3546bdb88dc81af9da308234695d580ed4c9a49da97b8c70"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 6,
+                        "title": "Centro de Integración Residencial",
+                        "slug": "centro-de-int-residencial",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Departamento MR",
+                "proposed_title": "Departamento MR",
+                "proposed_slug": "departamento-mr",
+                "images": [
+                    {
+                        "path": "img/Departamento MR/1.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 275430,
+                        "sha256": "7f626251f7e66272cf4054cb385ab57c37baa171b5807d0c30205d707d759142"
+                    },
+                    {
+                        "path": "img/Departamento MR/2.webp",
+                        "width": 1400,
+                        "height": 1530,
+                        "bytes": 241972,
+                        "sha256": "733e513ac26c45214e84888a1f05fe580d9185a217c4777a45439f83325c4be2"
+                    },
+                    {
+                        "path": "img/Departamento MR/3.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 235012,
+                        "sha256": "1040a95d3d2b54c618c9057b363809f73d1eae42ceed2534d1d6928fa229e963"
+                    },
+                    {
+                        "path": "img/Departamento MR/4.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 265246,
+                        "sha256": "0fd22dae80b4a3d25f5c78f9808bace882c85a50e6a96af281bf6f7c80177c5f"
+                    },
+                    {
+                        "path": "img/Departamento MR/5.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 330740,
+                        "sha256": "44d8938c6d489736c3dc8200c520284cb022ae53719f95a9b0df7ce172836c77"
+                    },
+                    {
+                        "path": "img/Departamento MR/6.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 301978,
+                        "sha256": "e84ca2db06ed10021dba0cb90efa1a6d40f1bef6766981e0c67967cc1c998a33"
+                    },
+                    {
+                        "path": "img/Departamento MR/7.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 338922,
+                        "sha256": "84ddf3460f5284a2dd4ed89d3b83d627484700c6469daa1544a6e2b4fa41125a"
+                    },
+                    {
+                        "path": "img/Departamento MR/8.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 243046,
+                        "sha256": "2d7acf1af0f117f83a4b7983c620bf0e3f3833f232d9e48f9423d1f4783ed794"
+                    },
+                    {
+                        "path": "img/Departamento MR/9.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 248074,
+                        "sha256": "261efa89cba5cc50a9e8447d9d21d496456693959086838b5a3dd177402b05cc"
+                    },
+                    {
+                        "path": "img/Departamento MR/10.webp",
+                        "width": 1400,
+                        "height": 1120,
+                        "bytes": 259300,
+                        "sha256": "c6d56812adff89f8af98ec3083e424d2a4088a13ff61c0e5d145bee5919f1333"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 3,
+                        "title": "Departamento MR",
+                        "slug": "departamento-mr",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Dormitorio Luna",
+                "proposed_title": "Dormitorio Luna",
+                "proposed_slug": "dormitorio-luna",
+                "images": [
+                    {
+                        "path": "img/Dormitorio Luna/1.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 227704,
+                        "sha256": "1914898765ae91c320428f5fac4897063b5ddd3fd153e69e33a6886e0a04aa60"
+                    },
+                    {
+                        "path": "img/Dormitorio Luna/2.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 184004,
+                        "sha256": "c8133990675fa124b8549856dc45b5c7e75584d5db9ac68aa321a7ec0dd1470b"
+                    },
+                    {
+                        "path": "img/Dormitorio Luna/3.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 152512,
+                        "sha256": "88514045d3c766ee46ea888753b203b0c39ff001ae8c90de015826831026b5bf"
+                    },
+                    {
+                        "path": "img/Dormitorio Luna/4.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 184880,
+                        "sha256": "2f9f99368dc15cf86f4ed2eefb1fc4a8bf4f60e3b69b21467e1eb34fdc10ae5b"
+                    },
+                    {
+                        "path": "img/Dormitorio Luna/5.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 226792,
+                        "sha256": "c3d72ee13884c5fd2c165acb8d834eb6b98dcfed984d443030343f74d2c1b81c"
+                    },
+                    {
+                        "path": "img/Dormitorio Luna/6.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 246946,
+                        "sha256": "a6584893def3eb097c4ca5d19dffd0b21fc34a338e91e4478e89b95ba3adc418"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 7,
+                        "title": "Dormitorio Luna",
+                        "slug": "dormitorio-luna",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Dormitorio SR",
+                "proposed_title": "Dormitorio SR",
+                "proposed_slug": "dormitorio-sr",
+                "images": [
+                    {
+                        "path": "img/Dormitorio SR/1.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 201658,
+                        "sha256": "c1399726d5673778fb532d58ba6a6dbf2f049de418e848aa0d326dee662055c7"
+                    },
+                    {
+                        "path": "img/Dormitorio SR/2.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 170152,
+                        "sha256": "c83112387110b809ff5a27d5fe0b9d1e593fe0daaa73ea570fc9dd53e907a6f5"
+                    },
+                    {
+                        "path": "img/Dormitorio SR/3.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 192294,
+                        "sha256": "95a7120ede5469df2d8569b001aeed72c24fe6132962bc0fc5774e607762f2cf"
+                    },
+                    {
+                        "path": "img/Dormitorio SR/4.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 203504,
+                        "sha256": "beac203cc1b6d6d9879a6e8aa9d779ecac57a1a6f179b3e2a067850b0cbfa34c"
+                    },
+                    {
+                        "path": "img/Dormitorio SR/5.webp",
+                        "width": 1400,
+                        "height": 1400,
+                        "bytes": 175608,
+                        "sha256": "0fcc47c4f85f73ec065c1847c6462f9f33b1ed5644dfc2f7d9953c59d2360585"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 8,
+                        "title": "Dormitorio SR",
+                        "slug": "dormitorio-sr",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Edificio Multifamiliar",
+                "proposed_title": "Edificio Multifamiliar",
+                "proposed_slug": "edificio-multifamiliar",
+                "images": [
+                    {
+                        "path": "img/Edificio Multifamiliar/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 189536,
+                        "sha256": "9686aa0636cfe9ea04fb0a1286a5a8a3452adef2597e146557819f7d2824314f"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 166518,
+                        "sha256": "cfa76bfc9346fe92c107892e0cc5c17739c6752d04e0f1964e02f7f1d12782f1"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/3.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 182510,
+                        "sha256": "dbba2b10d53898d7746003d008af51193365284f318e04e972097933f56ff253"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/4.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 158304,
+                        "sha256": "a4f0f024acec8282ea1fb311b0fadaeeb140cb960e7b2f4232c937f31f3ee2d0"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/5.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 192012,
+                        "sha256": "7a797262acd30d8c9d13eac829d65c65a7db99c3e1179e4f83810afb291b0f01"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/6.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 166296,
+                        "sha256": "df4a63e7261229ef3551f466313d4460c2d4ee26758de902894f2b4bfd2eedc5"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/7.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 185478,
+                        "sha256": "5986c5f33f5f528e781ba99155300c9f84b90dc9d347a8a74559e29e57186e93"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/8.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 171256,
+                        "sha256": "90ce551fe8237e0829af0e74dd5d0279e5f26c392d8a782340359694aedae5f3"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/9.webp",
+                        "width": 1400,
+                        "height": 990,
+                        "bytes": 249646,
+                        "sha256": "4223e91bca12a53ca2f85ebe28d5da0b126417c63ab3c6b2796b87ee7f9ebc45"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/10.webp",
+                        "width": 1400,
+                        "height": 990,
+                        "bytes": 227888,
+                        "sha256": "fcb0a4d959ee2b8e0f6216d341442722996da027f6158e943723ba596de43037"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/11.webp",
+                        "width": 1400,
+                        "height": 990,
+                        "bytes": 261676,
+                        "sha256": "77e0fec627f724afbac33538ea767cf906adde61f7d88e24fb4cff12ea65676a"
+                    },
+                    {
+                        "path": "img/Edificio Multifamiliar/12.webp",
+                        "width": 1400,
+                        "height": 990,
+                        "bytes": 289442,
+                        "sha256": "3149a84ffcff9c90af5200390206f44d14cb7dc2315d3af88cd1a81bc7c91a01"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 9,
+                        "title": "Edificio Multifamiliar",
+                        "slug": "edificio-multifamiliar",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Hogar de Refugio",
+                "proposed_title": "Hogar de Refugio",
+                "proposed_slug": "hogar-de-refugio",
+                "images": [
+                    {
+                        "path": "img/Hogar de Refugio/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 166496,
+                        "sha256": "e5c5fe5042f09643b96ee32be47b5389d2c696a935dd224c5f315aa417178519"
+                    },
+                    {
+                        "path": "img/Hogar de Refugio/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 147204,
+                        "sha256": "8ff92febe19e6129fc9f99ba5c5755c0857013bb90939f307cbf64267b68912a"
+                    },
+                    {
+                        "path": "img/Hogar de Refugio/3.webp",
+                        "width": 1400,
+                        "height": 1982,
+                        "bytes": 624062,
+                        "sha256": "bccd534608225ef982472f9f45d65195368fa79c151ca1971f5fa627d6bbe8d8"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 10,
+                        "title": "Hogar de Refugio",
+                        "slug": "hogar-de-refugio",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Hospital de Megantoni",
+                "proposed_title": "Hospital de Megantoni",
+                "proposed_slug": "hospital-de-megantoni",
+                "images": [
+                    {
+                        "path": "img/Hospital de Megantoni/1.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 176190,
+                        "sha256": "a25d13c635424159003a97545b88d692f0de6530078885e4f67f25fee2fc66ee"
+                    },
+                    {
+                        "path": "img/Hospital de Megantoni/2.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 153816,
+                        "sha256": "33fba6af46ff8e9db7e93887d00f4ff8d3cc00c87b3179ba2a146e01232593d3"
+                    },
+                    {
+                        "path": "img/Hospital de Megantoni/3.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 180838,
+                        "sha256": "349f9ecea86bde121923d4b2bda53a066b9e46b74f27c569e022f7335744c17f"
+                    },
+                    {
+                        "path": "img/Hospital de Megantoni/4.webp",
+                        "width": 1400,
+                        "height": 1050,
+                        "bytes": 156928,
+                        "sha256": "5951ac698488e62e5ee1cb0b2c8a4904225b06b533a99fd815841db7ddf91ba8"
+                    },
+                    {
+                        "path": "img/Hospital de Megantoni/5.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 554668,
+                        "sha256": "e9b82d225de8cc651b3f90a3b782f884dfd45dab7ccbe2c8b017874f120bb864"
+                    },
+                    {
+                        "path": "img/Hospital de Megantoni/6.webp",
+                        "width": 1400,
+                        "height": 1890,
+                        "bytes": 614930,
+                        "sha256": "827d7bb7366f3c0d5057f83cb29253dd227878120d3f56d80f198098e539dd30"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 11,
+                        "title": "Hospital de Megantoni",
+                        "slug": "hospital-de-megantoni",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Proyecto AT",
+                "proposed_title": "Proyecto AT",
+                "proposed_slug": "proyecto-at",
+                "images": [
+                    {
+                        "path": "img/Proyecto AT/1.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 196328,
+                        "sha256": "67dd9fb3b6ae49e54d4c8b8dd2839dbfa857f45ec857b4fc685e5b17f87f0f13"
+                    },
+                    {
+                        "path": "img/Proyecto AT/2.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 72842,
+                        "sha256": "850b8fb98e4c53e2c7b3a26e4896cf0b647d8c3c90114cfcfb963342cca3d20b"
+                    },
+                    {
+                        "path": "img/Proyecto AT/3.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 94890,
+                        "sha256": "f96beb79567d1af54c629267bf28fd7e966c9f205cbfe22f8feafef13668234c"
+                    },
+                    {
+                        "path": "img/Proyecto AT/4.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 85518,
+                        "sha256": "eb1a046966ed5accb65f3c3018e157de33c27c8bfbb686ad8e1b3676e0c04dfb"
+                    },
+                    {
+                        "path": "img/Proyecto AT/5.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 100060,
+                        "sha256": "7290d8046da42a0f6369e3bff537a01aee87d2f0033e2c4953cf69e73b0ca61d"
+                    },
+                    {
+                        "path": "img/Proyecto AT/6.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 84764,
+                        "sha256": "2530baa7504c015a1d1b1fb18c44e97a341f0521c851ddf262341e0cc67d7b94"
+                    },
+                    {
+                        "path": "img/Proyecto AT/7.webp",
+                        "width": 1400,
+                        "height": 875,
+                        "bytes": 194154,
+                        "sha256": "6f9b2c3447bd4eafebbdd5495c9e3d1d1c02339fc0c24274a2a505eb19603941"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 12,
+                        "title": "Proyecto AT",
+                        "slug": "proyecto-at",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Proyecto OPV",
+                "proposed_title": "Proyecto OPV",
+                "proposed_slug": "proyecto-opv",
+                "images": [
+                    {
+                        "path": "img/Proyecto OPV/1.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 293540,
+                        "sha256": "c339ff9e2c0ab538add7b3eea6d6c9acf220f8d9377e14b1b58944422c57fbf6"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/2.webp",
+                        "width": 1400,
+                        "height": 2390,
+                        "bytes": 217764,
+                        "sha256": "cfb726e9886f51e9bd5b8ac36fec81a7e26c7c38159c79454226a163258b7338"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/3.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 204748,
+                        "sha256": "908aec8d365cc5181533b5cfc801574c1e294eed1e0be5e7ffd24342df0569aa"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/4.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 177130,
+                        "sha256": "94de411129eaec5567596c1efd05b0d8e211d41d5b4002bc5b60d77b729b426f"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/5.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 163768,
+                        "sha256": "18fd02c99cc8d9fff6061bbf4b4eb3ffc18744746155e498593e22ebe6da74b8"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/6.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 289576,
+                        "sha256": "e0b8f56b9afc7d025109c8ff0c67e012c103d8d7c78996101b38c08787dd00aa"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/7.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 311664,
+                        "sha256": "7c9e7dd9383c25c0b87067953bfbec9d3326bfb37896f758b2d49025b5798753"
+                    },
+                    {
+                        "path": "img/Proyecto OPV/8.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 218654,
+                        "sha256": "cd42da1119cc32245e3cc10fce01a9d85a347503d178b40b32a03e5347b2891c"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 2,
+                        "title": "Proyecto OPV",
+                        "slug": "proyecto-opv",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Proyecto PET",
+                "proposed_title": "Proyecto PET",
+                "proposed_slug": "proyecto-pet",
+                "images": [
+                    {
+                        "path": "img/Proyecto PET/1.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 204970,
+                        "sha256": "eabfc7c231c779864e0c7c2f4f151652243acf1832ba0289c56d7910af14e1c4"
+                    },
+                    {
+                        "path": "img/Proyecto PET/2.webp",
+                        "width": 1400,
+                        "height": 2249,
+                        "bytes": 103156,
+                        "sha256": "2f8fcb07d27b9f254cce6f66110a25305b073c7a172170470a032f739d1b109c"
+                    },
+                    {
+                        "path": "img/Proyecto PET/3.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 110328,
+                        "sha256": "190249aef44d97180f915531a8265fb878de67780667ec32cd52940a4679c897"
+                    },
+                    {
+                        "path": "img/Proyecto PET/4.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 156088,
+                        "sha256": "76b2240675beaf61ff52a59341a5ccfbddd32220ae71956a19947541fe1d2895"
+                    },
+                    {
+                        "path": "img/Proyecto PET/5.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 134206,
+                        "sha256": "b40367b28e8f50f6e2c8d1a3f5e417364c29e39aa6dd220d667b2e92f1b3b9c0"
+                    },
+                    {
+                        "path": "img/Proyecto PET/6.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 164558,
+                        "sha256": "a9949071a9ca8d8154ad652e03c64467eb4ff323388883f7b12fc1bf3dd3e0e4"
+                    },
+                    {
+                        "path": "img/Proyecto PET/7.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 89112,
+                        "sha256": "ffefefec4b55b420ca98d199cb2d4d63d7f6733370f1e7ceea52be98ca1ec1a9"
+                    },
+                    {
+                        "path": "img/Proyecto PET/8.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 173528,
+                        "sha256": "092a5bb9ae4544ea6a5da09a0e39e4a18ae01fd11badf480b9df4b4d9ddb1ef3"
+                    },
+                    {
+                        "path": "img/Proyecto PET/9.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 178742,
+                        "sha256": "ad19e5fbf67e3811eb6d63db6946051cc362dde3b9d342ccae5ad733dc185af4"
+                    },
+                    {
+                        "path": "img/Proyecto PET/10.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 103606,
+                        "sha256": "2b41d139c24626ed260b40034fd203b8ffb9c4b241691db80478152fe6614f1f"
+                    },
+                    {
+                        "path": "img/Proyecto PET/11.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 88646,
+                        "sha256": "49988133c6fe374c802edf65bb8d3664e518c797cdec1f951c9f1e3dd5c15701"
+                    },
+                    {
+                        "path": "img/Proyecto PET/12.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 177086,
+                        "sha256": "2cd06afa4c924f92ff5fa588fc3ea2a264bb281ff7e45466983740d6c923fff1"
+                    },
+                    {
+                        "path": "img/Proyecto PET/13.webp",
+                        "width": 1400,
+                        "height": 788,
+                        "bytes": 102076,
+                        "sha256": "fdd96e6d8d5fbe2f80e608d735245985134b54764192a32168577f61a317958e"
+                    },
+                    {
+                        "path": "img/Proyecto PET/14.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 212512,
+                        "sha256": "c425471c129c378b7ae034278dd36b04c6dd93214958eb893f476609a85b6927"
+                    },
+                    {
+                        "path": "img/Proyecto PET/15.webp",
+                        "width": 1024,
+                        "height": 1280,
+                        "bytes": 64146,
+                        "sha256": "0495fa5bce1f5b1f28534690f449976bc0b7ba4fd317459e94daf76dee42291b"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 13,
+                        "title": "Proyecto PET",
+                        "slug": "proyecto-pet",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            },
+            {
+                "folder": "Proyecto Sala T",
+                "proposed_title": "Proyecto Sala T",
+                "proposed_slug": "proyecto-sala-t",
+                "images": [
+                    {
+                        "path": "img/Proyecto Sala T/1.webp",
+                        "width": 1400,
+                        "height": 1051,
+                        "bytes": 251400,
+                        "sha256": "f9f179dee9e87a340d01cdada6db9813fceb0ea2f2a47f8844f6c582b3fd2107"
+                    },
+                    {
+                        "path": "img/Proyecto Sala T/2.webp",
+                        "width": 1400,
+                        "height": 1051,
+                        "bytes": 258384,
+                        "sha256": "1932c98634e6ccb09453958b3d1c4416c378b61e59c120bab4b34ae4d2ef0d9a"
+                    },
+                    {
+                        "path": "img/Proyecto Sala T/3.webp",
+                        "width": 1400,
+                        "height": 1051,
+                        "bytes": 262826,
+                        "sha256": "3ba05e291cadb6e1a7ae021c4bde48e65da52324d5392dd02552a22a1de03c47"
+                    },
+                    {
+                        "path": "img/Proyecto Sala T/4.webp",
+                        "width": 1400,
+                        "height": 1051,
+                        "bytes": 209402,
+                        "sha256": "0e13c3cc28b273676c953019034f522947ae163e526f55ab42ba6b10a0f75a30"
+                    }
+                ],
+                "matches": [
+                    {
+                        "id": 1,
+                        "title": "Proyecto Sala T",
+                        "slug": "proyecto-sala-t",
+                        "is_active": true
+                    }
+                ],
+                "resolution": "coincidencia_unica",
+                "missing_data": []
+            }
+        ]
+    },
+    "visual_files": {
+        "public/img/Aldea Infantil para NNA/1.webp": {
+            "bytes": 180536,
+            "sha256": "da1cacae531af25cbf8e351c470400130102bfb8817b721a19d01e3c6b762917"
+        },
+        "public/img/Aldea Infantil para NNA/2.webp": {
+            "bytes": 154516,
+            "sha256": "de25aa16e72633d2e822001155e16486dc5fc40c93f30ed6b031a146daf2e7ee"
+        },
+        "public/img/Aldea Infantil para NNA/3.webp": {
+            "bytes": 167910,
+            "sha256": "dfb7d5046ca2b28423f79c5df0f344dc12e30ec48441ef124b05330dcbec3b7c"
+        },
+        "public/img/Aldea Infantil para NNA/4.webp": {
+            "bytes": 149852,
+            "sha256": "29f3f6567efd96c34a9bfe855ac49394e9f651cf7be148c540d8635cc5d32e8b"
+        },
+        "public/img/Aldea Infantil para NNA/5.webp": {
+            "bytes": 768388,
+            "sha256": "7b198e0443968b6c0c6c133e1bb8526d84a1844d7482d2277d3aaea9ebb8dcff"
+        },
+        "public/img/Aldea Infantil para NNA/6.webp": {
+            "bytes": 589552,
+            "sha256": "942a22beeec92d1d82a4b8d346b7aabd7fd7ce994c607dcf08751972f3589da0"
+        },
+        "public/img/Centro Cultural/1.webp": {
+            "bytes": 188450,
+            "sha256": "1b0edbeaa4bb1657aff2c57283fd9b5f52e4492292cb430ac1db9e7b81ca6f1e"
+        },
+        "public/img/Centro Cultural/2.webp": {
+            "bytes": 156860,
+            "sha256": "a2fdd8ab73dfdad5e68624f3274abd9bfcb5967a305d86abebb19d02ae68c753"
+        },
+        "public/img/Centro Cultural/3.webp": {
+            "bytes": 181444,
+            "sha256": "93e3190b73c727c65dc688482e4174949a1686292e0ba8edbe991228f3ed9bca"
+        },
+        "public/img/Centro Cultural/4.webp": {
+            "bytes": 157026,
+            "sha256": "99c6359b880d5e38ffea2682385e0cf3ede20fca0813dfd06fe2a8862feef311"
+        },
+        "public/img/Centro Cultural/5.webp": {
+            "bytes": 174294,
+            "sha256": "0de4ec463b7984bfe04b33d5381e0fea5fbb654a0513a96c5ab247c7e4f5a336"
+        },
+        "public/img/Centro Cultural/6.webp": {
+            "bytes": 151700,
+            "sha256": "97bd53b498d8db43b7d6a395300ecee56a6c93b6b0a60f4d16bf029f63ee9389"
+        },
+        "public/img/Centro Cultural/7.webp": {
+            "bytes": 718000,
+            "sha256": "667443f057f92240a6a1e3f1392b0efc6219df05a16f13889b70a929124be705"
+        },
+        "public/img/Centro Cultural/8.webp": {
+            "bytes": 669012,
+            "sha256": "05670615edc3bfa7b16b76b2e1b45b59746f11a028abaeeca792af8ec9e7e85f"
+        },
+        "public/img/Centro Cultural/9.webp": {
+            "bytes": 625502,
+            "sha256": "b3d6e6d70752f0f7851a7e88d120c1754e6cc4748c9de607c4f4ac323daa6f78"
+        },
+        "public/img/Centro de Int. Residencial/1.webp": {
+            "bytes": 179660,
+            "sha256": "18be6e595efc846bb6796ca1de8534b33099e6e4be4ecc1b2bee48b95cc31e55"
+        },
+        "public/img/Centro de Int. Residencial/2.webp": {
+            "bytes": 152564,
+            "sha256": "6b1ef133be930dab1d2abc5f2f188a34b4c6f60c8fbeaa1ca892d02284ec1153"
+        },
+        "public/img/Centro de Int. Residencial/3.webp": {
+            "bytes": 163206,
+            "sha256": "e0840adbeae0021c246c12eb8cea215ed48406293c37da1ddf58b2a5dfb089ae"
+        },
+        "public/img/Centro de Int. Residencial/4.webp": {
+            "bytes": 163206,
+            "sha256": "e0840adbeae0021c246c12eb8cea215ed48406293c37da1ddf58b2a5dfb089ae"
+        },
+        "public/img/Centro de Int. Residencial/5.webp": {
+            "bytes": 173214,
+            "sha256": "7e179852aec2cecc9c2bbe377d4366a46fd015d2814caaecb29bf47f1cc20fbc"
+        },
+        "public/img/Centro de Int. Residencial/6.webp": {
+            "bytes": 150232,
+            "sha256": "dfa244513579bacc09a8431df5d9547b95be393ec7f5c1b68dc9b39a66aa9ccf"
+        },
+        "public/img/Centro de Int. Residencial/7.webp": {
+            "bytes": 662952,
+            "sha256": "57ecd0c2d09c2325e3c5474c235b658defe02eaabba4c2d68015acfd4adf393c"
+        },
+        "public/img/Centro de Int. Residencial/8.webp": {
+            "bytes": 778932,
+            "sha256": "919d54ce91a1e21894716d174f7334b1f9feab7b70666a8680ecfd1e013a3886"
+        },
+        "public/img/Centro de Int. Residencial/9.webp": {
+            "bytes": 685570,
+            "sha256": "21f047537e45ff2b3546bdb88dc81af9da308234695d580ed4c9a49da97b8c70"
+        },
+        "public/img/Departamento MR/1.webp": {
+            "bytes": 275430,
+            "sha256": "7f626251f7e66272cf4054cb385ab57c37baa171b5807d0c30205d707d759142"
+        },
+        "public/img/Departamento MR/10.webp": {
+            "bytes": 259300,
+            "sha256": "c6d56812adff89f8af98ec3083e424d2a4088a13ff61c0e5d145bee5919f1333"
+        },
+        "public/img/Departamento MR/2.webp": {
+            "bytes": 241972,
+            "sha256": "733e513ac26c45214e84888a1f05fe580d9185a217c4777a45439f83325c4be2"
+        },
+        "public/img/Departamento MR/3.webp": {
+            "bytes": 235012,
+            "sha256": "1040a95d3d2b54c618c9057b363809f73d1eae42ceed2534d1d6928fa229e963"
+        },
+        "public/img/Departamento MR/4.webp": {
+            "bytes": 265246,
+            "sha256": "0fd22dae80b4a3d25f5c78f9808bace882c85a50e6a96af281bf6f7c80177c5f"
+        },
+        "public/img/Departamento MR/5.webp": {
+            "bytes": 330740,
+            "sha256": "44d8938c6d489736c3dc8200c520284cb022ae53719f95a9b0df7ce172836c77"
+        },
+        "public/img/Departamento MR/6.webp": {
+            "bytes": 301978,
+            "sha256": "e84ca2db06ed10021dba0cb90efa1a6d40f1bef6766981e0c67967cc1c998a33"
+        },
+        "public/img/Departamento MR/7.webp": {
+            "bytes": 338922,
+            "sha256": "84ddf3460f5284a2dd4ed89d3b83d627484700c6469daa1544a6e2b4fa41125a"
+        },
+        "public/img/Departamento MR/8.webp": {
+            "bytes": 243046,
+            "sha256": "2d7acf1af0f117f83a4b7983c620bf0e3f3833f232d9e48f9423d1f4783ed794"
+        },
+        "public/img/Departamento MR/9.webp": {
+            "bytes": 248074,
+            "sha256": "261efa89cba5cc50a9e8447d9d21d496456693959086838b5a3dd177402b05cc"
+        },
+        "public/img/Dormitorio Luna/1.webp": {
+            "bytes": 227704,
+            "sha256": "1914898765ae91c320428f5fac4897063b5ddd3fd153e69e33a6886e0a04aa60"
+        },
+        "public/img/Dormitorio Luna/2.webp": {
+            "bytes": 184004,
+            "sha256": "c8133990675fa124b8549856dc45b5c7e75584d5db9ac68aa321a7ec0dd1470b"
+        },
+        "public/img/Dormitorio Luna/3.webp": {
+            "bytes": 152512,
+            "sha256": "88514045d3c766ee46ea888753b203b0c39ff001ae8c90de015826831026b5bf"
+        },
+        "public/img/Dormitorio Luna/4.webp": {
+            "bytes": 184880,
+            "sha256": "2f9f99368dc15cf86f4ed2eefb1fc4a8bf4f60e3b69b21467e1eb34fdc10ae5b"
+        },
+        "public/img/Dormitorio Luna/5.webp": {
+            "bytes": 226792,
+            "sha256": "c3d72ee13884c5fd2c165acb8d834eb6b98dcfed984d443030343f74d2c1b81c"
+        },
+        "public/img/Dormitorio Luna/6.webp": {
+            "bytes": 246946,
+            "sha256": "a6584893def3eb097c4ca5d19dffd0b21fc34a338e91e4478e89b95ba3adc418"
+        },
+        "public/img/Dormitorio SR/1.webp": {
+            "bytes": 201658,
+            "sha256": "c1399726d5673778fb532d58ba6a6dbf2f049de418e848aa0d326dee662055c7"
+        },
+        "public/img/Dormitorio SR/2.webp": {
+            "bytes": 170152,
+            "sha256": "c83112387110b809ff5a27d5fe0b9d1e593fe0daaa73ea570fc9dd53e907a6f5"
+        },
+        "public/img/Dormitorio SR/3.webp": {
+            "bytes": 192294,
+            "sha256": "95a7120ede5469df2d8569b001aeed72c24fe6132962bc0fc5774e607762f2cf"
+        },
+        "public/img/Dormitorio SR/4.webp": {
+            "bytes": 203504,
+            "sha256": "beac203cc1b6d6d9879a6e8aa9d779ecac57a1a6f179b3e2a067850b0cbfa34c"
+        },
+        "public/img/Dormitorio SR/5.webp": {
+            "bytes": 175608,
+            "sha256": "0fcc47c4f85f73ec065c1847c6462f9f33b1ed5644dfc2f7d9953c59d2360585"
+        },
+        "public/img/Edificio Multifamiliar/1.webp": {
+            "bytes": 189536,
+            "sha256": "9686aa0636cfe9ea04fb0a1286a5a8a3452adef2597e146557819f7d2824314f"
+        },
+        "public/img/Edificio Multifamiliar/10.webp": {
+            "bytes": 227888,
+            "sha256": "fcb0a4d959ee2b8e0f6216d341442722996da027f6158e943723ba596de43037"
+        },
+        "public/img/Edificio Multifamiliar/11.webp": {
+            "bytes": 261676,
+            "sha256": "77e0fec627f724afbac33538ea767cf906adde61f7d88e24fb4cff12ea65676a"
+        },
+        "public/img/Edificio Multifamiliar/12.webp": {
+            "bytes": 289442,
+            "sha256": "3149a84ffcff9c90af5200390206f44d14cb7dc2315d3af88cd1a81bc7c91a01"
+        },
+        "public/img/Edificio Multifamiliar/2.webp": {
+            "bytes": 166518,
+            "sha256": "cfa76bfc9346fe92c107892e0cc5c17739c6752d04e0f1964e02f7f1d12782f1"
+        },
+        "public/img/Edificio Multifamiliar/3.webp": {
+            "bytes": 182510,
+            "sha256": "dbba2b10d53898d7746003d008af51193365284f318e04e972097933f56ff253"
+        },
+        "public/img/Edificio Multifamiliar/4.webp": {
+            "bytes": 158304,
+            "sha256": "a4f0f024acec8282ea1fb311b0fadaeeb140cb960e7b2f4232c937f31f3ee2d0"
+        },
+        "public/img/Edificio Multifamiliar/5.webp": {
+            "bytes": 192012,
+            "sha256": "7a797262acd30d8c9d13eac829d65c65a7db99c3e1179e4f83810afb291b0f01"
+        },
+        "public/img/Edificio Multifamiliar/6.webp": {
+            "bytes": 166296,
+            "sha256": "df4a63e7261229ef3551f466313d4460c2d4ee26758de902894f2b4bfd2eedc5"
+        },
+        "public/img/Edificio Multifamiliar/7.webp": {
+            "bytes": 185478,
+            "sha256": "5986c5f33f5f528e781ba99155300c9f84b90dc9d347a8a74559e29e57186e93"
+        },
+        "public/img/Edificio Multifamiliar/8.webp": {
+            "bytes": 171256,
+            "sha256": "90ce551fe8237e0829af0e74dd5d0279e5f26c392d8a782340359694aedae5f3"
+        },
+        "public/img/Edificio Multifamiliar/9.webp": {
+            "bytes": 249646,
+            "sha256": "4223e91bca12a53ca2f85ebe28d5da0b126417c63ab3c6b2796b87ee7f9ebc45"
+        },
+        "public/img/Hogar de Refugio/1.webp": {
+            "bytes": 166496,
+            "sha256": "e5c5fe5042f09643b96ee32be47b5389d2c696a935dd224c5f315aa417178519"
+        },
+        "public/img/Hogar de Refugio/2.webp": {
+            "bytes": 147204,
+            "sha256": "8ff92febe19e6129fc9f99ba5c5755c0857013bb90939f307cbf64267b68912a"
+        },
+        "public/img/Hogar de Refugio/3.webp": {
+            "bytes": 624062,
+            "sha256": "bccd534608225ef982472f9f45d65195368fa79c151ca1971f5fa627d6bbe8d8"
+        },
+        "public/img/Hospital de Megantoni/1.webp": {
+            "bytes": 176190,
+            "sha256": "a25d13c635424159003a97545b88d692f0de6530078885e4f67f25fee2fc66ee"
+        },
+        "public/img/Hospital de Megantoni/2.webp": {
+            "bytes": 153816,
+            "sha256": "33fba6af46ff8e9db7e93887d00f4ff8d3cc00c87b3179ba2a146e01232593d3"
+        },
+        "public/img/Hospital de Megantoni/3.webp": {
+            "bytes": 180838,
+            "sha256": "349f9ecea86bde121923d4b2bda53a066b9e46b74f27c569e022f7335744c17f"
+        },
+        "public/img/Hospital de Megantoni/4.webp": {
+            "bytes": 156928,
+            "sha256": "5951ac698488e62e5ee1cb0b2c8a4904225b06b533a99fd815841db7ddf91ba8"
+        },
+        "public/img/Hospital de Megantoni/5.webp": {
+            "bytes": 554668,
+            "sha256": "e9b82d225de8cc651b3f90a3b782f884dfd45dab7ccbe2c8b017874f120bb864"
+        },
+        "public/img/Hospital de Megantoni/6.webp": {
+            "bytes": 614930,
+            "sha256": "827d7bb7366f3c0d5057f83cb29253dd227878120d3f56d80f198098e539dd30"
+        },
+        "public/img/LOGO.png": {
+            "bytes": 37808,
+            "sha256": "2bb5a4e7e08c7458059bf5994381d24eca9e4de2fe4a3fef0744c1dbe5032319"
+        },
+        "public/img/LOGO1.png": {
+            "bytes": 122547,
+            "sha256": "41056c273f25d8715524a1cab7d2901cf47614b507de01b86f607a3a0c8c08e4"
+        },
+        "public/img/Proyecto AT/1.webp": {
+            "bytes": 196328,
+            "sha256": "67dd9fb3b6ae49e54d4c8b8dd2839dbfa857f45ec857b4fc685e5b17f87f0f13"
+        },
+        "public/img/Proyecto AT/2.webp": {
+            "bytes": 72842,
+            "sha256": "850b8fb98e4c53e2c7b3a26e4896cf0b647d8c3c90114cfcfb963342cca3d20b"
+        },
+        "public/img/Proyecto AT/3.webp": {
+            "bytes": 94890,
+            "sha256": "f96beb79567d1af54c629267bf28fd7e966c9f205cbfe22f8feafef13668234c"
+        },
+        "public/img/Proyecto AT/4.webp": {
+            "bytes": 85518,
+            "sha256": "eb1a046966ed5accb65f3c3018e157de33c27c8bfbb686ad8e1b3676e0c04dfb"
+        },
+        "public/img/Proyecto AT/5.webp": {
+            "bytes": 100060,
+            "sha256": "7290d8046da42a0f6369e3bff537a01aee87d2f0033e2c4953cf69e73b0ca61d"
+        },
+        "public/img/Proyecto AT/6.webp": {
+            "bytes": 84764,
+            "sha256": "2530baa7504c015a1d1b1fb18c44e97a341f0521c851ddf262341e0cc67d7b94"
+        },
+        "public/img/Proyecto AT/7.webp": {
+            "bytes": 194154,
+            "sha256": "6f9b2c3447bd4eafebbdd5495c9e3d1d1c02339fc0c24274a2a505eb19603941"
+        },
+        "public/img/Proyecto OPV/1.webp": {
+            "bytes": 293540,
+            "sha256": "c339ff9e2c0ab538add7b3eea6d6c9acf220f8d9377e14b1b58944422c57fbf6"
+        },
+        "public/img/Proyecto OPV/2.webp": {
+            "bytes": 217764,
+            "sha256": "cfb726e9886f51e9bd5b8ac36fec81a7e26c7c38159c79454226a163258b7338"
+        },
+        "public/img/Proyecto OPV/3.webp": {
+            "bytes": 204748,
+            "sha256": "908aec8d365cc5181533b5cfc801574c1e294eed1e0be5e7ffd24342df0569aa"
+        },
+        "public/img/Proyecto OPV/4.webp": {
+            "bytes": 177130,
+            "sha256": "94de411129eaec5567596c1efd05b0d8e211d41d5b4002bc5b60d77b729b426f"
+        },
+        "public/img/Proyecto OPV/5.webp": {
+            "bytes": 163768,
+            "sha256": "18fd02c99cc8d9fff6061bbf4b4eb3ffc18744746155e498593e22ebe6da74b8"
+        },
+        "public/img/Proyecto OPV/6.webp": {
+            "bytes": 289576,
+            "sha256": "e0b8f56b9afc7d025109c8ff0c67e012c103d8d7c78996101b38c08787dd00aa"
+        },
+        "public/img/Proyecto OPV/7.webp": {
+            "bytes": 311664,
+            "sha256": "7c9e7dd9383c25c0b87067953bfbec9d3326bfb37896f758b2d49025b5798753"
+        },
+        "public/img/Proyecto OPV/8.webp": {
+            "bytes": 218654,
+            "sha256": "cd42da1119cc32245e3cc10fce01a9d85a347503d178b40b32a03e5347b2891c"
+        },
+        "public/img/Proyecto PET/1.webp": {
+            "bytes": 204970,
+            "sha256": "eabfc7c231c779864e0c7c2f4f151652243acf1832ba0289c56d7910af14e1c4"
+        },
+        "public/img/Proyecto PET/10.webp": {
+            "bytes": 103606,
+            "sha256": "2b41d139c24626ed260b40034fd203b8ffb9c4b241691db80478152fe6614f1f"
+        },
+        "public/img/Proyecto PET/11.webp": {
+            "bytes": 88646,
+            "sha256": "49988133c6fe374c802edf65bb8d3664e518c797cdec1f951c9f1e3dd5c15701"
+        },
+        "public/img/Proyecto PET/12.webp": {
+            "bytes": 177086,
+            "sha256": "2cd06afa4c924f92ff5fa588fc3ea2a264bb281ff7e45466983740d6c923fff1"
+        },
+        "public/img/Proyecto PET/13.webp": {
+            "bytes": 102076,
+            "sha256": "fdd96e6d8d5fbe2f80e608d735245985134b54764192a32168577f61a317958e"
+        },
+        "public/img/Proyecto PET/14.webp": {
+            "bytes": 212512,
+            "sha256": "c425471c129c378b7ae034278dd36b04c6dd93214958eb893f476609a85b6927"
+        },
+        "public/img/Proyecto PET/15.webp": {
+            "bytes": 64146,
+            "sha256": "0495fa5bce1f5b1f28534690f449976bc0b7ba4fd317459e94daf76dee42291b"
+        },
+        "public/img/Proyecto PET/2.webp": {
+            "bytes": 103156,
+            "sha256": "2f8fcb07d27b9f254cce6f66110a25305b073c7a172170470a032f739d1b109c"
+        },
+        "public/img/Proyecto PET/3.webp": {
+            "bytes": 110328,
+            "sha256": "190249aef44d97180f915531a8265fb878de67780667ec32cd52940a4679c897"
+        },
+        "public/img/Proyecto PET/4.webp": {
+            "bytes": 156088,
+            "sha256": "76b2240675beaf61ff52a59341a5ccfbddd32220ae71956a19947541fe1d2895"
+        },
+        "public/img/Proyecto PET/5.webp": {
+            "bytes": 134206,
+            "sha256": "b40367b28e8f50f6e2c8d1a3f5e417364c29e39aa6dd220d667b2e92f1b3b9c0"
+        },
+        "public/img/Proyecto PET/6.webp": {
+            "bytes": 164558,
+            "sha256": "a9949071a9ca8d8154ad652e03c64467eb4ff323388883f7b12fc1bf3dd3e0e4"
+        },
+        "public/img/Proyecto PET/7.webp": {
+            "bytes": 89112,
+            "sha256": "ffefefec4b55b420ca98d199cb2d4d63d7f6733370f1e7ceea52be98ca1ec1a9"
+        },
+        "public/img/Proyecto PET/8.webp": {
+            "bytes": 173528,
+            "sha256": "092a5bb9ae4544ea6a5da09a0e39e4a18ae01fd11badf480b9df4b4d9ddb1ef3"
+        },
+        "public/img/Proyecto PET/9.webp": {
+            "bytes": 178742,
+            "sha256": "ad19e5fbf67e3811eb6d63db6946051cc362dde3b9d342ccae5ad733dc185af4"
+        },
+        "public/img/Proyecto Sala T/1.webp": {
+            "bytes": 251400,
+            "sha256": "f9f179dee9e87a340d01cdada6db9813fceb0ea2f2a47f8844f6c582b3fd2107"
+        },
+        "public/img/Proyecto Sala T/2.webp": {
+            "bytes": 258384,
+            "sha256": "1932c98634e6ccb09453958b3d1c4416c378b61e59c120bab4b34ae4d2ef0d9a"
+        },
+        "public/img/Proyecto Sala T/3.webp": {
+            "bytes": 262826,
+            "sha256": "3ba05e291cadb6e1a7ae021c4bde48e65da52324d5392dd02552a22a1de03c47"
+        },
+        "public/img/Proyecto Sala T/4.webp": {
+            "bytes": 209402,
+            "sha256": "0e13c3cc28b273676c953019034f522947ae163e526f55ab42ba6b10a0f75a30"
+        },
+        "public/media/studio/angelo-trinidad.webp": {
+            "bytes": 79744,
+            "sha256": "34539d3b6d217ccc893a4779a9f1342cfc5b5fd1e3ae5f1b8fae2035788acd31"
+        },
+        "public/media/studio/estudio-arthouse-poster.webp": {
+            "bytes": 107772,
+            "sha256": "46512ceff3ad3390878f66c9d031a06a86338ffe03336ccf7481ef85691bda10"
+        },
+        "public/media/studio/estudio-arthouse.mp4": {
+            "bytes": 1014593,
+            "sha256": "38cadbbb239356c3e2a0cecaf12bc6932a45258df8363f49678176373e51a25d"
+        },
+        "public/media/studio/inicio-charlotte-may-poster.webp": {
+            "bytes": 66354,
+            "sha256": "ffa8397d43e3f71b177e896308c1bdcc7859f6cbc71ef025d219195714fb183c"
+        },
+        "public/media/studio/inicio-charlotte-may.mp4": {
+            "bytes": 1159902,
+            "sha256": "362c77d673334f3a86ada613a2594df19a02eb0adb757b53a7ee28d90d2e5cc3"
+        },
+        "public/media/studio/nicole-arana.webp": {
+            "bytes": 58634,
+            "sha256": "37acc7fd668a38d03e1398fa8f01dfd95e7f635a0957541660d4fa167d0d9738"
+        },
+        "public/media/studio/servicio-arquitectura.webp": {
+            "bytes": 103200,
+            "sha256": "27487807630df3e3a9269ddbb6274a0aa0465f0717d845c6483f4731c55b3525"
+        },
+        "public/media/studio/servicio-interiores.webp": {
+            "bytes": 73298,
+            "sha256": "93ef67a95561207fe6ea0d5af1fb51ac0053c93b214f50bad9f62eb6ad27065d"
+        },
+        "public/media/studio/servicio-modelado.webp": {
+            "bytes": 21494,
+            "sha256": "e2eb55fa4d1f2145220011db5d468d4c08a629c3359dd5d9cada0ea096c0aeac"
+        },
+        "public/media/studio/servicio-visualizacion.webp": {
+            "bytes": 78046,
+            "sha256": "76c1a6fc06c608cb071ea447370a514ed58503cf739d8438d7ed4355246b29e3"
+        }
+    },
+    "duplicate_visual_files": [
+        [
+            "public/img/Centro de Int. Residencial/3.webp",
+            "public/img/Centro de Int. Residencial/4.webp"
+        ]
+    ],
+    "original_project_files_without_database_reference": [
+        "public/img/Centro de Int. Residencial/4.webp"
+    ]
+}

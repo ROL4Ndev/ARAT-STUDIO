@@ -51,7 +51,7 @@ try {
     assert.equal(dimensions.height, 720);
     assert.equal(dimensions.muted, true);
     await shot(page, '01-inicio-escritorio');
-    assert.equal(await page.locator('#proyectos .project-card').count(), 0);
+    assert.equal(await page.locator('#proyectos .project-card').count(), Number(process.env.ARAT_EXPECT_FEATURED || 0));
     await page.getByRole('button', { name: 'Pausar video: interior referencial', exact: true }).focus();
     await page.keyboard.press('Space');
     const pausedAt = await page.locator('#home-interior-video').evaluate(video => video.currentTime);

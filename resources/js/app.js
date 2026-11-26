@@ -17,11 +17,12 @@ if ('IntersectionObserver' in window && !reducedMotion.matches) {
     const observer = new IntersectionObserver(entries => {
         for (const entry of entries) {
             if (!entry.isIntersecting) continue;
-            entry.target.classList.add('reveal-in');
+            entry.target.classList.add('is-entering');
+            entry.target.addEventListener('animationend', () => entry.target.classList.remove('is-entering'), { once: true });
             observer.unobserve(entry.target);
         }
     }, { threshold: 0.08 });
-    document.querySelectorAll('.section-block .container, .project-card, .project-gallery > a').forEach(section => observer.observe(section));
+    document.querySelectorAll('[data-reveal]').forEach(section => observer.observe(section));
     reducedMotion.addEventListener('change', event => {
         if (event.matches) observer.disconnect();
     });

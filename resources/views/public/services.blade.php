@@ -5,7 +5,7 @@
 @section('content')
     <section class="section-block section-block--gray public-info-page" aria-labelledby="services-title">
         <div class="container">
-            <header class="section-header mb-5">
+            <header class="section-header mb-5" data-reveal="title">
                 <span class="section-label">Qué ofrecemos</span>
                 <h1 id="services-title" class="section-title mt-2">Del diseño a la visualización.</h1>
             </header>

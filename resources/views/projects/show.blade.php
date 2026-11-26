@@ -9,7 +9,7 @@
                 <span aria-hidden="true">←</span> Volver a proyectos
             </a>
 
-            <header class="project-detail__header">
+            <header class="project-detail__header" data-reveal="title">
                 <p class="project-category">
                     {{ $project->projectCategory?->name ?? 'Sin categoría' }}
                 </p>
@@ -68,11 +68,7 @@
                     </div>
                 </section>
             @endif
-            <section class="next-action" aria-labelledby="project-next-title">
-                <h2 id="project-next-title">Demos forma a tu próximo espacio.</h2>
-                <p>Cuéntanos qué necesitas. El equipo revisará el alcance de tu proyecto y preparará una propuesta.</p>
-                <a class="btn btn-dark mt-3" href="{{ route('service-requests.create') }}">Solicitar un proyecto</a>
-            </section>
         </div>
     </section>
+    @include('public.partials.project-invitation', ['id' => 'project-next-title'])
 @endsection

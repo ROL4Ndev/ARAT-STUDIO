@@ -5,14 +5,13 @@
 @section('content')
     <section id="inicio" class="home-hero" aria-labelledby="home-title">
         <div class="home-hero__grid">
-            <div class="home-hero__copy">
+            <div class="home-hero__copy" data-reveal="title">
                 <p class="hero__eyebrow">Estudio de arquitectura · Lima, Perú</p>
                 <h1 id="home-title">Espacios con propósito.</h1>
                 <p>Arquitectura · Diseño · Visualización 3D</p>
                 <p>Transformamos tus ideas en espacios que conectan la forma, la luz y tu manera de vivir.</p>
                 <div class="home-hero-actions">
-                    <a href="{{ route('projects.index') }}" class="btn btn-dark">Explorar portafolio <span
-                            aria-hidden="true">→</span></a>
+                    <a href="{{ route('projects.index') }}" class="btn btn-dark">Explorar portafolio</a>
                     <a href="{{ route('service-requests.create') }}" class="home-intro-link">Hablemos de tu proyecto</a>
                 </div>
             </div>
@@ -50,8 +49,7 @@
                     </a>
                 @endforeach
             </div>
-            <a class="btn btn-dark home-button" href="{{ route('service-requests.create') }}">Cuéntanos qué necesitas <span
-                    aria-hidden="true">→</span></a>
+            <a class="btn btn-dark home-button" href="{{ route('service-requests.create') }}">Cuéntanos qué necesitas</a>
         </div>
     </section>
 
@@ -77,7 +75,7 @@
 
             <div class="row g-4">
                 @forelse ($projects as $project)
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-6">
                         @include('layouts.components.project-card', [
                             'project' => $project,
                             'headingLevel' => 3,
@@ -107,8 +105,7 @@
                     </h2>
                     <p class="section-body mt-4">Escríbenos o registra tu solicitud para que podamos evaluar el alcance de
                         tu proyecto.</p>
-                    <a href="{{ route('service-requests.create') }}" class="btn btn-light home-button">Solicitar proyecto
-                        <span aria-hidden="true">→</span></a>
+                    <a href="{{ route('service-requests.create') }}" class="btn btn-light home-button">Solicitar proyecto</a>
                 </div>
                 <div class="col-lg-6">
                     <address class="home-contact-details">

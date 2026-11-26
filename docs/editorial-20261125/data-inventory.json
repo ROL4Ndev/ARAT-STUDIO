@@ -1,0 +1,133 @@
+{
+    "date": "2026-11-25",
+    "read_only": true,
+    "batch_complete": true,
+    "batch": "arat-2026-v1",
+    "scenarios": [
+        {
+            "scenario": "aceptada",
+            "request_status": "cerrada",
+            "quote_statuses": [
+                "aceptada"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-19 18:20:00.000000"
+            ]
+        },
+        {
+            "scenario": "asignada",
+            "request_status": "pendiente",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "borrador",
+            "request_status": "aprobado",
+            "quote_statuses": [
+                "borrador"
+            ],
+            "quote_deadlines_utc": [
+                null
+            ]
+        },
+        {
+            "scenario": "cancelada",
+            "request_status": "cancelado",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "cerrada",
+            "request_status": "cerrada",
+            "quote_statuses": [
+                "vencida"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-11 18:20:00.000000"
+            ]
+        },
+        {
+            "scenario": "corregida",
+            "request_status": "evaluacion",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "emitida",
+            "request_status": "aprobado",
+            "quote_statuses": [
+                "vencida"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-25 18:20:00.000000"
+            ]
+        },
+        {
+            "scenario": "evaluacion",
+            "request_status": "evaluacion",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "observada",
+            "request_status": "observada",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "pendiente",
+            "request_status": "pendiente",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "pendiente-planos",
+            "request_status": "pendiente",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "propuesta-rechazada",
+            "request_status": "aprobado",
+            "quote_statuses": [
+                "rechazada"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-13 18:20:00.000000"
+            ]
+        },
+        {
+            "scenario": "rechazada",
+            "request_status": "rechazado",
+            "quote_statuses": [],
+            "quote_deadlines_utc": []
+        },
+        {
+            "scenario": "sustituida",
+            "request_status": "aprobado",
+            "quote_statuses": [
+                "sustituida",
+                "vencida"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-23 18:20:00.000000",
+                "2026-11-23 20:40:00.000000"
+            ]
+        },
+        {
+            "scenario": "vencida",
+            "request_status": "aprobado",
+            "quote_statuses": [
+                "vencida"
+            ],
+            "quote_deadlines_utc": [
+                "2026-11-21 18:20:00.000000"
+            ]
+        }
+    ],
+    "team_accounts": 4,
+    "non_batch_requests": 1,
+    "records_removed": 0,
+    "expiry_note": "Los nombres de los escenarios identifican su preparación original. Las propuestas vencidas se conservan con sus fechas y estados actuales, sin renovarlas para la presentación.",
+    "reason": "No hay cuentas temporales ni solicitudes adicionales identificadas como ensayos. Se conserva la solicitud de origen dudoso."
+}

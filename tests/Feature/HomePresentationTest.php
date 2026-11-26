@@ -113,4 +113,22 @@ class HomePresentationTest extends TestCase
             }
         }
     }
+
+    public function test_about_only_illustrates_the_practice_with_a_published_project(): void
+    {
+        $category = Category::create(['name' => 'Interiores', 'slug' => 'interiores']);
+        $project = Project::create([
+            'title' => 'Proyecto Sala T', 'slug' => 'proyecto-sala-t', 'category_id' => $category->id,
+            'description' => 'Una sala con materialidad y luz natural.', 'cover_image' => 'img/Proyecto Sala T/1.webp',
+            'is_active' => false,
+        ]);
+        $this->get('/nosotros')->assertOk()->assertDontSee('Vista interior de Proyecto Sala T');
+        $project->update(['is_active' => true]);
+        $this->get('/nosotros')->assertOk()->assertSee('Vista interior de Proyecto Sala T')
+            ->assertSee('Contactar por WhatsApp')->assertSee(route('service-requests.create'));
+        $category->update(['is_active' => false]);
+        $this->get('/nosotros')->assertOk()->assertDontSee('Vista interior de Proyecto Sala T')
+            ->assertSeeText(config('studio.team.0.qualification'))
+            ->assertSeeText(config('studio.team.1.qualification'));
+    }
 }

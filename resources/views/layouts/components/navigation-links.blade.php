@@ -1,5 +1,5 @@
 <a href="{{ route('home') }}" @if(request()->routeIs('home')) aria-current="page" @endif>Inicio</a>
-<details class="site-submenu" @if(request()->routeIs('about', 'services', 'contact')) open @endif>
+<details class="site-submenu" @if(request()->routeIs('about', 'services', 'contact')) data-current-group @endif>
     <summary>Estudio</summary>
     <div class="site-submenu__links">
         <a href="{{ route('about') }}" @if(request()->routeIs('about')) aria-current="page" @endif>Nosotros</a>

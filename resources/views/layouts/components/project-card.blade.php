@@ -1,4 +1,4 @@
-<article class="project-card project-card--preview">
+<article class="project-card">
     <div class="project-card__media">
         <img
             src="{{ $project->cover_thumbnail_url }}"
@@ -33,7 +33,7 @@
             class="project-detail-link"
             aria-label="Ver proyecto: {{ $project->title }}"
         >
-            Ver proyecto <span aria-hidden="true">→</span>
+            Ver proyecto
         </a>
     </div>
 </article>

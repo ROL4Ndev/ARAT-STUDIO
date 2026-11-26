@@ -1,0 +1,229 @@
+{
+  "checks": [
+    {
+      "route": "/nosotros",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/servicios",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/cotizador",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/acceder-expediente",
+      "width": 1440,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/nosotros",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/servicios",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/cotizador",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/acceder-expediente",
+      "width": 390,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/nosotros",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/servicios",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/cotizador",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/acceder-expediente",
+      "width": 768,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/nosotros",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/servicios",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/cotizador",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    {
+      "route": "/acceder-expediente",
+      "width": 360,
+      "status": 200,
+      "overflow": false,
+      "brokenImages": 0
+    }
+  ],
+  "errors": []
+}

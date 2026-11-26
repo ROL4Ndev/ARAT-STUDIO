@@ -154,6 +154,8 @@ instalación: no forman parte del arranque ni se deben repetir como seeders.
 
 ## Evidencia de entrega
 
+- [Rediseño editorial público: Nosotros, capturas y validación](docs/editorial-20261125/ENTREGA.md)
+- [Comparación visual antes/después a cuatro anchos](docs/editorial-20261125/index.html)
 - [Revalidación después del apagado, 25 de noviembre](docs/final/REANUDACION-20261125.md)
 - [Informe final, datos, comprobaciones y recorrido](docs/final/ENTREGA.md)
 - [Capturas antes/después](docs/final/index.html)

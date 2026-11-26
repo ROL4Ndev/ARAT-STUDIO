@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-25",
+  "timezone": "America/Lima",
+  "branch": "main",
+  "base": "ac3a63a",
+  "phpunit": {
+    "tests": 119,
+    "assertions": 1261,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "build": "passed",
+  "blade_cache": "passed_then_cleared",
+  "beforeCaptures": 32,
+  "afterCaptures": 32,
+  "viewports": [
+    360,
+    390,
+    768,
+    1440
+  ],
+  "mediaChecks": 25,
+  "accessibilityChecks": 6,
+  "contrast": [
+    {
+      "route": "/nosotros",
+      "samples": 61,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/",
+      "samples": 80,
+      "minimumRatio": 5.54,
+      "failures": []
+    },
+    {
+      "route": "/servicios",
+      "samples": 58,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/proyectos",
+      "samples": 65,
+      "minimumRatio": 4.52,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/proyectos/proyecto-sala-t",
+      "samples": 51,
+      "minimumRatio": 4.52,
+      "failures": []
+    },
+    {
+      "route": "/cotizador",
+      "samples": 34,
+      "minimumRatio": 5.54,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/solicitar-proyecto",
+      "samples": 58,
+      "minimumRatio": 5.54,
+      "failures": [],
+      "controlBorder": 3.87
+    },
+    {
+      "route": "/acceder-expediente",
+      "samples": 27,
+      "minimumRatio": 6.26,
+      "failures": [],
+      "controlBorder": 3.87
+    }
+  ],
+  "workflow": {
+    "completed": true,
+    "browser": "158.0.8127.38",
+    "checks": [
+      "Validación del servidor, error junto al campo y foco de teclado",
+      "Solicitud → asignación → evaluación → observación → corrección verificada → aprobación → borrador → PDF → aceptación → cierre; reintento idempotente y decisión opuesta bloqueada",
+      "Vencimiento y consulta privada del PDF de una versión sustituida",
+      "Regreso al panel con sesión interna, menú con Escape y reflujo a 640 px",
+      "Propuesta rechazada y solicitud rechazada conservadas; cliente sin acceso al panel interno"
+    ],
+    "errors": []
+  },
+  "removedLiveRecords": 0,
+  "newDependencies": 0,
+  "unchangedVisualFiles": 112,
+  "limitations": [
+    "Chrome local only",
+    "No physical devices or screen reader",
+    "No real SMTP or production",
+    "640px reflow is not native 200% zoom"
+  ],
+  "phpLint": {
+    "files": 183,
+    "errors": 0
+  },
+  "javascriptSyntax": "passed",
+  "comparisonViewer": "verified",
+  "teardown": {
+    "date": "2026-11-25",
+    "timezone": "America/Lima",
+    "preview_pid": 10592,
+    "database_pid": 29976,
+    "preview_stopped": true,
+    "database_stopped_gracefully": true,
+    "listeners": [],
+    "queue_or_scheduler_started": false,
+    "live_records_removed": 0,
+    "commit_push_or_deploy": false
+  }
+}

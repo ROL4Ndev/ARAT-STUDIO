@@ -1,29 +1,40 @@
-<div class="studio-intro">
-    <div class="studio-intro__copy">
-        <p class="section-label">Nuestro enfoque</p>
-        @if ($fullPage ?? false)
-            <h1 id="about-title" class="section-title">Sobre el estudio</h1>
-            <h2 class="studio-info__title">Diseño con propósito.<br>Arquitectura con precisión.</h2>
-        @else
+@if ($fullPage ?? false)
+    <div class="about-opening__eyebrow">
+        <p class="section-label">Nosotros · Sobre el estudio</p>
+        <p class="section-label">ARAT STUDIO / Lima, Perú</p>
+    </div>
+    <h1 id="about-title" class="about-opening__title" data-reveal="title">
+        Diseño con propósito.<br> <span>Arquitectura</span> con precisión.
+    </h1>
+    <div class="about-opening__media">
+        @include('public.partials.studio-film', [
+            'id' => 'studio-process-video',
+            'file' => 'estudio-arthouse',
+            'label' => 'proceso arquitectónico',
+            'posterAlt' => 'Escena referencial de revisión de planos sobre una mesa de trabajo',
+        ])
+        <div class="about-opening__note" data-reveal="copy">
+            <p class="section-label">Espacio. Forma. Propósito.</p>
+            <p>ARAT STUDIO es un estudio de arquitectura y diseño con sede en Lima, Perú, enfocado en
+                proyectos residenciales, comerciales e institucionales.</p>
+            <a href="#equipo" class="editorial-link">Conoce al equipo</a>
+        </div>
+    </div>
+@else
+    <div class="studio-intro">
+        <div class="studio-intro__copy" data-reveal="copy">
+            <p class="section-label">Nuestro enfoque</p>
             <h2 id="about-title" class="section-title">Sobre el estudio</h2>
             <h3 class="studio-info__title">Diseño con propósito.<br>Arquitectura con precisión.</h3>
-        @endif
-        <p class="section-body">ARAT STUDIO es un estudio de arquitectura y diseño con sede en Lima, Perú, enfocado en
-            proyectos residenciales, comerciales e institucionales.</p>
-        @if ($fullPage ?? false)
-            <p class="section-body">Nuestra práctica integra arquitectura, diseño de interiores, modelado BIM y
-                renderización fotorrealista, acompañando cada proyecto desde el concepto hasta la comunicación visual.
-            </p>
-            <a href="#equipo" class="home-intro-link">Conoce al equipo <span aria-hidden="true">↓</span></a>
-        @else
-            <a href="{{ route('about') }}" class="home-intro-link">Conoce el estudio <span
-                    aria-hidden="true">→</span></a>
-        @endif
+            <p class="section-body">ARAT STUDIO es un estudio de arquitectura y diseño con sede en Lima, Perú, enfocado en
+                proyectos residenciales, comerciales e institucionales.</p>
+            <a href="{{ route('about') }}" class="editorial-link">Conoce el estudio</a>
+        </div>
+        @include('public.partials.studio-film', [
+            'id' => 'studio-process-video',
+            'file' => 'estudio-arthouse',
+            'label' => 'proceso arquitectónico',
+            'posterAlt' => 'Escena referencial de revisión de planos sobre una mesa de trabajo',
+        ])
     </div>
-    @include('public.partials.studio-film', [
-        'id' => 'studio-process-video',
-        'file' => 'estudio-arthouse',
-        'label' => 'proceso arquitectónico',
-        'posterAlt' => 'Escena referencial de revisión de planos sobre una mesa de trabajo',
-    ])
-</div>
+@endif

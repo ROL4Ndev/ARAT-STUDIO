@@ -25,7 +25,12 @@ class HomeController extends Controller
 
     public function about(): View
     {
-        return view('public.about');
+        $studioProject = Project::published()
+            ->with(['projectCategory', 'coverMedia'])
+            ->where('slug', 'proyecto-sala-t')
+            ->first();
+
+        return view('public.about', compact('studioProject'));
     }
 
     public function services(PublicServicePresentation $presentation): View

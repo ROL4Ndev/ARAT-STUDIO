@@ -1,0 +1,93 @@
+{
+  "logos": [
+    {
+      "file": "public/img/LOGO.png",
+      "dominantColors": [
+        [
+          "#2d2d34",
+          25050
+        ],
+        [
+          "#2e2e35",
+          791
+        ],
+        [
+          "#2d2d35",
+          702
+        ],
+        [
+          "#2e2e34",
+          291
+        ],
+        [
+          "#2e2e36",
+          162
+        ],
+        [
+          "#2f2f37",
+          130
+        ],
+        [
+          "#2c2c34",
+          126
+        ],
+        [
+          "#2f2f36",
+          125
+        ]
+      ]
+    },
+    {
+      "file": "public/img/LOGO1.png",
+      "dominantColors": [
+        [
+          "#ffffff",
+          23045
+        ],
+        [
+          "#fefefe",
+          596
+        ],
+        [
+          "#feffff",
+          489
+        ],
+        [
+          "#fdfdfd",
+          316
+        ],
+        [
+          "#fffffe",
+          316
+        ],
+        [
+          "#fffeff",
+          312
+        ],
+        [
+          "#fefefd",
+          136
+        ],
+        [
+          "#fffffd",
+          130
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "background": "#ffffff",
+    "alternate": "#edf2f3",
+    "chapter": "#cedee2",
+    "dark": "#2e2f36",
+    "primary": "#324853",
+    "primaryHover": "#203540",
+    "accentSoft": "#b9d1d9",
+    "text": "#2e2f36",
+    "secondaryText": "#52636b",
+    "border": "#c2ced2",
+    "controlBorder": "#6f858e",
+    "focus": "#226786"
+  },
+  "photographicTonesUsedAsBrand": false
+}

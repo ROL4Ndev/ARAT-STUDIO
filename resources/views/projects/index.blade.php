@@ -5,7 +5,7 @@
 @section('content')
     <section class="portfolio-page" aria-labelledby="portfolio-title">
         <div class="container">
-            <header class="portfolio-page__header">
+            <header class="portfolio-page__header" data-reveal="title">
                 <span class="section-label">Nuestro trabajo</span>
 
                 <h1 id="portfolio-title" class="project-detail__title mt-3">
@@ -65,7 +65,7 @@
 
             <div class="row g-4">
                 @forelse ($projects as $project)
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-6">
                         @include('layouts.components.project-card', [
                             'project' => $project,
                             'headingLevel' => 2,

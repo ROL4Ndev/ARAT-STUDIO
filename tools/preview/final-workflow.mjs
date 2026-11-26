@@ -141,8 +141,21 @@ try {
     await shot(client, '09-version-anterior');
     checks.push('Vencimiento y consulta privada del PDF de una versión sustituida');
     }
+    if (process.argv.includes('--include-rejections')) {
+        await prepareClient(state.scenarios['propuesta-rechazada']);
+        assert.equal(await client.getByText('Rechazada', { exact: true }).first().isVisible(), true);
+        assert.equal(await client.getByRole('button', { name: 'Aceptar propuesta vigente' }).count(), 0);
+        await shot(client, '12-propuesta-rechazada');
+        await prepareClient(state.scenarios.rechazada);
+        assert.equal(await client.getByRole('heading', { name: 'Resultado de la solicitud' }).isVisible(), true);
+        await shot(client, '13-solicitud-rechazada');
+        const unauthorized = await clientContext.request.get(base + '/admin', { maxRedirects: 0 });
+        assert.equal(unauthorized.status(), 302);
+        checks.push('Propuesta rechazada y solicitud rechazada conservadas; cliente sin acceso al panel interno');
+    }
     await open(page, '/');
     await page.getByText('Mi cuenta', { exact: true }).click();
+    await page.locator('#site-navigation').getByRole('link', { name: 'Volver al panel' }).waitFor({ state: 'visible' });
     assert.equal(await page.locator('#site-navigation').getByRole('link', { name: 'Volver al panel' }).count(), 1);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole('button', { name: /Menú/ }).click();
@@ -156,7 +169,8 @@ try {
     assert.deepEqual(errors, []);
     completed = true;
 } finally {
-    await writeFile(`${output}/checks.json`, JSON.stringify({ completed, browser: await browser.version(), checks, errors }, null, 2));
-    console.log(JSON.stringify({ completed, checks: checks.length, errors }));
+    const uniqueChecks = [...new Set(checks)];
+    await writeFile(`${output}/checks.json`, JSON.stringify({ completed, browser: await browser.version(), checks: uniqueChecks, errors }, null, 2));
+    console.log(JSON.stringify({ completed, checks: uniqueChecks.length, errors }));
     await browser.close();
 }

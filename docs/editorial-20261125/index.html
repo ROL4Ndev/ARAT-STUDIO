@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ARAT STUDIO · comparación editorial</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font: 16px/1.6 system-ui, sans-serif; color: #2e2f36; background: #edf2f3; }
+        header { padding: 32px max(20px, 4vw); color: #fff; background: #324853; }
+        h1 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 500; }
+        header a { color: #fff; }
+        .controls { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px max(20px, 4vw); background: #cedee2; }
+        label { display: grid; gap: 4px; font-weight: 600; }
+        select { min-height: 44px; padding: 8px 16px; font: inherit; border: 1px solid #6f858e; background: #fff; color: #2e2f36; }
+        :focus-visible { outline: 3px solid #226786; outline-offset: 3px; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; padding: 20px; }
+        figure { margin: 0; min-width: 0; }
+        figcaption { padding: 12px; background: #fff; font-weight: 600; border-top: 3px solid #324853; }
+        figure a, figure img { display: block; width: 100%; }
+        .note { padding: 0 20px 24px; }
+        @media (max-width: 600px) { .comparison { gap: 8px; padding: 8px; } figcaption { font-size: 14px; padding: 8px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <p>ARAT STUDIO · 25 de noviembre de 2026</p>
+        <h1>Una nueva composición para el estudio.</h1>
+        <p>Capturas reales de la misma instalación y el mismo ancho. Abre una imagen para verla en su tamaño original.</p>
+        <a href="ENTREGA.md">Informe, recursos y resultados de verificación</a>
+    </header>
+    <div class="controls">
+        <label>Pantalla
+            <select id="screen">
+                <option value="nosotros">Nosotros</option><option value="inicio">Inicio</option>
+                <option value="servicios">Servicios</option><option value="portafolio">Portafolio</option>
+                <option value="detalle">Detalle de proyecto</option><option value="cotizador">Cotizador</option>
+                <option value="solicitud">Solicitud</option><option value="acceso">Acceso al expediente</option>
+            </select>
+        </label>
+        <label>Ancho de la captura
+            <select id="width"><option>1440</option><option>768</option><option>390</option><option>360</option></select>
+        </label>
+    </div>
+    <main class="comparison">
+        <figure><figcaption>Antes · <span data-screen-name>Nosotros</span></figcaption><a id="before-link" href="before/nosotros-1440.png"><img id="before" src="before/nosotros-1440.png" alt="Nosotros antes del rediseño, 1440 píxeles"></a></figure>
+        <figure><figcaption>Después · <span data-screen-name>Nosotros</span></figcaption><a id="after-link" href="after/nosotros-1440.png"><img id="after" src="after/nosotros-1440.png" alt="Nosotros después del rediseño, 1440 píxeles"></a></figure>
+    </main>
+    <p class="note">Las capturas usan movimiento reducido para comparar composiciones estables. La reproducción y el movimiento se verificaron por separado. Las cuentas y expedientes de las pruebas de navegador son ficticios y aislados.</p>
+    <script>
+        const screen = document.getElementById('screen');
+        const width = document.getElementById('width');
+        function update() {
+            const name = screen.selectedOptions[0].text;
+            document.querySelectorAll('[data-screen-name]').forEach(node => node.textContent = name);
+            for (const phase of ['before', 'after']) {
+                const src = `${phase}/${screen.value}-${width.value}.png`;
+                document.getElementById(phase).src = src;
+                document.getElementById(phase).alt = `${name}, ${phase === 'before' ? 'antes' : 'después'} del rediseño, ${width.value} píxeles`;
+                document.getElementById(`${phase}-link`).href = src;
+            }
+        }
+        screen.addEventListener('change', update);
+        width.addEventListener('change', update);
+    </script>
+</body>
+</html>
